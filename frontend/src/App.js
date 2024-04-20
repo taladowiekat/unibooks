@@ -6,7 +6,7 @@ function App() {
     <>
     <ProfileForm/>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
