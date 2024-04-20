@@ -1,14 +1,13 @@
 import React from 'react'
 import './app.css'
-import CreatePost from './components/CreatePost'
-import PostCard from './components/Post'
+
+import ProfileForm from './pages/profile/Profile.js'
 function App() {
   return (
     <>
-    <CreatePost/>
-    <PostCard/>
+    <ProfileForm/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
