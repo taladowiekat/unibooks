@@ -1,6 +1,5 @@
 // imports
 import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
-import "./RecoveryPopup.css";
 
 // function
 const modalStyle = {
