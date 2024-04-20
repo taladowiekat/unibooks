@@ -1,15 +1,9 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import {
+    AppBar, Box, Toolbar, IconButton, Typography, Menu,
+    Container, Button, Tooltip, MenuItem
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 
 import './Navbar.css';
 import navbarLogo from './Small_Unibooks_Logo__Name.png';
@@ -39,7 +33,7 @@ function Navbar() {
                         className='navbar-logo'
                         style={{ display: 'block', maxWidth: '150px', maxHeight: '50px', marginRight: '10px' }}
                     />
-                    
+
                     {/* Mobile menu icon */}
                     <Tooltip title="Pages" sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -79,7 +73,7 @@ function Navbar() {
                         }}
                         open={Boolean(anchorElNav)}
                         onClose={handleCloseNavMenu}
-                        sx={{  display: { xs: 'block', md: 'none' } }}
+                        sx={{ display: { xs: 'block', md: 'none' } }}
                     >
                         {pages.map((page) => (
                             <MenuItem key={page} onClick={handleCloseNavMenu}>
