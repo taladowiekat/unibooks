@@ -1,12 +1,13 @@
 import React from 'react'
 import './app.css'
-import EditPost from './pages/editPost/EditPost'
+
+import ProfileForm from './pages/profile/Profile.js'
 function App() {
   return (
     <>
-    <EditPost></EditPost>
+    <ProfileForm/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
