@@ -7,11 +7,11 @@ import {
     Button,
     Paper,
     Avatar,
-    IconButton,
-    Modal
+    IconButton
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import userImage from './profilepic.png';
+import RecoveryPopup from '../../components/web/profile/RecoveryPopup';
 
 
 const ProfileForm = () => {
@@ -85,7 +85,7 @@ const ProfileForm = () => {
                     Change Password
                 </Button>
 
-                
+                <RecoveryPopup open={open} handleClose={handleClose} />
 
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                     <Button
