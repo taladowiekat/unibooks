@@ -1,13 +1,10 @@
 import React from 'react'
 import './app.css'
-//import Learn from './components/Learn/Learn';
-import Navbar from './components/Navbar/Navbar'
-
+import ProfileForm from './pages/profile/Profile.js'
 function App() {
   return (
     <>
-      <Navbar />
-      {/* <Learn /> */}
+    <ProfileForm/>
     </>
   );
 }
