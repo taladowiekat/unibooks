@@ -13,7 +13,6 @@ import {
     Radio,
     RadioGroup,
     TextField,
-    Typography,
     Avatar,
 } from '@mui/material';
 import userImage from './Avatar.png';
