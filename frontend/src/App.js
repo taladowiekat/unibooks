@@ -1,10 +1,10 @@
 import React from 'react'
 import './app.css'
-import CreatePost from './components/web/createPostButton/CreatePostButton.js';
+import CreatePostButton from './components/web/createPost/CreatePostButton.js';
 function App() {
   return (
     <>
-    <CreatePost/>
+    <CreatePostButton/>
     
     </>
   );
