@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, Paper, Typography, Button, InputAdornment, IconButton,  TextField,  Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signUpValidationSchema } from '../web/validation/validation';
 
 const theme = createTheme({
   palette: {
@@ -21,16 +21,8 @@ const SignUp = () => {
     confirmPassword: '',
   };
 
-  const validationSchema = Yup.object().shape({
-    universityId: Yup.string().matches(/^\d{8}$/, 'Invalid university ID format').required('University ID is required'),
-    email: Yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
-    password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters long').max(30, 'Password must be at most 30 characters long'),
-    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Please confirm your password'),
-  });
-
   const handleSubmit = (values, { setSubmitting }) => {
     // Handle sign up logic here
-    console.log(values);
     setSubmitting(false);
   };
 
@@ -47,7 +39,7 @@ const SignUp = () => {
             </Typography>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={signUpValidationSchema}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (

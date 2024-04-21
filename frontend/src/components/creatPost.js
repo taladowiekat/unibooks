@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Paper, Typography, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { createPostValidationSchema } from './web/validation/validation';
 
 const CreateListing = () => {
   const [images, setImages] = useState([]);
@@ -25,14 +25,6 @@ const CreateListing = () => {
     setImages([]);
   };
 
-  const validationSchema = Yup.object({
-    bookName: Yup.string().required('Book name is required'),
-    listingType: Yup.string().required('Listing type is required'),
-    images: Yup.array()
-      .min(1, 'Please upload at least one image')
-      .max(4, 'You can upload up to 4 images')
-  });
-  
 
   return (
     <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
@@ -49,9 +41,8 @@ const CreateListing = () => {
               images: [],
               exchangeBookName: ''
             }}
-            validationSchema={validationSchema}
+            validationSchema={createPostValidationSchema}
             onSubmit={(values, { resetForm }) => {
-              console.log("Form values:", values);
               resetForm();
             }}
           >

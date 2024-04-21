@@ -1,9 +1,9 @@
 
 import { Grid, Paper, Typography, Button, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { resetPasswordValidationSchema } from '../web/validation/validation';
 
 const theme = createTheme({
   palette: {
@@ -18,14 +18,8 @@ const ResetPassword = () => {
     email: '',
   };
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
-
-  });
-
   const handleSubmit = (values, { setSubmitting }) => {
     // Handle reset password logic here
-    console.log(values);
     setSubmitting(false);
   };
 
@@ -39,7 +33,7 @@ const ResetPassword = () => {
             </Typography>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={resetPasswordValidationSchema}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Grid, Paper, Typography, Button, InputAdornment, IconButton, Checkbox, TextField, FormControlLabel,Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { signInValidationSchema } from '../web/validation/validation';
 
 const theme = createTheme({
   palette: {
@@ -20,19 +19,8 @@ const SignIn = () => {
     password: ''
   };
 
-  const validationSchema = Yup.object().shape({
-    emailOrUniversityId: Yup.string()
-      .matches(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/, 'Invalid email or university ID format')
-      .required('Email or university ID is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters long')
-      .max(30, 'Password must be at most 30 characters long')    
-  });
-
   const handleSubmit = (values, { setSubmitting }) => {
     // Handle SignIn logic here
-    console.log(values);
     setSubmitting(false);
   };
 
@@ -48,7 +36,7 @@ const SignIn = () => {
             </Typography>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={signInValidationSchema}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (
