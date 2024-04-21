@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Paper, Typography, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { createPostValidationSchema } from './web/validation/validation';
+import { createPostValidationSchema } from '../validation/validation';
 
 const CreateListing = () => {
   const [images, setImages] = useState([]);

@@ -3,7 +3,7 @@ import { Grid, Paper, Typography, Button, InputAdornment, IconButton,  TextField
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { signUpValidationSchema } from '../web/validation/validation';
+import { signUpValidationSchema } from '../../components/web/validation/validation';
 
 const theme = createTheme({
   palette: {

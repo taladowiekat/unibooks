@@ -1,11 +1,11 @@
 import React from 'react'
 import './app.css'
-
-import ProfileForm from './pages/profile/Profile.js'
+import CreatePost from './components/web/createPostButton/CreatePostButton.js';
 function App() {
   return (
     <>
-    <ProfileForm/>
+    <CreatePost/>
+    
     </>
   );
 }
