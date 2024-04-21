@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const CreatePost = () => {
+const CreatePostButton = () => {
     return (
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -23,4 +23,4 @@ const CreatePost = () => {
     );
 }
 
-export default CreatePost;
+export default CreatePostButton;
