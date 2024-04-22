@@ -1,10 +1,12 @@
 import React from 'react'
 import './app.css'
-import Posts from './components/web/Search/Posts';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './layouts/routes.js';
+
 function App() {
   return (
     <>
-    <Posts/>
+    <RouterProvider router={router} />
     </>
   );
 }
