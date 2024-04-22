@@ -13,7 +13,6 @@ import {
     Radio,
     RadioGroup,
     TextField,
-    Typography,
     Avatar,
 } from '@mui/material';
 import userImage from './Avatar.png';
@@ -22,11 +21,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import './EditPost.css';
 
 const EditPost = () => {
-    const [operation, setOperation] = useState('null');
-
+    const [operation, setOperation] = useState('Sell');
+    const [status, setstatus] = useState('Done');
     const handleRadioChange = (event) => {
         setOperation(event.target.value);
     };
+    const handleStatusChange = (event) => {
+        setstatus(event.target.value);
+    };
+    
 
     return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
@@ -51,7 +54,8 @@ const EditPost = () => {
                             label="Book Name"
                             variant="outlined"
                             defaultValue="Book Name"
-                            sx={{ fontSize: 'large', width: '80%',marginLeft:" 4%",
+                            placeholder='Book Name'
+                            sx={{ fontSize: 'large', width: '90%',marginLeft:" 4%",
                             marginTop: "3%"
                              }}
                         />
@@ -61,38 +65,42 @@ const EditPost = () => {
                             label="Notes"
                             variant="outlined"
                             defaultValue="blablablablablabla"
-                            sx={{ fontSize: 'large', marginBottom: '20px', width: '80%',marginLeft:" 4%",   marginTop: "4%" }}
+                            placeholder='Notes'
+                            multiline
+                            rows={4}
+                            sx={{ fontSize: 'large', marginBottom: '20px', width: '80%',marginLeft:" 4%",   marginTop: "4%" ,width:"90%",    
+                        }}
                         />
-                        <FormControl component="fieldset" margin="normal" fullWidth sx={{marginLeft: "10%"}}>
+                        <FormControl component="fieldset" margin="normal" fullWidth sx={{marginLeft: "7%"}}>
 
 
-                            <FormLabel sx={{ color: 'blue' }} component="legend">
-                                Edit the operation
-                            </FormLabel>
+                        <FormLabel>Edit the operation</FormLabel>
                             <RadioGroup row aria-label="operation" name="operation" value={operation} onChange={handleRadioChange}>
-                                <FormControlLabel value="exchange" control={<Radio />} label="Exchange" />
-                                <FormControlLabel value="donate" control={<Radio />} label="Donate" />
-                                <FormControlLabel value="sell" control={<Radio />} label="Sell" />
+                                <FormControlLabel value="Sell" control={<Radio />} label="Sell" />
+                                <FormControlLabel value="Donate" control={<Radio />} label="Donate" />
+                                <FormControlLabel value="Exchange" control={<Radio />} label="Exchange" />
+                            
                             </RadioGroup>
                         </FormControl>
-                        {operation === 'exchange' && (
+                        {operation === 'Exchange' && (
                             <TextField
                                 margin="normal"
-                                fullWidth
                                 id="preferred-books"
                                 name="preferredBooks"
                                 label="Book Name"
                                 variant="outlined"
                                 defaultValue="What kind of books would you like to exchange with?"
+                                placeholder="What kind of books would you like to exchange with?"
+                                sx={{width:"90%",marginLeft:"5%"}}
                             />
                         )}
                    
                     <div id="EditPostFormInterfaceStatus">
-                        <FormControl sx={{ marginLeft: "10%"}}>
-                            <FormLabel id="demo-radio-buttons-group-label" sx={{ color: 'blue' }}>
+                        <FormControl sx={{ marginLeft: "7%"}}>
+                            <FormLabel >
                                 Status
                             </FormLabel>
-                            <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" defaultValue="female" name="radio-buttons-group">
+                            <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" value={status} onChange={handleStatusChange} defaultValue="female" name="radio-buttons-group">
                                 <FormControlLabel value="Done" control={<Radio />} label="Done" />
                                 <FormControlLabel value="Not yet" control={<Radio />} label="Not yet" />
                             </RadioGroup>
@@ -100,28 +108,27 @@ const EditPost = () => {
                     </div>
                     <div id="EditPostFormContaner">
                         <Button
-                            variant="contained"
+                             variant="outlined"
+                             color="secondary"
                             sx={{
                                 marginRight: '10px',
-                                color: 'black',
-                                backgroundColor: 'rgba(211, 47, 47, 1)',
-                                border: '5px',
+                                border: '2px solid ',
                                 paddingTop: '10px',
                                 paddingBottom: '10px',
                                 fontSize: 'larger',
-                                marginLeft: '400px',
-                                paddingLeft: '50px',
+                                marginLeft: '240%',
+                                paddingLeft: '40px',
                                 paddingRight: '40px',
+                            
                             }}
                         >
                             cancel
                         </Button>
                         <Button
                             variant="contained"
+                            color="primary"
                             sx={{
                                 marginRight: '10px',
-                                color: 'black',
-                                backgroundColor: 'rgba(77, 168, 204, 1)',
                                 border: '5px',
                                 paddingTop: '10px',
                                 paddingBottom: '10px',
