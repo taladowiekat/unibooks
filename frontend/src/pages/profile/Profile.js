@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import userImage from './profilepic.png';
-import RecoveryPopup from '../../components/web/profile/RecoveryPopup';
+import RecoveryPopup from './RecoveryPopup.js';
 
 
 const ProfileForm = () => {
