@@ -6,8 +6,8 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 
 import './Navbar.css';
-import navbarLogo from './Small_Unibooks_Logo__Name.png';
-import profileImg from './unknown profile img.jpg';
+import navbarLogo from '../../../assets/Small_Unibooks_Logo__Name.png';
+import profileImg from '../../../assets/unknown profile img.jpg';
 
 const pages = ['HOME', 'CONTACT US', 'ALL POSTS'];
 
