@@ -1,11 +1,12 @@
 import React from 'react'
 import './app.css'
-import CreatePost from './components/web/createPostButton/CreatePostButton.js';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './layouts/routes.js';
+
 function App() {
   return (
     <>
-    <CreatePost/>
-    
+    <RouterProvider router={router} />
     </>
   );
 }
