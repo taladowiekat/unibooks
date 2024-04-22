@@ -54,7 +54,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
             </Link>
           </Box>
           <Box display="flex" justifyContent="space-between">
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+            <Button variant="outlined" color="secondary" onClick={handleClose}>
               Cancel
             </Button>
             <Button variant="contained" color="primary">
