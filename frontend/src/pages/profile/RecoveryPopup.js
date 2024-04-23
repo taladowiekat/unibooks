@@ -30,6 +30,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
               label="Current Password"
               variant="outlined"
               fullWidth
+              required
             />
           </Box>
           <Box>
@@ -38,6 +39,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
               label="New Password"
               variant="outlined"
               fullWidth
+              required
             />
           </Box>
           <Box>
@@ -46,6 +48,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
               label="Confirm Password"
               variant="outlined"
               fullWidth
+              required
             />
           </Box>
           <Box>
