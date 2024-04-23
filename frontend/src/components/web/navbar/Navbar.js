@@ -1,102 +1,82 @@
-import * as React from 'react';
-import {
-    AppBar, Box, Toolbar, IconButton, Typography, Menu,
-    Container, Button, Tooltip, MenuItem
-} from '@mui/material';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, IconButton, Typography, Button, Menu, MenuItem, Box, useTheme, useMediaQuery } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import logo from '../../../assets/Small_Unibooks_Logo__Name.png'
+const Navbar = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-import './Navbar.css';
-import navbarLogo from '../../../assets/Small_Unibooks_Logo__Name.png';
-import profileImg from '../../../assets/unknown profile img.jpg';
-
-const pages = ['HOME', 'CONTACT US', 'ALL POSTS'];
-
-function Navbar() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
+
+    useMediaQuery(theme.breakpoints.up('md'), {
+        noSsr: true,
+        onChange: matches => {
+            if (!matches) {
+                setAnchorEl(null);
+            }
+        },
+    });
 
     return (
-        <AppBar>
-            <Container maxWidth={false} className='navbar-container' >
-                <Toolbar disableGutters>
-                    {/* Logo for all screens */}
-                    <img
-                        src={navbarLogo}
-                        alt="UNIBOOKS LOGO"
-                        className='navbar-logo'
-                        style={{ display: 'block', maxWidth: '150px', maxHeight: '50px', marginRight: '10px' }}
-                    />
+        <AppBar component="nav" color="default" elevation={0}>
+            <Toolbar>
+                <Box display="flex" alignItems="center">
+                    <Typography variant="h6" color="inherit" noWrap sx={{ margin: '0 16px' }}>
+                    <img src={logo} alt="UNIBOOKS LOGO" style={{ maxHeight: '50px' }} />
+                    </Typography>
+                </Box>
+                <Box flexGrow={1} display="flex" justifyContent="center">
+                    {!isMobile && (
+                        <>
+                            <Button color="inherit">Home</Button>
+                            <Button color="inherit">Contact Us</Button>
+                            <Button color="inherit">All Posts</Button>
+                        </>
+                    )}
+                </Box>
 
-                    {/* Mobile menu icon */}
-                    <Tooltip title="Pages" sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="menu"
-                            aria-controls="pages-menu"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Tooltip>
-
-                    {/* Pages menu */}
-                    <Box sx={{ flexGrow: 1, justifyContent: 'center', display: 'flex' }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'black', display: { xs: 'none', md: 'block' } }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                {!isMobile && (
+                    <Box>
+                        <Button variant="outlined" sx={{ margin: '0 8px' }}>Log-In</Button>
+                        <Button variant="contained" disableElevation>Sign-Up</Button>
                     </Box>
-
-                    {/* Mobile pages menu */}
-                    <Menu
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{ display: { xs: 'block', md: 'none' } }}
-                    >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">{page}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-
-                    {/* Profile Avatar */}
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open profile" sx={{ display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton sx={{ p: 0 }}>
-                                <img
-                                    src={profileImg}
-                                    alt="Profile Img "
-                                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                </Toolbar>
-            </Container>
+                )}
+                {isMobile && (
+                    <IconButton edge="end" color="inherit" onClick={handleMenu} aria-label="Menu">
+                        <MenuIcon />
+                    </IconButton>
+                )}
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleClose}>Home</MenuItem>
+                    <MenuItem onClick={handleClose}>Contact Us</MenuItem>
+                    <MenuItem onClick={handleClose}>All Posts</MenuItem>
+                    <MenuItem onClick={handleClose}>Log-In</MenuItem>
+                    <MenuItem onClick={handleClose}>Sign-Up</MenuItem>
+                </Menu>
+            </Toolbar>
         </AppBar>
     );
-}
+};
+
 export default Navbar;

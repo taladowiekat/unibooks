@@ -8,7 +8,7 @@ import logo from '../../../assets/Small_Unibooks_Logo__Name.png'
 
 const Footer = () => {
     return (
-        <AppBar position="fixed" sx={{ top: 'auto', bottom: 0, backgroundColor: "rgb(217, 217, 217)" }}>
+        <AppBar position="fixed" color = 'default' sx={{ top: 'auto', bottom: 0 }}>
             <Container maxWidth={false} sx={{ p: 2 }}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
