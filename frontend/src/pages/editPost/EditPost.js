@@ -68,7 +68,7 @@ const EditPost = () => {
                         multiline
                         rows={4}
                         sx={{
-                            fontSize: 'large', marginBottom: '20px', width: '80%', marginLeft: " 4%", marginTop: "4%", width: "90%",
+                            fontSize: 'large', marginBottom: '20px', marginLeft: " 4%", marginTop: "4%", width: "90%",
                         }}
                     />
                     <FormControl component="fieldset" margin="normal" fullWidth sx={{ marginLeft: "7%" }}>
