@@ -7,7 +7,8 @@ import {
     Button,
     Paper,
     Avatar,
-    IconButton
+    IconButton,
+    InputAdornment
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import userImage from './profilepic.png';
@@ -20,6 +21,7 @@ const ProfileForm = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const initialValues = {
         // connect with database to get student's info
@@ -105,9 +107,18 @@ const ProfileForm = () => {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => setShowPassword(!showPassword)} color='primary'>
+                                                {showPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
 
                                 error={
                                     touched.password && Boolean(errors.password)
