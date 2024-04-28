@@ -30,3 +30,10 @@ export const signUpValidationSchema = yup.object().shape({
 export const resetPasswordValidationSchema = yup.object().shape({
   email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
 });
+
+export const contactValidation = yup.object({
+  name: yup.string().min(3).required("Please Enter Name"),
+  phoneNumber: yup.string().matches(/^(05[02469]\d{7})$/, "Invalid Phpne Number").required("Please Enter Phone Number"),
+  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email ').required('Please Enter Email'),
+  message: yup.string().required("Please Enter Message")
+  });
