@@ -1,12 +1,14 @@
 import React from 'react'
 import './app.css'
-import ProfileForm from './pages/profile/Profile.js'
+import { RouterProvider } from 'react-router-dom';
+import { router } from './layouts/routes.js';
+
 function App() {
   return (
     <>
-    <ProfileForm/>
+    <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
