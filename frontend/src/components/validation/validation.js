@@ -31,17 +31,17 @@ export const resetPasswordValidationSchema = yup.object().shape({
   email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
 });
 
-export const recoveryPopupValidationSchema = Yup.object().shape({
-  currentPassword: Yup.string("Enter your password")
+export const recoveryPopupValidationSchema = yup.object().shape({
+  currentPassword: yup.string("Enter your password")
     .min(8, "Password must be at least 6 characters long")
     .required("Password is required"),
-  newPassword: Yup.string("Enter a new password")
+  newPassword: yup.string("Enter a new password")
     .min(8, "Password must be at least 6 characters long")
     .max(30, 'Password must be at most 30 characters long')
     .required("Password is required"),
-  confirmPassword: Yup.string("Confirm the new password")
+  confirmPassword: yup.string("Confirm the new password")
     .min(8, "Password must be at least 6 characters long")
     .max(30, 'Password must be at most 30 characters long')
     .required("Password is required")
-    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+    .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 });
