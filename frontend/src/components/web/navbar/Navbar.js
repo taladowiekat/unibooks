@@ -1,102 +1,112 @@
 import * as React from 'react';
+import { useState } from 'react';
 import {
-    AppBar, Box, Toolbar, IconButton, Typography, Menu,
-    Container, Button, Tooltip, MenuItem
+    Box, AppBar, Toolbar, Button,
+    Divider, Typography, MenuItem, Drawer,
+    Container,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
-import './Navbar.css';
-import navbarLogo from '../../../assets/Small_Unibooks_Logo__Name.png';
-import profileImg from '../../../assets/unknown profile img.jpg';
-
-const pages = ['HOME', 'CONTACT US', 'ALL POSTS'];
 
 function Navbar() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const [open, setOpen] = useState(false);
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
     };
 
     return (
-        <AppBar>
-            <Container maxWidth={false} className='navbar-container' >
-                <Toolbar disableGutters>
-                    {/* Logo for all screens */}
-                    <img
-                        src={navbarLogo}
-                        alt="UNIBOOKS LOGO"
-                        className='navbar-logo'
-                        style={{ display: 'block', maxWidth: '150px', maxHeight: '50px', marginRight: '10px' }}
-                    />
-
-                    {/* Mobile menu icon */}
-                    <Tooltip title="Pages" sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="menu"
-                            aria-controls="pages-menu"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Tooltip>
-
-                    {/* Pages menu */}
-                    <Box sx={{ flexGrow: 1, justifyContent: 'center', display: 'flex' }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'black', display: { xs: 'none', md: 'block' } }}
-                            >
-                                {page}
+        <>
+            <AppBar position='absolute' color='default' sx={{ bottom:'auto' }} >
+                <Container maxWidth={false}  >
+                    <Toolbar >
+                        <Box
+                            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', }}>
+                            <img src='Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO'
+                                style={{ maxHeight: '45px' }} />
+                            <Box sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                justifyContent: 'center', flexGrow: 1,
+                            }}>
+                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                    component={Link} to='/' >
+                                    <Typography variant='body' color='text.primary'>
+                                        Home
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                    component={Link} to='allPosts'>
+                                    <Typography variant='body' color='text.primary'>
+                                        All Posts
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem sx={{ py: '6px', px: '12px' }} component={Link}
+                                    to='contactUs'>
+                                    <Typography variant='body' color='text.primary'>
+                                        Contact Us
+                                    </Typography>
+                                </MenuItem>
+                            </Box>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                gap: 0.5, alignItems: 'center'
+                            }}>
+                            <Button color='primary' variant='outlined'
+                                component={Link} to='login' >
+                                Sign in
                             </Button>
-                        ))}
-                    </Box>
-
-                    {/* Mobile pages menu */}
-                    <Menu
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{ display: { xs: 'block', md: 'none' } }}
-                    >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">{page}</Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-
-                    {/* Profile Avatar */}
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open profile" sx={{ display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton sx={{ p: 0 }}>
-                                <img
-                                    src={profileImg}
-                                    alt="Profile Img "
-                                    style={{ width: '40px', height: '40px', borderRadius: '50%' }}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                            <Button color='primary' variant='outlined'
+                                component={Link} to='register' >
+                                Sign up
+                            </Button>
+                        </Box>
+                        <Box sx={{ display: { md: 'none' } }}>
+                            <Button variant='text' color='primary' aria-label='menu'
+                                onClick={toggleDrawer(true)} sx={{ minWidth: '30px', p: '4px' }} >
+                                <MenuIcon sx={{ color:'black' }} />
+                            </Button>
+                            <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
+                                <Box sx={{
+                                    minWidth: '35vw ', p: 2,
+                                    backgroundColor: 'background.paper', flexGrow: 1,
+                                }} >
+                                    <Box sx={{
+                                        display: 'flex', flexDirection: 'column',
+                                        alignItems: 'end', flexGrow: 1,
+                                    }} >
+                                    </Box>
+                                    <MenuItem>
+                                        Home
+                                    </MenuItem>
+                                    <MenuItem component={Link} to='allPosts'>
+                                        All Posts
+                                    </MenuItem>
+                                    <MenuItem component={Link} to='contactUs'>
+                                        Contact us
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem>
+                                        <Button color='primary' variant='outlined'
+                                            component={Link} to='register'>
+                                            Sign up
+                                        </Button>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Button color='primary' variant='outlined'
+                                            component={Link} to='login' >
+                                            Sign in
+                                        </Button>
+                                    </MenuItem>
+                                </Box>
+                            </Drawer>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </>
     );
-}
+};
+
 export default Navbar;

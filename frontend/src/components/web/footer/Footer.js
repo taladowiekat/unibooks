@@ -4,30 +4,29 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import EmailIcon from '@mui/icons-material/Email';
-import logo from '../../../assets/Small_Unibooks_Logo__Name.png'
 
 const Footer = () => {
     return (
-        <AppBar position="fixed" sx={{ top: 'auto', bottom: 0, backgroundColor: "rgb(217, 217, 217)" }}>
-            <Container maxWidth={false} sx={{ p: 2 }}>
-                <Grid container alignItems="center" justifyContent="space-between">
+        <AppBar position='absolute' color = 'default' elevation='16' sx={{ top: 'auto' }}   >
+            <Container maxWidth={false} sx={{ p: 1 }}>
+                <Grid container alignItems='center' justifyContent='space-between'>
                     <Grid item>
-                        <img src={logo} alt="UNIBOOKS LOGO" style={{ maxHeight: '50px' }} />
+                        <img src= 'Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO' style={{ maxHeight: '45px' }} />
                         <Typography sx={{ ml: 6, color: 'GrayText' }}>
                             SELL, EXCHANGE, DONATE
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <IconButton href="https://instagram.com">
+                        <IconButton href='https://instagram.com'>
                             <InstagramIcon fontSize='large' />
                         </IconButton>
-                        <IconButton href="https://facebook.com">
+                        <IconButton href='https://facebook.com'>
                             <FacebookIcon fontSize='large' />
                         </IconButton>
-                        <IconButton href="https://telegram.org">
+                        <IconButton href='https://telegram.org'>
                             <TelegramIcon fontSize='large' />
                         </IconButton>
-                        <IconButton href="mailto:email@example.com">
+                        <IconButton href='mailto:email@example.com'>
                             <EmailIcon fontSize='large' />
                         </IconButton>
                     </Grid>
