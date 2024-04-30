@@ -1,164 +1,135 @@
-import React, { useState } from 'react';
-import { Grid, Paper, Typography, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Box, IconButton, Modal } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import { createPostValidationSchema } from '../../validation/validation';
+import { Grid, Paper, Typography, Button, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { createPostValidationSchema } from '../../validation/validation.js';
+import InputsComponent from '../shared/inputsComponent';
 
-const CreateListing = ({ open, handleClose }) => {
-  const [images, setImages] = useState([]);
+const CreateListing = () => {
+  const [image, setImage] = useState(null);
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (!image) {
+      setPreview(null);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
 
   const handleImageUpload = (event, form) => {
-    const uploadedImages = Array.from(event.currentTarget.files);
-    setImages((prevImages) => [...prevImages, ...uploadedImages]);
-    form.setFieldValue('images', [...form.values.images, ...uploadedImages]);
+    const uploadedImage = event.currentTarget.files[0];
+    setImage(uploadedImage);
+    form.setFieldValue('image', uploadedImage);
+    setIsImageUploaded(true);
   };
 
-  const handleDeleteImage = (index, form) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    const updatedImages = form.values.images.filter((_, i) => i !== index);
-    form.setFieldValue('images', updatedImages);
+  const handleDeleteImage = () => {
+    setImage(null);
+    setIsImageUploaded(false);
+   // formik.setFieldError('image', '');
+
   };
 
-  const handleCancel = (resetForm, setErrors) => {
+  const initialValues = {
+    bookName: '',
+    notes: '',
+    listingType: 'sell',
+    image: null,
+    exchangeBookName: ''
+  };
+
+  const onSubmit = (values, { resetForm }) => {
     resetForm();
-    setErrors({});
-    setImages([]);
-    handleClose();
+    setImage(null);
+    setIsImageUploaded(false);
   };
 
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validationSchema: createPostValidationSchema,
+  });
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="change-password-modal"
-      aria-describedby="change-password-form"
-    >
-
-      <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} style={{ padding: 20 }}>
-            <Typography variant="h5" gutterBottom>
-              Provide your post details
-            </Typography>
-            <Formik
-              initialValues={{
-                bookName: '',
-                notes: '',
-                listingType: 'sell',
-                images: [],
-                exchangeBookName: ''
-              }}
-              validationSchema={createPostValidationSchema}
-              onSubmit={(values, { resetForm }) => {
-                resetForm();
-              }}
-            >
-              {({ isSubmitting, resetForm, setErrors, values }) => (
-                <Form>
-                  <Field name="images">
-                    {({ field, form }) => (
-                      <>
-                        <Box mb={2} width="100%" style={{ textAlign: 'center' }}>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            id="image-upload"
-                            multiple
-                            style={{ display: 'none' }}
-                            onChange={(event) => {
-                              form.setFieldValue('images', event.currentTarget.files);
-                              handleImageUpload(event, form);
-                            }}
-                          />
-                          <label htmlFor="image-upload">
-                            <Button
-                              variant="outlined"
-                              component="span"
-                              startIcon={<CloudUploadOutlined />}
-                            >
-                              Upload Image
-                            </Button>
-                          </label>
-                        </Box>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                          {form.values.images && Array.from(form.values.images).map((image, index) => (
-                            <div key={index} style={{ position: 'relative' }}>
-                              <img src={URL.createObjectURL(image)} alt={`Uploaded ${index}`} style={{ width: 100, height: 100, borderRadius: 5, objectFit: 'cover' }} />
-                              <IconButton
-                                style={{ position: 'absolute', top: 0, right: 0 }}
-                                onClick={() => handleDeleteImage(index, form)}
-                              >
-                                <DeleteOutlined />
-                              </IconButton>
-                            </div>
-                          ))}
-                        </div>
-                        {form.isSubmitting && <Typography variant="body2" color="textSecondary" style={{ marginTop: 10 }}>Uploading images...</Typography>}
-                        <ErrorMessage name="images" component="div" style={{ marginTop: 10, color: 'red' }} />
-                      </>
-                    )}
-                  </Field>
-                  <Field name="bookName">
-                    {({ field, form }) => (
-                      <TextField
-                        fullWidth
-                        label="Book Name"
-                        {...field}
-                        error={form.errors.bookName && form.touched.bookName}
-                        helperText={form.errors.bookName && form.touched.bookName && form.errors.bookName}
-                        style={{ marginTop: 20 }}
-                      />
-                    )}
-                  </Field>
-                  <Field name="notes">
-                    {({ field }) => (
-                      <TextField
-                        fullWidth
-                        label="Notes"
-                        multiline
-                        rows={4}
-                        {...field}
-                        style={{ marginTop: 20 }}
-                      />
-                    )}
-                  </Field>
-                  <Field name="listingType">
-                    {({ field }) => (
-                      <FormControl component="fieldset" style={{ marginTop: 20 }}>
-                        <FormLabel component="legend">Listing Type</FormLabel>
-                        <RadioGroup row {...field}>
-                          <FormControlLabel value="sell" control={<Radio />} label="Sell" />
-                          <FormControlLabel value="donate" control={<Radio />} label="Donate" />
-                          <FormControlLabel value="exchange" control={<Radio />} label="Exchange" />
-                        </RadioGroup>
-                      </FormControl>
-                    )}
-                  </Field>
-                  {values.listingType === 'exchange' && (
-                    <Field name="exchangeBookName">
-                      {({ field, form }) => (
-                        <TextField
-                          fullWidth
-                          label="Exchange Book Name"
-                          {...field}
-                          style={{ marginTop: 20 }}
-                        />
-                      )}
-                    </Field>
-                  )}
-                  <Box mt={2} display="flex" justifyContent="flex-end">
-                    <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>Post</Button>
-                    <Button type="button" variant="contained" color="error" style={{ marginLeft: 10 }}
-                      onClick={() => handleCancel(resetForm, setErrors)}>Cancel</Button>
-                  </Box>
-                </Form>
+    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+      <Grid item xs={12} sm={6} md={4}>
+        <Paper elevation={3} style={{ padding: 20 }}>
+          <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
+            Provide your post details
+          </Typography>
+          <form
+            id="form"
+            className="flex flex-col"
+            onSubmit={formik.handleSubmit}
+          >
+            <Box mb={2} width="100%" style={{ textAlign: 'center' }}>
+              {!isImageUploaded && (
+                <div>
+                  <input
+                    type="file"
+                    accept="image"
+                    id="image-upload"
+                    name="image"
+                    onChange={(event) => {
+                      formik.setFieldValue('image', event.currentTarget.files[0]);
+                      handleImageUpload(event, formik);
+                    }}
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor="image-upload">
+                    <Button
+                      variant="outlined"
+                      component="span"
+                      startIcon={<CloudUploadOutlined />}
+                    >
+                      Upload Image
+                    </Button>
+                  </label>
+                </div>
               )}
-            </Formik>
-          </Paper>
-        </Grid>
+
+                {formik.errors.image && formik.touched.image && (
+                <div style={{ marginTop: 10, color: 'red' }}>
+                 {formik.errors.image}
+                </div>
+                        )}
+
+            </Box>
+            
+            {preview && (
+              <div style={{ position: 'relative' }}>
+                <img src={preview} alt="Uploaded" style={{ width: '100%', height: '50%', borderRadius: 10 }} />
+                <IconButton
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                  onClick={handleDeleteImage}
+                >
+                  <DeleteOutlined />
+                </IconButton>
+              </div>
+              
+            )}
+            <InputsComponent formik={formik} />
+            <Box mt={2} display="flex" justifyContent="flex-end">
+              <Button type="submit" variant="contained" color="primary" disabled={formik.isSubmitting}>Post</Button>
+              <Button
+                type="button"
+                variant="contained"
+                color="error"
+                style={{ marginLeft: 10 }}
+                onClick={() => { formik.handleReset(); setIsImageUploaded(false); setImage(null); }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Paper>
       </Grid>
-    </Modal>
+    </Grid>
   );
 };
 
