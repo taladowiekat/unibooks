@@ -4,6 +4,7 @@ import { createPostValidationSchema } from '../../validation/validation';
 import { Grid, Paper, Typography, Button, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
 import InputsComponent from '../shared/inputsComponent';
+import FormData from 'form-data'; 
 
 const CreateListing = () => {
   const [image, setImage] = useState(null);
@@ -21,34 +22,51 @@ const CreateListing = () => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [image]);
 
-  const handleImageUpload = (event, form) => {
-    const uploadedImage = event.currentTarget.files[0];
+  const handleImageUpload = (e) => {
+    const uploadedImage = e.currentTarget.files[0];
     setImage(uploadedImage);
-    form.setFieldValue('image', uploadedImage);
+    formik.setFieldValue('image', uploadedImage);
     setIsImageUploaded(true);
   };
 
   const handleDeleteImage = () => {
     setImage(null);
-    setIsImageUploaded(false);
-   // formik.setFieldError('image', '');
-
+    setIsImageUploaded(false);   
+    formik.setFieldValue('image', '');
   };
+  
 
   const initialValues = {
     bookName: '',
     notes: '',
     listingType: 'sell',
-    image: null,
+    image: '',
     exchangeBookName: ''
   };
 
-  const onSubmit = (values, { resetForm }) => {
+  const onSubmit = async (values, { resetForm }) => { 
+    const formData = new FormData(); 
+    formData.append('bookName', values.bookName);
+    formData.append('notes', values.notes);
+    formData.append('listingType', values.listingType);
+    formData.append('image', values.image);
+    formData.append('exchangeBookName', values.exchangeBookName);
+  
+    // Send the data to the server
+   // try {
+     // const response = await fetch('', {
+      //  method: 'POST',
+        //body: formData
+     // });
+      // Handle response  
+    //} catch (error) {
+     // console.error('Error:', error);
+   // }
     resetForm();
     setImage(null);
     setIsImageUploaded(false);
   };
-
+  
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -75,9 +93,9 @@ const CreateListing = () => {
                     accept="image"
                     id="image-upload"
                     name="image"
-                    onChange={(event) => {
-                      formik.setFieldValue('image', event.currentTarget.files[0]);
-                      handleImageUpload(event, formik);
+                    onChange={(e) => {
+                      formik.setFieldValue('image', e.currentTarget.files[0]);
+                      handleImageUpload(e);
                     }}
                     style={{ display: 'none' }}
                   />
@@ -93,14 +111,14 @@ const CreateListing = () => {
                 </div>
               )}
 
-                {formik.errors.image && formik.touched.image && (
+              {formik.errors.image && formik.touched.image && (
                 <div style={{ marginTop: 10, color: 'red' }}>
-                 {formik.errors.image}
+                  {formik.errors.image}
                 </div>
-                        )}
+              )}
 
             </Box>
-            
+
             {preview && (
               <div style={{ position: 'relative' }}>
                 <img src={preview} alt="Uploaded" style={{ width: '100%', height: '50%', borderRadius: 10 }} />
@@ -111,7 +129,7 @@ const CreateListing = () => {
                   <DeleteOutlined />
                 </IconButton>
               </div>
-              
+
             )}
             <InputsComponent formik={formik} />
             <Box mt={2} display="flex" justifyContent="flex-end">
