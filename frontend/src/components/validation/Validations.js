@@ -1,14 +1,17 @@
-// validation.js
-
 import * as yup from 'yup';
+
+const mb = 1024 * 1024;
 
 export const createPostValidationSchema = yup.object({
   bookName: yup.string().required('Book name is required'),
   listingType: yup.string().required('Listing type is required'),
-  images: yup.array()
-    .min(1, 'Please upload at least one image')
-    .max(4, 'You can upload up to 4 images')
+  image: yup
+    .mixed().required('Required!')
+     .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
+     .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
 });
+
+    
 
 export const signInValidationSchema = yup.object().shape({
   emailOrUniversityId: yup.string()
