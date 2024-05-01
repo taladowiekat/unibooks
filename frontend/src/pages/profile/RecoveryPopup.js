@@ -1,7 +1,7 @@
 // imports
 import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
 import { Formik, Form, Field } from "formik";
-import { recoveryPopupValidationSchema } from "../../components/validation/validation";
+import { signUpValidationSchema } from "../../components/validation/validation";
 
 // function
 const modalStyle = {
@@ -19,7 +19,7 @@ const modalStyle = {
 const RecoveryPopup = ({ open, handleClose }) => {
   const initialValues = {
     currentPassword: "",
-    newPassword: "",
+    password: "",
     confirmPassword: "",
   };
 
@@ -35,7 +35,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
       aria-describedby="change-password-form"
     >
       <Formik
-        validationSchema={recoveryPopupValidationSchema}
+        validationSchema={signUpValidationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
@@ -61,17 +61,17 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   }
                 />
                 <Field
-                  name="newPassword"
+                  name="password"
                   as={TextField}
-                  id="newPassword"
+                  id="password"
                   label="New Password"
                   variant="outlined"
                   type="password"
                   fullWidth
                   required
                   disabled={isSubmitting}
-                  error={touched.newPassword && Boolean(errors.newPassword)}
-                  helperText={touched.newPassword ? errors.newPassword : ""}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password ? errors.password : ""}
                 />
                 <Field
                   name="confirmPassword"
