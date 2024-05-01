@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardHeader, CardMedia, FormControl, For
 import userImage from './Avatar.png';
 import bookImage from './Frame_129.png';
 import EditIcon from '@mui/icons-material/Edit';
-import { createPostValidationSchema } from '../../components/validation/validation';
+import { editPostValidationSchema } from '../../components/validation/validation';
 import { useFormik } from 'formik';
 import InputsComponent from '../../components/shared/postInfo';
 
@@ -22,7 +22,7 @@ const EditPost = () => {
     const formik = useFormik({
         initialValues,
         onSubmit,
-        validationSchema: createPostValidationSchema,
+        validationSchema: editPostValidationSchema,
     });
 
     return (
