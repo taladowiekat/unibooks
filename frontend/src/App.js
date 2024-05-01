@@ -1,12 +1,11 @@
 import React from 'react'
 import './app.css'
-import CreateListing from './components/web/createPost/CreatPost.js';
+import EditPost from './pages/editPost/EditPost';
 
 function App() {
   return (
     <>
-
-    <CreateListing/>
+    <EditPost/>
     </>
   );
 }
