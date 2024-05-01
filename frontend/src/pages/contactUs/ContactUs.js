@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Container, Typography, Box, Button, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import { contactValidation } from '../../components/validation/Validations.js';
+import { contactValidation } from '../../components/validation/validation.js';
 import emailjs from '@emailjs/browser';
 
 const ContactUs = () => {
