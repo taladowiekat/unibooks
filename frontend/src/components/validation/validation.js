@@ -7,8 +7,8 @@ export const createPostValidationSchema = yup.object({
   listingType: yup.string().required('Listing type is required'),
   image: yup
     .mixed().required('Required!')
-     .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
-     .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
+      .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
+      .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
 });
 export const editPostValidationSchema = yup.object({
   bookName: yup.string().required('Book name is required'),
@@ -38,3 +38,10 @@ export const signUpValidationSchema = yup.object().shape({
 export const resetPasswordValidationSchema = yup.object().shape({
   email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
 });
+
+export const contactValidation = yup.object({
+  name: yup.string().min(3).required("Please Enter Name"),
+  phoneNumber: yup.string().matches(/^(05[02469]\d{7})$/, "Invalid Phpne Number").required("Please Enter Phone Number"),
+  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email ').required('Please Enter Email'),
+  message: yup.string().required("Please Enter Message")
+  });
