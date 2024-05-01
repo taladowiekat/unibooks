@@ -12,7 +12,8 @@ const EditPost = () => {
         notes: '',
         listingType: 'sell',
         exchangeBookName: '',
-        status: 'Done' 
+        status: 'Done' ,
+        selectedFile: null
     };
 
     const onSubmit = (values, { resetForm }) => {
@@ -24,7 +25,10 @@ const EditPost = () => {
         onSubmit,
         validationSchema: editPostValidationSchema,
     });
-
+    const handleUploadClick = (event) => {
+            formik.setFieldValue('selectedFile', event.currentTarget.files[0]);
+        }
+    
     return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
             <Card id="EditPostFormBoxCardId" sx={{ maxWidth: 600, width: '100%', m: 2 }}>
@@ -33,20 +37,39 @@ const EditPost = () => {
                     title="User Name"
                     titleTypographyProps={{ variant: 'h6' }}
                 />
-                <IconButton aria-label="settings" sx={{ marginLeft: '90%', marginTop: 0 }}>
-                    <EditIcon src={userImage} />
-                </IconButton>
+              <Box mt={2} display="flex" justifyContent="flex-end">
+              <input
+                        accept="image/*"
+                        id="editImge"
+                        multiple
+                        type="file"
+                        style={{ display: 'none' }}
+                        onChange={handleUploadClick}
+                    />
+
+                    <label htmlFor="editImge">
+                        <Button
+                            sx={{ marginBottom: '2%' }}
+                            variant="outlined"
+                            component="span"
+                            startIcon={<EditIcon />}
+                        >
+                            Edit image
+                        </Button>
+                    </label>
+                </Box>
+                <CardMedia
+                    component="img"
+                    image={formik.values.selectedFile ? URL.createObjectURL(formik.values.selectedFile) : bookImage}
+                    sx={{ minHeight: '20vh', maxWidth: '90%', marginLeft: '5%' }}
+                />
+
                 <form
                     id="form"
                     className="flex flex-col"
                     onSubmit={formik.handleSubmit}
                 >
-                    <CardMedia
-                        component="img"
-                        image={bookImage}
-                        alt="Book Cover"
-                        sx={{ minHeight: '20vh', maxWidth: '90%', marginLeft: '5%' }}
-                    />
+                
                    <CardContent>
     <Box display="flex" flexDirection="column">
      <InputsComponent formik={formik}/>
