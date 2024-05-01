@@ -41,4 +41,3 @@ export const contactValidation = yup.object({
   email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email ').required('Please Enter Email'),
   message: yup.string().required("Please Enter Message")
   });
-});
