@@ -133,7 +133,7 @@ const CreateListing = () => {
             )}
             <InputsComponent formik={formik} />
             <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained" color="primary" disabled={formik.isSubmitting}>Post</Button>
+            <Button type="submit" variant="contained" color="primary" disabled={!formik.isValid }>Post</Button>
               <Button
                 type="button"
                 variant="contained"
