@@ -1,11 +1,12 @@
 import React from 'react'
 import './app.css'
-import EditPost from './pages/editPost/EditPost';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './layouts/routes.js';
 
 function App() {
   return (
     <>
-    <EditPost/>
+    <RouterProvider router={router} />
     </>
   );
 }
