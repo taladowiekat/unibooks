@@ -10,6 +10,10 @@ export const createPostValidationSchema = yup.object({
      .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
      .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
 });
+export const editPostValidationSchema = yup.object({
+  bookName: yup.string().required('Book name is required'),
+  listingType: yup.string().required('Listing type is required'),
+});
 
     
 
