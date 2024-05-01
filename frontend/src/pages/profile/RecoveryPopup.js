@@ -1,5 +1,7 @@
 // imports
 import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
+import { Formik, Form, Field } from "formik";
+import { signUpValidationSchema } from "../../components/validation/validation";
 
 // function
 const modalStyle = {
@@ -15,6 +17,16 @@ const modalStyle = {
 };
 
 const RecoveryPopup = ({ open, handleClose }) => {
+  const initialValues = {
+    currentPassword: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const handleSubmit = () => {
+    // if current password matches with user, change password in database
+  };
+
   return (
     <Modal
       open={open}
@@ -22,50 +34,87 @@ const RecoveryPopup = ({ open, handleClose }) => {
       aria-labelledby="change-password-modal"
       aria-describedby="change-password-form"
     >
-      <Container sx={modalStyle}>
-        <Box display="flex" flexDirection="column" gap={2}>
-          <Box>
-            <TextField
-              id="outlined-basic"
-              label="Current Password"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Box>
-          <Box>
-            <TextField
-              id="outlined-basic"
-              label="New Password"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Box>
-          <Box>
-            <TextField
-              id="outlined-basic"
-              label="Confirm Password"
-              variant="outlined"
-              fullWidth
-              required
-            />
-          </Box>
-          <Box>
-            <Link href="#" underline="none">
-              Forgot Password?
-            </Link>
-          </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Button variant="outlined" color="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary">
-              Confirm
-            </Button>
-          </Box>
-        </Box>
-      </Container>
+      <Formik
+        validationSchema={signUpValidationSchema}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form>
+            <Container sx={modalStyle}>
+              <Box display="flex" flexDirection="column" gap={2}>
+                <Field
+                  name="currentPassword"
+                  as={TextField}
+                  id="currentPassword"
+                  label="Current Password"
+                  variant="filled"
+                  type="password"
+                  fullWidth
+                  required
+                  disabled={isSubmitting}
+                  error={
+                    touched.currentPassword && Boolean(errors.currentPassword)
+                  }
+                  helperText={
+                    touched.currentPassword ? errors.currentPassword : ""
+                  }
+                />
+                <Field
+                  name="password"
+                  as={TextField}
+                  id="password"
+                  label="New Password"
+                  variant="outlined"
+                  type="password"
+                  fullWidth
+                  required
+                  disabled={isSubmitting}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password ? errors.password : ""}
+                />
+                <Field
+                  name="confirmPassword"
+                  as={TextField}
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  variant="outlined"
+                  type="password"
+                  fullWidth
+                  required
+                  disabled={isSubmitting}
+                  error={
+                    touched.confirmPassword && Boolean(errors.confirmPassword)
+                  }
+                  helperText={
+                    touched.confirmPassword ? errors.confirmPassword : ""
+                  }
+                />
+                <Link href="#" underline="none">
+                  Forgot Password?
+                </Link>
+                <Box display="flex" justifyContent="space-between">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    Confirm
+                  </Button>
+                </Box>
+              </Box>
+            </Container>
+          </Form>
+        )}
+      </Formik>
     </Modal>
   );
 };
