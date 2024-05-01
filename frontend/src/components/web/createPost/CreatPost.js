@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { createPostValidationSchema } from '../../validation/validation.js';
 import { Grid, Paper, Typography, Button, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
-import InputsComponent from '../shared/postInfo.js';
+import InputsComponent from '../../shared/postInfo.js';
 import FormData from 'form-data'; 
 
 const CreateListing = () => {
@@ -133,7 +133,7 @@ const CreateListing = () => {
             )}
             <InputsComponent formik={formik} />
             <Box mt={2} display="flex" justifyContent="flex-end">
-              <Button type="submit" variant="contained" color="primary" disabled={formik.isSubmitting}>Post</Button>
+            <Button type="submit" variant="contained" color="primary" disabled={formik.isSubmitting}>Post</Button>
               <Button
                 type="button"
                 variant="contained"
