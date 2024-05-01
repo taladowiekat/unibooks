@@ -3,7 +3,6 @@ import { useState } from 'react';
 import {
     Box, AppBar, Toolbar, Button,
     Divider, Typography, MenuItem, Drawer,
-    Container,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
@@ -17,8 +16,7 @@ function Navbar() {
 
     return (
         <>
-            <AppBar position='absolute' color='default' sx={{ bottom:'auto' }} >
-                <Container maxWidth={false}  >
+            <AppBar position='fixed' color='default' maxWidth={false} >
                     <Toolbar >
                         <Box
                             sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', }}>
@@ -103,7 +101,6 @@ function Navbar() {
                             </Drawer>
                         </Box>
                     </Toolbar>
-                </Container>
             </AppBar>
         </>
     );
