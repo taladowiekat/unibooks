@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { createPostValidationSchema } from '../../validation/validation';
+import { createPostValidationSchema } from '../../validation/validation.js';
 import { Grid, Paper, Typography, Button, Box, IconButton } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
-import InputsComponent from '../shared/inputsComponent';
+import InputsComponent from '../shared/postInfo.js';
 import FormData from 'form-data'; 
 
 const CreateListing = () => {

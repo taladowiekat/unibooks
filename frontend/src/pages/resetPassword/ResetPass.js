@@ -3,7 +3,7 @@ import { Grid, Paper, Typography, Button, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { resetPasswordValidationSchema } from '../../components/web/validation/validation';
+import { resetPasswordValidationSchema } from '../../components/web/validation/validation.js';
 
 const theme = createTheme({
   palette: {
