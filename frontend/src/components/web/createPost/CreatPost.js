@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { createPostValidationSchema } from '../../validation/validation.js';
-import { Grid, Paper, Typography, Button, Box, IconButton } from '@mui/material';
+import { Paper, Typography, Button, Box, IconButton, Dialog } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
 import InputsComponent from '../../shared/postInfo.js';
-import FormData from 'form-data'; 
+import FormData from 'form-data';
 
-const CreateListing = () => {
+const CreateListing = ({ open, handleClose }) => {
   const [image, setImage] = useState(null);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -31,10 +31,9 @@ const CreateListing = () => {
 
   const handleDeleteImage = () => {
     setImage(null);
-    setIsImageUploaded(false);   
+    setIsImageUploaded(false);
     formik.setFieldValue('image', '');
   };
-  
 
   const initialValues = {
     bookName: '',
@@ -44,29 +43,19 @@ const CreateListing = () => {
     exchangeBookName: ''
   };
 
-  const onSubmit = async (values, { resetForm }) => { 
-    const formData = new FormData(); 
+  const onSubmit = async (values, { resetForm }) => {
+    const formData = new FormData();
     formData.append('bookName', values.bookName);
     formData.append('notes', values.notes);
     formData.append('listingType', values.listingType);
     formData.append('image', values.image);
     formData.append('exchangeBookName', values.exchangeBookName);
-  
-    // Send the data to the server
-   // try {
-     // const response = await fetch('', {
-      //  method: 'POST',
-        //body: formData
-     // });
-      // Handle response  
-    //} catch (error) {
-     // console.error('Error:', error);
-   // }
+
     resetForm();
     setImage(null);
     setIsImageUploaded(false);
   };
-  
+
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -74,18 +63,13 @@ const CreateListing = () => {
   });
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-      <Grid item xs={12} sm={6} md={4}>
-        <Paper elevation={3} style={{ padding: 20 }}>
-          <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
-            Provide your post details
-          </Typography>
-          <form
-            id="form"
-            className="flex flex-col"
-            onSubmit={formik.handleSubmit}
-          >
-            <Box mb={2} width="100%" style={{ textAlign: 'center' }}>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Paper elevation={3} style={{ padding: 20 }}>
+        <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
+          Provide your post details
+        </Typography>
+        <form id="form" className="flex flex-col" onSubmit={formik.handleSubmit}>
+        <Box mb={2} width="100%" style={{ textAlign: 'center' }}>
               {!isImageUploaded && (
                 <div>
                   <input
@@ -108,17 +92,14 @@ const CreateListing = () => {
                       Upload Image
                     </Button>
                   </label>
-                </div>
-              )}
-
-              {formik.errors.image && formik.touched.image && (
+               
+                {formik.errors.image && formik.touched.image && (
                 <div style={{ marginTop: 10, color: 'red' }}>
                   {formik.errors.image}
                 </div>
               )}
-
-            </Box>
-
+              </div>
+            )}
             {preview && (
               <div style={{ position: 'relative' }}>
                 <img src={preview} alt="Uploaded" style={{ width: '100%', height: '50%', borderRadius: 10 }} />
@@ -129,25 +110,24 @@ const CreateListing = () => {
                   <DeleteOutlined />
                 </IconButton>
               </div>
-
             )}
             <InputsComponent formik={formik} />
-            <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained" color="primary" disabled={!formik.isValid }>Post</Button>
-              <Button
-                type="button"
-                variant="contained"
-                color="error"
-                style={{ marginLeft: 10 }}
-                onClick={() => { formik.handleReset(); setIsImageUploaded(false); setImage(null); }}
-              >
-                Cancel
-              </Button>
-            </Box>
-          </form>
-        </Paper>
-      </Grid>
-    </Grid>
+          </Box>
+          <Box mt={2} display="flex" justifyContent="flex-end">
+            <Button type="submit" variant="contained" color="primary" disabled={!formik.isValid}>Post</Button>
+            <Button
+              type="button"
+              variant="contained"
+              color="error"
+              style={{ marginLeft: 10 }}
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Dialog>
   );
 };
 
