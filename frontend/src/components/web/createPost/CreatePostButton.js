@@ -10,7 +10,7 @@ const CreatePostButton = () => {
 
     return (
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '85px'}}>
             <Button
                 variant="contained"
                 sx={{
