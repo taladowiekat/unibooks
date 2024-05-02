@@ -81,15 +81,15 @@ const LogIn = () => {
               </Button>
               <Box height={20} />
 
-              <Grid container xs='14' spacing={2} style={{ padding: 4 }}>
+              <Grid container  spacing={2} style={{ padding: 4 }}>
 
-                <Grid item xs='5.5'>
+                <Grid item xs={5.5}>
                   <Link to="/resetPass" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
 
-                <Grid item xs='6'>
+                <Grid item xs={6}>
                   <Link to="/register" variant="body2">
                     Don't have an account? Sign Up
                   </Link>
