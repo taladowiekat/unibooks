@@ -1,9 +1,9 @@
 
 import  mongoose  from 'mongoose';
-const connectionString = 'mongodb+srv://aishasaleh:0LcLzyqIs62mkZQ6@cluster0.0dqhjtr.mongodb.net/';
+
 const dbconnection=()=>{
     return(
-mongoose.connect(connectionString,
+mongoose.connect(process.env.connectionString,
      { useNewUrlParser: true, useUnifiedTopology: true
      }) .then((con) => {
 console.log(con.connections)
