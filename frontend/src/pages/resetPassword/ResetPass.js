@@ -1,85 +1,75 @@
 
-import { Grid, Paper, Typography, Button, TextField, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { resetPasswordValidationSchema } from '../../components/validation/validation';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#114b5f',
-    },
-  },
-});
+
 
 const ResetPassword = () => {
   const initialValues = {
     email: '',
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Handle reset password logic here
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
+    resetForm();
     setSubmitting(false);
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} style={{ padding: 20 }}>
-            <Typography variant="h5" gutterBottom>
-              Reset Password
-            </Typography>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={resetPasswordValidationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <Field name="email">
-                    {({ field, meta }) => (
-                      <TextField
-                        {...field}
-                        margin="normal"
-                        fullWidth
-                        id="email"
-                        label="Email"
-                        autoComplete="email"
-                        autoFocus
-                        required
-                        error={meta.touched && meta.error}
-                        helperText={meta.touched && meta.error}
-                      />
-                    )}
-                  </Field>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    disabled={isSubmitting}
-                    color="primary"
-                    sx={{ mt: 2 }}
-                  >
-                    {isSubmitting ? 'Submitting...' : 'Reset Password'}
-                  </Button>
-                  <Box height={20} />
+    <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
+      <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
+        <Box sx={{ height: '100px' }} />
 
-                  <Grid container>
-                    <Grid item xs>
-                      <Link to='/' variant="body2">
-                        Back to login
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
-          </Paper>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Reset your password </Typography>
+
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={resetPasswordValidationSchema}
+        >
+          {({ errors, touched, isValid }) => (
+            <Form>
+              <Field
+                name="email"
+                as={TextField}
+                id="email"
+                label="Email"
+                autoComplete="email"
+                type="email"
+                required
+                fullWidth
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+
+              <Box sx={{ height: '30px' }} />
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={!isValid}
+                color="primary"
+                sx={{ mt: 2 }}
+              >
+                Reset Password
+              </Button>
+              <Box height={20} />
+
+              <Grid container>
+                <Grid item xs>
+                  <Link to='/login' variant="body2">
+                    Back to login
+                  </Link>
+                </Grid>
+              </Grid>
+
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </Container>
   );
 };
 

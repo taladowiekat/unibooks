@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import { Grid, Paper, Typography, Button, InputAdornment, IconButton,  TextField,  Box } from '@mui/material';
+import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signUpValidationSchema } from '../../components/validation/validation.js';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#114b5f', 
-    },
-  },
-});
 
 const Register = () => {
   const initialValues = {
@@ -19,135 +11,134 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    currentPassword: '45688455' //To make it always valid
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Handle sign up logic here
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
+    resetForm();
     setSubmitting(false);
   };
+  
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} style={{ padding: 20 }}>
-            <Typography variant="h5" gutterBottom>
-              Create Account
-            </Typography>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={signUpValidationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <Field name="universityId">
-                    {({ field, meta }) => (
-                      <TextField
-                        {...field}
-                        margin="normal"
-                        fullWidth
-                        id="universityId"
-                        label="University ID"
-                        autoComplete="off"
-                        required
-                        error={meta.touched && meta.error}
-                        helperText={meta.touched && meta.error}
-                      />
-                    )}
-                  </Field>
-                  <Field name="email">
-                    {({ field, meta }) => (
-                      <TextField
-                        {...field}
-                        margin="normal"
-                        fullWidth
-                        id="email"
-                        label="Email"
-                        autoComplete="email"
-                        required
-                        error={meta.touched && meta.error}
-                        helperText={meta.touched && meta.error}
-                      />
-                    )}
-                  </Field>
-                  <Field name="password">
-                    {({ field, meta }) => (
-                      <TextField
-                        {...field}
-                        margin="normal"
-                        fullWidth
-                        id="password"
-                        label="Password"
-                        type={showPassword ? 'text' : 'password'}
-                        autoComplete="new-password"
-                        required
-                        error={meta.touched && meta.error}
-                        helperText={meta.touched && meta.error}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton onClick={() => setShowPassword(!showPassword)} color='primary'>
-                                {showPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    )}
-                  </Field>
-                  <Field name="confirmPassword">
-                    {({ field, meta }) => (
-                      <TextField
-                        {...field}
-                        margin="normal"
-                        fullWidth
-                        id="confirmPassword"
-                        label="Confirm Password"
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        autoComplete="new-password"
-                        required
-                        error={meta.touched && meta.error}
-                        helperText={meta.touched && meta.error}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} color='primary'>
-                                {showConfirmPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    )}
-                  </Field>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    disabled={isSubmitting}
-                    sx={{ mt: 2 }}
-                  >
-                    {isSubmitting ? 'Creating Account...' : 'Create Account'}
-                  </Button>
-                  <Box height={20} />
-                  <Grid container>
-                    <Grid item>
-                      <Link to="/" variant="body2">
-                        Already have an account? Sign in
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
-          </Paper>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+    <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
+      <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
+        <Box sx={{ height: '100px' }} />
+
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Sign Up </Typography>
+
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={signUpValidationSchema}
+        >
+
+          {({ errors, touched, isValid }) => (
+            <Form>
+
+              <Field
+                name="universityId"
+                as={TextField}
+                id="universityId"
+                label="University ID"
+                required
+                fullWidth
+                error={touched.universityId && Boolean(errors.universityId)}
+                helperText={touched.universityId && errors.universityId}
+              />
+
+              <Box sx={{ height: '30px' }} />
+
+              <Field
+                name="email"
+                as={TextField}
+                id="email"
+                label="Email"
+                autoComplete="email"
+                type="email"
+                required
+                fullWidth
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+
+              <Box sx={{ height: '30px' }} />
+
+              <Field
+                name="password"
+                as={TextField}
+                id="password"
+                label="Password"
+                autoComplete="current-password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                fullWidth
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} color='primary'>
+                        {showPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+
+              <Box sx={{ height: '30px' }} />
+
+              <Field
+                name="confirmPassword"
+                as={TextField}
+                id="confirmPassword"
+                label="Confirm Password"
+                autoComplete="new-password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                required
+                fullWidth
+                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                helperText={touched.confirmPassword && errors.confirmPassword}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} color='primary'>
+                        {showConfirmPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ mt: 2 }}
+                disabled={!isValid}
+              >
+                Create Account
+              </Button>
+
+              <Box height={20} />
+
+              <Grid container>
+                <Grid item>
+                  <Link to="/LogIn" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </Container>
   );
 };
 
