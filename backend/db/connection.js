@@ -3,7 +3,7 @@ import  mongoose  from 'mongoose';
 
 const dbconnection=()=>{
     return(
-mongoose.connect(process.env.connectionString,
+mongoose.connect(process.env.CONNECTIONSTRING,
      { useNewUrlParser: true, useUnifiedTopology: true
      }) .then((con) => {
 console.log(con.connections)
