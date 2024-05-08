@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { createPostValidationSchema } from '../../validation/validation.js';
 import { Paper, Typography, Button, Box, IconButton, Dialog } from '@mui/material';
 import { CloudUploadOutlined, DeleteOutlined } from '@mui/icons-material';
-import InputsComponent from '../../shared/Inputs.js';
+import InputsComponent from '../../shared/PostInfo.js';
 import FormData from 'form-data';
 
 const CreateListing = ({ open, handleClose }) => {

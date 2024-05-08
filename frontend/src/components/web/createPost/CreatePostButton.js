@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import CreateListing from './CreatPost.js';
+import CreateListing from './CreatePost.js';
 
 const CreatePostButton = () => {
     const [open, setOpen] = useState(false);
