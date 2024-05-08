@@ -15,7 +15,7 @@ import PostCard from '../../components/shared/Cards.js';
 
 const Posts = () => {
     const [category, setCategory] = useState('');
-    
+    const [searchKeyword, setSearchKeyword] = useState('');
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
@@ -25,82 +25,196 @@ const Posts = () => {
         {
             id: 1,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
+            userName: 'Alice',
+            bookName: 'Th Code Brakr',
+            type: 'donate',
             typeoperation: 'donate',
-            image: 'physics.png',
+            image: 'codebreaker.png',
         },
         {
             id: 2,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: ' Handbook',
-            type: 'Engineering',
-            typeoperation: 'exhange',
-            image: 'physics.png',
+            userName: 'Dave',
+            bookName: 'Sapiens: A Brief History of Humankind',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'sapiens.png',
         },
         {
             id: 3,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
+            userName: 'Ella',
+            bookName: 'Th Grt Gatsby',
+            type: 'donate',
             typeoperation: 'donate',
-            image: 'physics.png',
-        }
-        ,
+            image: 'gatsby.png',
+        },
         {
             id: 4,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
-            typeoperation: 'exhange',
-
-            image: 'physics.png',
-        }
-        ,
+            userName: 'Frank',
+            bookName: 'Introduction to Algorithms',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'algorithms.png',
+        },
         {
             id: 5,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
+            userName: 'Grace',
+            bookName: 'Artificial Intelligence: A Modern Approach',
+            type: 'donate',
             typeoperation: 'donate',
-            image: 'physics.png',
-        }
-        ,
+            image: 'artificialintelligence.png',
+        },
         {
             id: 6,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
-            typeoperation: 'exhange',
-            image: 'physics.png',
-        }
-        ,
+            userName: 'Henry',
+            bookName: 'Principles of Economics',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'economics.png',
+        },
         {
             id: 7,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
-            typeoperation: 'exhange',
-            image: 'physics.png',
-        }
-        ,
+            userName: 'Isaac',
+            bookName: 'The C Programming Language',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'cprogramming.png',
+        },
         {
             id: 8,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Jane Smith',
-            bookName: 'Handbook',
-            type: 'Engineering',
+            userName: 'Jane',
+            bookName: 'Machine Learning Yearning',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'machinelearning.png',
+        },
+        {
+            id: 9,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Kevin',
+            bookName: 'The Lean Startup',
+            type: 'donate',
             typeoperation: 'donate',
+            image: 'leanstartup.png',
+        },
+        {
+            id: 10,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Lily',
+            bookName: 'Fundamentals of Physics',
+            type: 'exchange',
+            typeoperation: 'exchange',
             image: 'physics.png',
+        },
+        {
+            id: 11,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Max',
+            bookName: 'The Art of War',
+            type: 'donate',
+            typeoperation: 'donate',
+            image: 'artofwar.png',
+        },
+        {
+            id: 12,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Nathan',
+            bookName: 'Data Science for Business',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'datascience.png',
+        },
+        {
+            id: 13,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Olivia',
+            bookName: 'Think and Grow Rich',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'thinkandgrowrich.png',
+        },
+        {
+            id: 14,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Peter',
+            bookName: 'The Innovator\'s Dilemma',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'innovatorsdilemma.png',
+        },
+        {
+            id: 15,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Quinn',
+            bookName: 'The Design of Everyday Things',
+            type: 'donate',
+            typeoperation: 'donate',
+            image: 'designofeveryday.png',
+        },
+        {
+            id: 16,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Rachel',
+            bookName: 'Rich Dad Poor Dad',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'richdadpoordad.png',
+        },
+        {
+            id: 17,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Sam',
+            bookName: 'The Elements of Style',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'elementsofstyle.png',
+        },
+        {
+            id: 18,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Tom',
+            bookName: 'Thinking, Fast and Slow',
+            type: 'exchange',
+            typeoperation: 'exchange',
+            image: 'thinkingfastslow.png',
+        },
+        {
+            id: 19,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Uma',
+            bookName: 'The Lean Startup',
+            type: 'donate',
+            typeoperation: 'donate',
+            image: 'leanstartup.png',
+        },
+        {
+            id: 20,
+            userAvatar: 'ProfilePic.jpg',
+            userName: 'Victor',
+            bookName: 'Blockchain Basics',
+            type: 'sell',
+            typeoperation: 'sell',
+            image: 'blockchainbasics.png',
         }
     ];
+    
+
+    const handleSearchChange = (event) => {
+        setSearchKeyword(event.target.value.toLowerCase());
+    };
+
+
+    const filteredPosts = postsData.filter(post => {
+        return (post.typeoperation.toLowerCase().includes(searchKeyword) || post.userName.toLowerCase().includes(searchKeyword)) &&
+            (category === '' || post.type === category || post.typeoperation === category);
+    });
+
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', flexDirection: 'column' }}>
             <Container>
@@ -109,6 +223,7 @@ const Posts = () => {
                 <TextField
                     placeholder="Article name or keywords..."
                     variant="outlined"
+                    onChange={handleSearchChange}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -152,7 +267,7 @@ const Posts = () => {
                 </Button>
             </Box>
             <Grid container spacing={2} justifyContent="center">
-                    {postsData.map((post, index) => (
+                    {filteredPosts.map((post, index) =>  (
                         <Grid item key={post.id} xs={12} sm={6} md={4} lg={3}>
                             <div
                                 variants={itemAnimation}
