@@ -1,5 +1,5 @@
 import React from 'react';
-import Inputs from './inputs';
+import Inputs from './Inputs';
 import {  Radio, RadioGroup, FormControlLabel, FormControl, FormLabel} from '@mui/material';
 
 const InputsComponent = ({ formik }) => {

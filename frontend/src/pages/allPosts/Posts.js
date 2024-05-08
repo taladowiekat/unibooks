@@ -10,8 +10,8 @@ import {
     Container,
     Grid,
 } from '@mui/material';
-import CreatePostButton from '../createPost/CreatePostButton.js';
-import PostCard from '../../shared/Cards.js';
+import CreatePostButton from '../../components/web/createPost/CreatePostButton.js'
+import PostCard from '../../components/shared/Cards.js';
 
 const Posts = () => {
     const [category, setCategory] = useState('');
