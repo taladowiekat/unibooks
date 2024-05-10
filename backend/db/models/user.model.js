@@ -1,11 +1,15 @@
+import { string } from 'joi';
 import mongoose from 'mongoose';
 
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-    profilePicture: {
+    studentID: {
         type: String,
-        default: ''
+        required: true,        
+    },
+     profilePicture: {
+        type: Object       
     },
     name: {
         type: String,
@@ -19,22 +23,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        validate: {
-            validator: function (v) {
-                return /^s\d{8}@stu.najah.edu$/.test(v);
-            },
-            message: props => `${props.value} is not a valid student email address!`
-        }
-    },
-    universityID: {
-        type: String,
-        required: true,
-        validate: {
-            validator: function (v) {
-                return /^\d{8}$/.test(v);
-            },
-            message: props => `${props.value} is not a valid university ID!`
-        }
     },
     password: {
         type: String,
@@ -47,11 +35,15 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    }
-});
+    role: {
+        type: string,
+        enum: ['user','admin'],
+        default: 'user'
+    }, gender: {
+        type: String,
+        enum: ["Male", "Female"],}
+        
+},{_id:false}, { timestamps: true });
 
 
 const userModel = model('User', userSchema);
