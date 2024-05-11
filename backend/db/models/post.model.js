@@ -28,6 +28,10 @@ const postSchema = new Schema({
         type: String,
         enum: ['active', 'inactive']
     },
+    slug: {
+        type: String,
+        name:'slug'
+    },
 
 }, { timestamps: true });
 

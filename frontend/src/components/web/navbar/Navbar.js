@@ -16,7 +16,7 @@ function Navbar() {
 
     return (
         <>
-            <AppBar position='fixed' color='default' maxWidth={false} >
+            <AppBar position='fixed' color='default'  >
                     <Toolbar >
                         <Box
                             sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', }}>
