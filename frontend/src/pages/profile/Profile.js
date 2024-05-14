@@ -14,15 +14,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import userImage from './profilepic.png';
 import RecoveryPopup from './RecoveryPopup.js';
 import { Field, Form, Formik } from 'formik';
-import { signUpValidationSchema } from '../../components/validation/validation.js';
+import { useValidations } from '../../components/validation/validation';
+import { useTranslation } from 'react-i18next';
 
-
-const ProfileForm = () => {
+const ProfileForm = ( ) => {
+    const {signUpValidationSchema}=useValidations()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [showPassword, setShowPassword] = useState(false);
-
+    const {t}=useTranslation();
     const initialValues = {
         // connect with database to get student's info
         name: "",
@@ -55,7 +56,7 @@ const ProfileForm = () => {
                             </Paper>
 
                             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
-                                General
+                                {t("general")}
                             </Typography>
                             <Field
                                 as={TextField}
@@ -63,7 +64,7 @@ const ProfileForm = () => {
                                 required
                                 fullWidth
                                 id="name"
-                                label="Name"
+                                label={t("userName")}
                                 name="name"
                                 autoComplete="name"
                                 autoFocus
@@ -74,13 +75,13 @@ const ProfileForm = () => {
                                 required
                                 fullWidth
                                 id="college"
-                                label="College Name"
+                                label={t("college")}
                                 name="college"
                                 autoComplete="college"
                             />
 
                             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', marginTop: '1rem' }}>
-                                Security
+                                {t("security")}
                             </Typography>
                             <Field
                                 as={TextField}
@@ -88,7 +89,7 @@ const ProfileForm = () => {
                                 required
                                 fullWidth
                                 name="email"
-                                label="Email"
+                                label={t("email")}
                                 type="email"
                                 id="email"
                                 autoComplete="email"
@@ -106,7 +107,7 @@ const ProfileForm = () => {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label={t("password")}
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
@@ -134,7 +135,7 @@ const ProfileForm = () => {
                                 sx={{ mt: 2 }}
                                 onClick={handleOpen}
                             >
-                                Change Password
+                               {t("changePassword")}
                             </Button>
 
                             <RecoveryPopup open={open} handleClose={handleClose} />
@@ -146,14 +147,14 @@ const ProfileForm = () => {
                                     color="primary"
                                     sx={{ mr: 1 }}
                                 >
-                                    Save
+                                {t("saveButton")}
                                 </Button>
                                 <Button
                                     variant="outlined"
                                     color="secondary"
                                     sx={{ ml: 1 }}
                                 >
-                                    Cancel
+                                    {t("cancelbutton")}
                                 </Button>
                             </Box>
                         </Box>
@@ -168,4 +169,3 @@ const ProfileForm = () => {
 };
 
 export default ProfileForm;
-

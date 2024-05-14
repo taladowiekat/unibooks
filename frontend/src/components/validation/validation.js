@@ -1,47 +1,92 @@
+// useValidations.js
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
-const mb = 1024 * 1024;
+export function useValidations() {
+  const { t } = useTranslation();
+  const mb = 1024 * 1024;
 
-export const createPostValidationSchema = yup.object({
-  bookName: yup.string().required('Book name is required'),
-  listingType: yup.string().required('Listing type is required'),
-  image: yup
-    .mixed().required('Required!')
-      .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
-      .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
-});
-export const editPostValidationSchema = yup.object({
-  bookName: yup.string().required('Book name is required'),
-  listingType: yup.string().required('Listing type is required'),
-});
-
-    
-
-export const signInValidationSchema = yup.object().shape({
-  emailOrUniversityId: yup.string()
-    .matches(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/, 'Invalid email or university ID format')
-    .required('Email or university ID is required'),
-  password: yup.string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters long')
-    .max(30, 'Password must be at most 30 characters long')    
-});
-
-export const signUpValidationSchema = yup.object().shape({
-  universityId: yup.string().matches(/^\d{8}$/, 'Invalid university ID format').required('University ID is required'),
-  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
-  currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Password is required"),
-  password: yup.string().required('Password is required').min(6, 'Password must be at least 6 characters long').max(30, 'Password must be at most 30 characters long'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Please confirm your password'),
-});
-
-export const resetPasswordValidationSchema = yup.object().shape({
-  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
-});
-
-export const contactValidation = yup.object({
-  name: yup.string().min(3).required("Please Enter Name"),
-  phoneNumber: yup.string().matches(/^(05[02469]\d{7})$/, "Invalid Phpne Number").required("Please Enter Phone Number"),
-  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email ').required('Please Enter Email'),
-  message: yup.string().required("Please Enter Message")
+  // Validation schema for creating a post
+  const createPostValidationSchema = yup.object({
+    bookName: yup.string().required(t('bookNameRequired')),
+    listingType: yup.string().required(t('listingTypeRequired')),
+    image: yup
+      .mixed()
+      .required(t('Required'))
+      .test(
+        'FILE_TYPE',
+        t('invalidFileType!'),
+        value => value && ['image/png', 'image/jpeg'].includes(value.type)
+      )
+      .test(
+        'FILE_SIZE',
+        t('fileSizeTooBig!'),
+        value => value && value.size < 10 * mb
+      ),
   });
+
+  // Validation schema for editing a post
+  const editPostValidationSchema = yup.object({
+    bookName: yup.string().required(t('bookNameRequired')),
+    listingType: yup.string().required(t('listingTypeRequired')),
+  });
+
+  // Validation schema for signing in
+  const signInValidationSchema = yup.object({
+    emailOrUniversityId: yup.string()
+      .matches(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/, t('invalidEmailOrUniversityId'))
+      .required(t('emailOrUniversityIdIsRequired')),
+    password: yup.string()
+      .required(t('passwordRequired'))
+      .min(6, t('passwordTooShort'))
+      .max(30, t('passwordTooLong')),
+  });
+
+  // Validation schema for signing up
+  const signUpValidationSchema = yup.object({
+    universityId: yup.string()
+      .matches(/^\d{8}$/, t('invalidUniversityIdFormat'))
+      .required(t('universityIdRequired')),
+    email: yup.string()
+      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
+      .required(t('emailIsRequired')),
+    currentPassword: yup.string()
+      .min(6, t('passwordTooShort'))
+      .required(t('passwordRequired')),
+    password: yup.string()
+      .required(t('passwordRequired'))
+      .min(6, t('passwordTooShort'))
+      .max(30, t('passwordTooLong')),
+    confirmPassword: yup.string()
+      .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
+      .required(t('confirmPasswordRequired')),
+  });
+
+  // Validation schema for resetting password
+  const resetPasswordValidationSchema = yup.object({
+    email: yup.string()
+      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
+      .required(t('emailIsRequired')),
+  });
+
+  // Validation schema for contacting support
+  const contactValidationSchema = yup.object({
+    name: yup.string().min(3, t('enterName')).required(t('nameIsRequired')),
+    phoneNumber: yup.string()
+      .matches(/^(05[02469]\d{7})$/, t('invalidPhoneNumber'))
+      .required(t('phoneNumberIsRequired')),
+    email: yup.string()
+      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
+      .required(t('enterEmail')),
+    message: yup.string().required(t('enterMessage')),
+  });
+
+  return {
+    createPostValidationSchema,
+    editPostValidationSchema,
+    signInValidationSchema,
+    signUpValidationSchema,
+    resetPasswordValidationSchema,
+    contactValidationSchema,
+  };
+}
