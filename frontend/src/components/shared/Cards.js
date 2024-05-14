@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
 import { Link } from 'react-router-dom';
-function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation ,onDelete}) {
+function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation }) {
     const [anchorEl, setAnchorEl] = useState(null);
  
     const open = Boolean(anchorEl);
