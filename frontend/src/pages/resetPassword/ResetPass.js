@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
-import { resetPasswordValidationSchema } from '../../components/validation/validation';
-
+import { useTranslation } from 'react-i18next';
+import { useValidations } from '../../components/validation/validation';
 
 
 const ResetPassword = () => {
+  const {resetPasswordValidationSchema}=useValidations();
   const initialValues = {
     email: '',
   };
@@ -16,13 +17,13 @@ const ResetPassword = () => {
     resetForm();
     setSubmitting(false);
   };
-
+  const {t}=useTranslation();
   return (
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
 
-        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Reset your password </Typography>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> {t("resetYourPassword")}</Typography>
 
         <Formik
           initialValues={initialValues}
@@ -35,7 +36,7 @@ const ResetPassword = () => {
                 name="email"
                 as={TextField}
                 id="email"
-                label="Email"
+                label={t("email")}
                 autoComplete="email"
                 type="email"
                 required
@@ -53,15 +54,16 @@ const ResetPassword = () => {
                 color="primary"
                 sx={{ mt: 2 }}
               >
-                Reset Password
+                {t("resetPassword")}
               </Button>
               <Box height={20} />
 
               <Grid container>
                 <Grid item xs>
-                  <Link to='/login' variant="body2">
-                    Back to login
-                  </Link>
+                <Link to='/login' variant="body2">
+
+                {t("backToLogin")}       
+                </Link>           
                 </Grid>
               </Grid>
 
