@@ -4,7 +4,7 @@ import bookImage from './Frame_129.png';
 import EditIcon from '@mui/icons-material/Edit';
 import { editPostValidationSchema } from '../../components/validation/validation';
 import { useFormik } from 'formik';
-import InputsComponent from '../../components/shared/Inputs';
+import InputsComponent from '../../components/shared/PostInfo.js';
 
 const EditPost = () => {
     const initialValues = {
