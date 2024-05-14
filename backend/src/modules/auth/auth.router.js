@@ -9,6 +9,4 @@ router.post('/signup',validation(signupschema) ,asyncHandler(AuthConroller.signu
 
 router.post('/signin',validation(signinschema) ,asyncHandler(AuthConroller.login))
 
-//router.get('/confirmEmail/:token',asyncHandler(AuthConroller.confirmEmail))
-
 export default router ; 

@@ -2,65 +2,55 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userModel from '../../db/models/user.model';
 
-const createToken = (payLoad) => {
-    return jwt.sign({ id: payLoad }, process.env.JWT_SECRET_KEY, { 
-        expiresIn: process.env.JWT_EXPIRE_TIME});
-}
 export const register = async (req, res) => {
     try {
         const {
+            firstname,
+            lastname, 
             email,
             studentID,
             password,
         } = req.body;
 
-        const existingUser = await userModel.findOne({ studentID: studentID });
-        if (!existingUser) {
-            return res.status(404).json({ message: "User does not exist" });
-        }
-
-        if (!existingUser.isRegistered) {
-            return res.status(403).json({ message: "User is not registered" });
+        const existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists with this email" });
         }
 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = await userModel.create({
+            firstname,
+            lastname, 
             email,
             studentID,
             password: passwordHash,
-            isRegistered: true
+            isRegistered: true,
         });
 
         if (!newUser) {
             return res.status(500).json({ message: "Error creating user" });
         }
 
-        const token =  createToken(email)  
-        //const refreshToken = await jwt.sign({ email }, process.env.CONFEMAILTOKEN, {expiresIn: 1h})
-        sendEmail(email, "Welcome", token);
-        return res.status(201).json({ message: "User created successfully", user: newUser });
+        res.status(201).json(newUser);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
+
 export const login = async (req, res) => {
     try {
-        const {
-            studentID,
-            password
-        } = req.body;
+        const { identifier, password } = req.body;
 
-        const user = await userModel.findOne({ studentID: studentID });
+        const user = await userModel.findOne({ 
+            $or: [{ email: identifier }, { studentID: identifier }]
+        });
+
         if (!user) {
             return res.status(404).json({ message: 'User does not exist' });
-        }
-
-        if (!user.isRegistered) {
-            return res.status(403).json({ message: 'User is not registered' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -68,12 +58,20 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = createToken(studentID);
-        
-        delete user.password;
-        res.status(200).json({ message: "Success", token });
+       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });      
+       delete user.password;
 
+        res.status(200).json({ 
+            message: "Success", 
+            token,
+            user: {
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                studentID: user.studentID
+            }
+        });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };

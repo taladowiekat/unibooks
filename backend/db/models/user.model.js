@@ -11,7 +11,11 @@ const userSchema = new Schema({
      profilePicture: {
         type: Object       
     },
-    name: {
+    firstname: {
+        type: String,
+        required: true
+    },
+    lasttname: {
         type: String,
         required: true
     },
@@ -31,10 +35,6 @@ const userSchema = new Schema({
         max: 30
     },
 
-    isRegistered: {
-        type: Boolean,
-        default: false
-    },
     role: {
         type: string,
         enum: ['user','admin'],
