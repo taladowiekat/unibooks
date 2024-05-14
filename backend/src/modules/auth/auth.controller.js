@@ -26,7 +26,6 @@ export const register = async (req, res) => {
             email,
             studentID,
             password: passwordHash,
-            isRegistered: true,
         });
 
         if (!newUser) {

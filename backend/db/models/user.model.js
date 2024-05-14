@@ -1,4 +1,3 @@
-import { string } from 'joi';
 import mongoose from 'mongoose';
 
 const { Schema, model } = mongoose;
@@ -6,7 +5,8 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema({
     studentID: {
         type: String,
-        required: true,        
+        required: true,   
+        unique: true     
     },
      profilePicture: {
         type: Object       
@@ -15,7 +15,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    lasttname: {
+    lastname: {
         type: String,
         required: true
     },
@@ -36,14 +36,14 @@ const userSchema = new Schema({
     },
 
     role: {
-        type: string,
+        type: String,
         enum: ['user','admin'],
         default: 'user'
     }, gender: {
         type: String,
         enum: ["Male", "Female"],}
         
-},{_id:false}, { timestamps: true });
+},{ timestamps: true });
 
 
 const userModel = model('User', userSchema);
