@@ -3,6 +3,7 @@ import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton,
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useValidations } from '../../components/validation/validation';
+import { signInValidationSchema } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
 const LogIn = () => {
   const {signInValidationSchema}=useValidations();
@@ -22,7 +23,6 @@ const LogIn = () => {
     <Container maxWidth='sm'sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
-        <Paper elevation={3} style={{ padding: 20 }}>
 
         <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
 
@@ -103,7 +103,6 @@ const LogIn = () => {
             </Form>
           )}
         </Formik>
-        </Paper>
       </Box>
     </Container>
   );
