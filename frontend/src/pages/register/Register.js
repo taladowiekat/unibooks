@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography, Button, InputAdornment, IconButton, TextField, Box,Paper } from '@mui/material';
+import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
 const Register = () => {
-  const { signUpValidationSchema } = useValidations()
+  const {signUpValidationSchema}=useValidations()
   const initialValues = {
     universityId: '',
     email: '',
@@ -13,11 +13,13 @@ const Register = () => {
     confirmPassword: '',
     currentPassword: '45688455' //To make it always valid
   };
-  const { t } = useTranslation();
+  const {t}=useTranslation();
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     resetForm();
     setSubmitting(false);
   };
+  
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -25,10 +27,9 @@ const Register = () => {
   return (
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
-      <Box sx={{ height: '50px' }} />
+        <Box sx={{ height: '100px' }} />
 
-      <Paper elevation={3} style={{ padding: 20 }}>
-              <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signUp")}</Typography>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signUp")}</Typography>
 
         <Formik
           initialValues={initialValues}
@@ -127,8 +128,8 @@ const Register = () => {
 
               <Grid container>
                 <Grid item>
-                  <Link to="/LogIn" variant="body2">
-                    {t("signUpSubTextOne")}
+                     <Link to="/LogIn" variant="body2">
+                     {t("signUpSubTextOne")}
                   </Link>
                 </Grid>
               </Grid>
@@ -136,7 +137,6 @@ const Register = () => {
             </Form>
           )}
         </Formik>
-        </Paper>
       </Box>
     </Container>
   );

@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
-import { Container, Grid, Paper, Typography, Button, TextField, Box } from '@mui/material';
+import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
+
 
 const ResetPassword = () => {
   const {resetPasswordValidationSchema}=useValidations();
@@ -21,7 +22,6 @@ const ResetPassword = () => {
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
-        <Paper elevation={3} style={{ padding: 20 }}>
 
         <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> {t("resetYourPassword")}</Typography>
 
@@ -70,7 +70,6 @@ const ResetPassword = () => {
             </Form>
           )}
         </Formik>
-        </Paper>
       </Box>
     </Container>
   );
