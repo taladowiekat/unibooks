@@ -1,6 +1,6 @@
 import cors from "cors";
 import dbconnection from '../db/connection.js'
-import postsRouter from './modules/post/post.router.js'
+
 const initApp = (app, express) => {
 
     dbconnection()
@@ -15,7 +15,7 @@ const initApp = (app, express) => {
 
     //all routers
 
-    app.use('/posts', postsRouter);
+
 
 
     app.use("*", (req, res) => {
