@@ -4,7 +4,8 @@ const { Schema, model } = mongoose;
 
 const postSchema = new Schema({
     studentID: {
-        type: Schema.Types.ObjectId, ref: 'User',
+        type: Schema.Types.ObjectId,
+        ref: 'User',
     },
     bookImage: {
         type: String,
@@ -30,7 +31,7 @@ const postSchema = new Schema({
     },
     slug: {
         type: String,
-        name:'slug'
+        required:true
     },
 
 }, { timestamps: true });
