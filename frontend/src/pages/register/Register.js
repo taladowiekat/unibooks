@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
-import { signUpValidationSchema } from '../../components/validation/validation.js';
-
-
+import { useTranslation } from 'react-i18next';
+import { useValidations } from '../../components/validation/validation';
 const Register = () => {
+  const {signUpValidationSchema}=useValidations()
   const initialValues = {
     universityId: '',
     email: '',
@@ -13,7 +13,7 @@ const Register = () => {
     confirmPassword: '',
     currentPassword: '45688455' //To make it always valid
   };
-
+  const {t}=useTranslation();
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     resetForm();
     setSubmitting(false);
@@ -29,7 +29,7 @@ const Register = () => {
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
 
-        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Sign Up </Typography>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signUp")}</Typography>
 
         <Formik
           initialValues={initialValues}
@@ -44,7 +44,7 @@ const Register = () => {
                 name="universityId"
                 as={TextField}
                 id="universityId"
-                label="University ID"
+                label={t("universityId")}
                 required
                 fullWidth
                 error={touched.universityId && Boolean(errors.universityId)}
@@ -57,7 +57,7 @@ const Register = () => {
                 name="email"
                 as={TextField}
                 id="email"
-                label="Email"
+                label={t("email")}
                 autoComplete="email"
                 type="email"
                 required
@@ -72,7 +72,7 @@ const Register = () => {
                 name="password"
                 as={TextField}
                 id="password"
-                label="Password"
+                label={t("password")}
                 autoComplete="current-password"
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -96,7 +96,7 @@ const Register = () => {
                 name="confirmPassword"
                 as={TextField}
                 id="confirmPassword"
-                label="Confirm Password"
+                label={t("confirmPassword")}
                 autoComplete="new-password"
                 type={showConfirmPassword ? 'text' : 'password'}
                 required
@@ -121,15 +121,15 @@ const Register = () => {
                 sx={{ mt: 2 }}
                 disabled={!isValid}
               >
-                Create Account
+                {t("createAccount")}
               </Button>
 
               <Box height={20} />
 
               <Grid container>
                 <Grid item>
-                  <Link to="/LogIn" variant="body2">
-                    Already have an account? Sign in
+                     <Link to="/LogIn" variant="body2">
+                     {t("signUpSubTextOne")}
                   </Link>
                 </Grid>
               </Grid>

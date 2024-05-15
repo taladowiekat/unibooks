@@ -1,7 +1,8 @@
 // imports
 import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
 import { Formik, Form, Field } from "formik";
-import { signUpValidationSchema } from "../../components/validation/validation";
+import { useTranslation } from 'react-i18next';
+import { useValidations } from '../../components/validation/validation';
 
 // function
 const modalStyle = {
@@ -17,6 +18,7 @@ const modalStyle = {
 };
 
 const RecoveryPopup = ({ open, handleClose }) => {
+  const {signUpValidationSchema}=useValidations();
   const initialValues = {
     currentPassword: "",
     password: "",
@@ -26,6 +28,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
   const handleSubmit = () => {
     // if current password matches with user, change password in database
   };
+  const {t}=useTranslation();
 
   return (
     <Modal
@@ -47,7 +50,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   name="currentPassword"
                   as={TextField}
                   id="currentPassword"
-                  label="Current Password"
+                  label={t("currentPassword")}
                   variant="filled"
                   type="password"
                   fullWidth
@@ -64,7 +67,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   name="password"
                   as={TextField}
                   id="password"
-                  label="New Password"
+                  label={t("newPassword")}
                   variant="outlined"
                   type="password"
                   fullWidth
@@ -77,7 +80,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   name="confirmPassword"
                   as={TextField}
                   id="confirmPassword"
-                  label="Confirm Password"
+                  label={t("confirmPassword")}
                   variant="outlined"
                   type="password"
                   fullWidth
@@ -91,7 +94,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   }
                 />
                 <Link href="#" underline="none">
-                  Forgot Password?
+                  {t("forgotPassword")}
                 </Link>
                 <Box display="flex" justifyContent="space-between">
                   <Button
@@ -99,7 +102,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                     color="secondary"
                     onClick={handleClose}
                   >
-                    Cancel
+                    {t("cancelbutton")}
                   </Button>
                   <Button
                     variant="contained"
@@ -107,7 +110,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    Confirm
+                    {t("confirmButton")}
                   </Button>
                 </Box>
               </Box>
