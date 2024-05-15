@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import {
     TextField,
@@ -10,9 +11,10 @@ import {
     Container,
     Grid,
 } from '@mui/material';
-import CreatePostButton from '../../components/web/createPost/CreatePostButton.js'
+import CreatePostButton from '../../components/web/createPost/CreatePostButton.js';
 import PostCard from '../../components/shared/Cards.js';
 
+    
 const Posts = () => {
     const [category, setCategory] = useState('');
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -20,7 +22,7 @@ const Posts = () => {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
     };
-
+    const {t}=useTranslation();
     const postsData = [
         {
             id: 1,
@@ -52,42 +54,6 @@ const Posts = () => {
         {
             id: 4,
             userAvatar: 'ProfilePic.jpg',
-            userName: 'Frank',
-            bookName: 'Introduction to Algorithms',
-            type: 'exchange',
-            typeoperation: 'exchange',
-            image: 'algorithms.png',
-        },
-        {
-            id: 5,
-            userAvatar: 'ProfilePic.jpg',
-            userName: 'Grace',
-            bookName: 'Artificial Intelligence: A Modern Approach',
-            type: 'donate',
-            typeoperation: 'donate',
-            image: 'artificialintelligence.png',
-        },
-        {
-            id: 6,
-            userAvatar: 'ProfilePic.jpg',
-            userName: 'Henry',
-            bookName: 'Principles of Economics',
-            type: 'exchange',
-            typeoperation: 'exchange',
-            image: 'economics.png',
-        },
-        {
-            id: 7,
-            userAvatar: 'ProfilePic.jpg',
-            userName: 'Isaac',
-            bookName: 'The C Programming Language',
-            type: 'sell',
-            typeoperation: 'sell',
-            image: 'cprogramming.png',
-        },
-        {
-            id: 8,
-            userAvatar: 'ProfilePic.jpg',
             userName: 'Jane',
             bookName: 'Machine Learning Yearning',
             type: 'sell',
@@ -95,7 +61,7 @@ const Posts = () => {
             image: 'machinelearning.png',
         },
         {
-            id: 9,
+            id: 5,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Kevin',
             bookName: 'The Lean Startup',
@@ -104,7 +70,7 @@ const Posts = () => {
             image: 'leanstartup.png',
         },
         {
-            id: 10,
+            id: 6,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Lily',
             bookName: 'Fundamentals of Physics',
@@ -113,7 +79,7 @@ const Posts = () => {
             image: 'physics.png',
         },
         {
-            id: 11,
+            id: 7,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Max',
             bookName: 'The Art of War',
@@ -122,7 +88,7 @@ const Posts = () => {
             image: 'artofwar.png',
         },
         {
-            id: 12,
+            id: 8,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Nathan',
             bookName: 'Data Science for Business',
@@ -131,7 +97,7 @@ const Posts = () => {
             image: 'datascience.png',
         },
         {
-            id: 13,
+            id: 9,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Olivia',
             bookName: 'Think and Grow Rich',
@@ -140,7 +106,7 @@ const Posts = () => {
             image: 'thinkandgrowrich.png',
         },
         {
-            id: 14,
+            id: 10,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Peter',
             bookName: 'The Innovator\'s Dilemma',
@@ -149,7 +115,7 @@ const Posts = () => {
             image: 'innovatorsdilemma.png',
         },
         {
-            id: 15,
+            id: 11,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Quinn',
             bookName: 'The Design of Everyday Things',
@@ -158,7 +124,7 @@ const Posts = () => {
             image: 'designofeveryday.png',
         },
         {
-            id: 16,
+            id: 12,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Rachel',
             bookName: 'Rich Dad Poor Dad',
@@ -167,7 +133,7 @@ const Posts = () => {
             image: 'richdadpoordad.png',
         },
         {
-            id: 17,
+            id: 13,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Sam',
             bookName: 'The Elements of Style',
@@ -176,7 +142,7 @@ const Posts = () => {
             image: 'elementsofstyle.png',
         },
         {
-            id: 18,
+            id: 14,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Tom',
             bookName: 'Thinking, Fast and Slow',
@@ -185,7 +151,7 @@ const Posts = () => {
             image: 'thinkingfastslow.png',
         },
         {
-            id: 19,
+            id: 15,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Uma',
             bookName: 'The Lean Startup',
@@ -194,7 +160,7 @@ const Posts = () => {
             image: 'leanstartup.png',
         },
         {
-            id: 20,
+            id: 16,
             userAvatar: 'ProfilePic.jpg',
             userName: 'Victor',
             bookName: 'Blockchain Basics',
@@ -202,6 +168,7 @@ const Posts = () => {
             typeoperation: 'sell',
             image: 'blockchainbasics.png',
         }
+
     ];
     
 
@@ -221,7 +188,7 @@ const Posts = () => {
             <CreatePostButton />
             <Box sx={{ display: 'flex', gap: '1rem', width: '100%' , mt : '10px' }}>
                 <TextField
-                    placeholder="Article name or keywords..."
+                    placeholder={t("search2")}
                     variant="outlined"
                     onChange={handleSearchChange}
                     InputProps={{
@@ -248,10 +215,10 @@ const Posts = () => {
                         '& .MuiOutlinedInput-input': { py: '10px' },
                     }}
                 >
-                    <MenuItem value="">All categories</MenuItem>
-                    <MenuItem value="slides">Slides</MenuItem>
-                    <MenuItem value="university_books">Compulsory university books</MenuItem>
-                    <MenuItem value="specialty_books">Compulsory specialty books</MenuItem>
+                    <MenuItem value="">{t("allCategories")}</MenuItem>
+                    <MenuItem value="slides">{t("slides")}</MenuItem>
+                    <MenuItem value="university_books">{t("compulsoryUniversityBooks")}</MenuItem>
+                    <MenuItem value="specialty_books">{t("compulsorySpecialtyBooks")}</MenuItem>
                 </Select>
                 <Button
                     variant="contained"
@@ -263,7 +230,7 @@ const Posts = () => {
                         '&:hover': { backgroundColor: '#555' },
                     }}
                 >
-                    Search
+                    {t("Search")}
                 </Button>
             </Box>
             <Grid container spacing={2} justifyContent="center">
@@ -281,7 +248,7 @@ const Posts = () => {
                                     bookName={post.bookName}
                                     bookType={post.type}
                                     image={post.image}
-                                    typeoperation={post.typeoperation}
+                                    typeoperation={t(`typeoperation.${post.typeoperation}`)}
                                 />
                             </div>
                         </Grid>

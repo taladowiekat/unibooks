@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
+import { useValidations } from '../../components/validation/validation';
 import { signInValidationSchema } from '../../components/validation/validation';
-
+import { useTranslation } from 'react-i18next';
 const LogIn = () => {
+  const {signInValidationSchema}=useValidations();
   const initialValues = {
     emailOrUniversityId: '',
     password: ''
@@ -16,13 +18,13 @@ const LogIn = () => {
   };
   
   const [showPassword, setShowPassword] = useState(false);
-
+  const {t}=useTranslation();
   return (
     <Container maxWidth='sm'sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
 
-        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Sign In </Typography>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
 
         <Formik
           initialValues={initialValues}
@@ -35,7 +37,7 @@ const LogIn = () => {
                 name="emailOrUniversityId"
                 as={TextField}
                 id="emailOrUniversityId"
-                label="Email or University ID"
+                label={t("EmailOrUniversityID")}
                 autoComplete="email"
                 type="email"
                 required
@@ -48,7 +50,7 @@ const LogIn = () => {
                 name="password"
                 as={TextField}
                 id="password"
-                label="Password"
+                label={t("Password")}
                 autoComplete="current-password"
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -77,7 +79,7 @@ const LogIn = () => {
                 to="/createPost"
                 disabled={!isValid}
               >
-                Login
+                {t("loginButton")}
               </Button>
               <Box height={20} />
 
@@ -85,13 +87,13 @@ const LogIn = () => {
 
                 <Grid item xs={5.5}>
                   <Link to="/resetPass" variant="body2">
-                    Forgot password?
+                    {t("forgotPassword")}
                   </Link>
                 </Grid>
 
                 <Grid item xs={6}>
                   <Link to="/register" variant="body2">
-                    Don't have an account? Sign Up
+                    {t("loginSubTextOne")}
                   </Link>
                 </Grid>
 

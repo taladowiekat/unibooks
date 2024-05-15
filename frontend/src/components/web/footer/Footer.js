@@ -4,8 +4,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import EmailIcon from '@mui/icons-material/Email';
-
+import { useTranslation } from 'react-i18next';
 const Footer = () => {
+    const {t}=useTranslation();
     return (
 
         <Box 
@@ -13,6 +14,7 @@ const Footer = () => {
                 width: '100%',
                 mt:'20rem',
             }}>
+
                 <hr  />
                 <Grid container alignItems='center'>
                     <Grid item xs={12} md={6}>
