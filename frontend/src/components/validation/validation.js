@@ -7,15 +7,13 @@ export const createPostValidationSchema = yup.object({
   listingType: yup.string().required('Listing type is required'),
   image: yup
     .mixed().required('Required!')
-      .test('FILE_TYPE','Invalid!',(value) => value && ['image/png','image/jpeg'].includes(value.type))
-      .test('FILE_SIZE','Too big!',(value) => value && value.size < 10* mb)
+    .test('FILE_TYPE', 'Invalid!', (value) => value && ['image/png', 'image/jpeg'].includes(value.type))
+    .test('FILE_SIZE', 'Too big!', (value) => value && value.size < 10 * mb)
 });
 export const editPostValidationSchema = yup.object({
   bookName: yup.string().required('Book name is required'),
   listingType: yup.string().required('Listing type is required'),
 });
-
-    
 
 export const signInValidationSchema = yup.object().shape({
   emailOrUniversityId: yup.string()
@@ -24,7 +22,7 @@ export const signInValidationSchema = yup.object().shape({
   password: yup.string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters long')
-    .max(30, 'Password must be at most 30 characters long')    
+    .max(30, 'Password must be at most 30 characters long')
 });
 
 export const signUpValidationSchema = yup.object().shape({
@@ -44,4 +42,10 @@ export const contactValidation = yup.object({
   phoneNumber: yup.string().matches(/^(05[02469]\d{7})$/, "Invalid Phpne Number").required("Please Enter Phone Number"),
   email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email ').required('Please Enter Email'),
   message: yup.string().required("Please Enter Message")
-  });
+});
+
+export const recoveryValidationSchema = yup.object().shape({
+  currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Enter your password"),
+  newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+  confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
+});
