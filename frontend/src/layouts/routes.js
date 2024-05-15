@@ -4,6 +4,8 @@ import Layout from './Layout.js';
 import Login from '../pages/logIn/LogIn.js';
 import Register from '../pages/register/Register.js';
 import Posts from '../components/web/AllPosts/Posts.js';
+import PostDetails from '../pages/postdetails/PostDetails.js';
+import EditPost from '../pages/editPost/EditPost.js';
 
 
 
@@ -28,5 +30,9 @@ export const router = createBrowserRouter([
         {
             path: 'allPosts',
             element: <Posts/>
-        }]}
+        }
+    ,{
+        path:'editPost/:postId',
+        element: <EditPost/>
+    }]}
 ]);
