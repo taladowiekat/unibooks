@@ -1,4 +1,3 @@
-// useValidations.js
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
