@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 
-function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation }) {
+function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation, onChatClick }) {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: '1rem', flexDirection: 'column' }}>
             <Card sx={{ maxWidth: 360, borderRadius: '16px', boxShadow: 3 }}>
@@ -29,8 +29,8 @@ function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperati
                     <Typography variant="body2" color="text.secondary">
                         {bookName} / {bookType}
                     </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                        <IconButton color="primary" sx={{ mr: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }} >
+                        <IconButton color="primary" sx={{ mr: 1 }} onClick={onChatClick}>
                             <ChatIcon />
                         </IconButton>
                         <Button variant="contained" sx={{ backgroundColor: 'black' }}>
