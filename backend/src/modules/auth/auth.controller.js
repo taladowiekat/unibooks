@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userModel from '../../db/models/user.model';
+import asyncHandler from 'express-async-handler';
 
-export const signup = async (req, res) => {
+export const signup = asyncHandler(async (req, res) => {
         const {
             firstname,
             lastname, 
@@ -34,10 +35,10 @@ export const signup = async (req, res) => {
         res.status(201).json(newUser);
 
     
-};
+});
 
 
-export const signin = async (req, res) => {
+export const signin = asyncHandler(async (req, res) => {
         const { identifier, password } = req.body;
 
         const user = await userModel.findOne({ 
@@ -66,4 +67,4 @@ export const signin = async (req, res) => {
                 studentID: user.studentID
             }
         });
-};
+});
