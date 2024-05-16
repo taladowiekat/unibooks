@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 const LogIn = () => {
   const {signInValidationSchema}=useValidations();
   const initialValues = {
-    emailOrUniversityId: '',
+    emailOrstudentID: '',
     password: ''
   };
 
@@ -34,16 +34,16 @@ const LogIn = () => {
           {({ errors, touched, isValid }) => (
             <Form>
               <Field
-                name="emailOrUniversityId"
+                name="emailOrstudentID"
                 as={TextField}
-                id="emailOrUniversityId"
-                label={t("EmailOrUniversityID")}
+                id="emailOrstudentID"
+                label={t("EmailOrstudentID")}
                 autoComplete="email"
                 type="email"
                 required
                 fullWidth
-                error={touched.emailOrUniversityId && Boolean(errors.emailOrUniversityId)}
-                helperText={touched.emailOrUniversityId && errors.emailOrUniversityId}
+                error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
+                helperText={touched.emailOrstudentID && errors.emailOrstudentID}
               />
               <Box sx={{ height: '30px' }} />
               <Field
@@ -77,7 +77,6 @@ const LogIn = () => {
                 style={{ marginTop: 20 }}
                 component={Link}
                 to="/createPost"
-                disabled={!isValid}
               >
                 {t("loginButton")}
               </Button>

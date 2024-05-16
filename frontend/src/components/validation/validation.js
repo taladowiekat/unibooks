@@ -32,7 +32,7 @@ export function useValidations() {
 
   // Validation schema for signing in
   const signInValidationSchema = yup.object({
-    emailOrUniversityId: yup.string()
+    emailOrstudentID: yup.string()
       .matches(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/, t('invalidEmailOrUniversityId'))
       .required(t('emailOrUniversityIdIsRequired')),
     password: yup.string()
@@ -43,15 +43,14 @@ export function useValidations() {
 
   // Validation schema for signing up
   const signUpValidationSchema = yup.object({
-    universityId: yup.string()
+    firstname : yup.string().required(t('firstnameRequired')),
+    lastname : yup.string().required(t('lastnameRequired')),
+    studentID: yup.string()
       .matches(/^\d{8}$/, t('invalidUniversityIdFormat'))
       .required(t('universityIdRequired')),
     email: yup.string()
       .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
       .required(t('emailIsRequired')),
-    currentPassword: yup.string()
-      .min(6, t('passwordTooShort'))
-      .required(t('passwordRequired')),
     password: yup.string()
       .required(t('passwordRequired'))
       .min(6, t('passwordTooShort'))
@@ -59,6 +58,7 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
+      image: yup.mixed().required(t('imageRequired'))
   });
 
   // Validation schema for resetting password
