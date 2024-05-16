@@ -21,18 +21,7 @@ const userSchema = new Schema({
     },
     college: {
         type: String,
-        required: true,
-        enum: [
-        "Faculty of Agriculture and Veterinary Medicine",
-        "Faculty of Business and Communication",
-        "Faculty of Engineering and Information",
-        "Faculty of Fine Arts",
-        "Faculty of Medicine and Health Sciences",
-        "Faculty of Law and Political Sciences",
-        "Faculty of Humanities and Educational Sciences",
-        "Faculty of Science",
-        "Faculty of Shari'ah"
-        ]
+        required: true
     },
     email: {
         type: String,
@@ -45,16 +34,15 @@ const userSchema = new Schema({
         min: 6,
         max: 30
     },
-     gender: {
-        type: String,
-        required: true,
-        enum: ["Male", "Female"]
-    },
+
     role: {
         type: String,
         enum: ['user','admin'],
         default: 'user'
-    }   
+    }, gender: {
+        type: String,
+        enum: ["Male", "Female"],}
+        
 },{ timestamps: true });
 
 
