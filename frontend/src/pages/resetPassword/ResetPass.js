@@ -50,7 +50,6 @@ const ResetPassword = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
-                disabled={!isValid}
                 color="primary"
                 sx={{ mt: 2 }}
               >
