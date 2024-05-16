@@ -47,7 +47,7 @@ function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperati
     </MenuItem>
     <MenuItem onClick={handleClose}>
         <Button sx={{ color: "black" }}>
-            {<DeleteIcon sx={{ color: "black", marginRight:"20%", }}/>}
+            {<DeleteIcon sx={{ color: "black", marginRight:"20%" }}/>}
             {t("deleteButton")}
         </Button>
     </MenuItem>
