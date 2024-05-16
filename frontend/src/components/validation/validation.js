@@ -49,3 +49,8 @@ export const recoveryValidationSchema = yup.object().shape({
   newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
   confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
 });
+
+export const profileValidationSchema = yup.object().shape({
+  email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
+  password: yup.string("Enter your password").required("Enter your password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+})
