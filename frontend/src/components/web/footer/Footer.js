@@ -20,7 +20,7 @@ const Footer = () => {
                     <Grid item xs={12} md={6}>
                         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1 }}>
                             <img src='Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO' style={{ maxHeight: '45px' }} />
-                            <Typography variant="subtitle1" sx={{ ml: 2 }}>SELL, EXCHANGE, DONATE</Typography>
+                            <Typography variant="subtitle1" sx={{ ml: 2 }}>{t("SELLEXCHANGEDONATE")}</Typography>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-end' } }}>

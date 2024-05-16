@@ -180,7 +180,7 @@ resources:{
           allPosts: "جميع المنشورات",
           signUp: "سجل",
           signIn: "تسجيل الدخول",
-          SELLEXCHANGEDONATE      :"بيع، استبدال، تبرع",
+          SELLEXCHANGEDONATE:"بيع، استبدال، تبرع",
           Required: "مطلوب",
           allCategories: "جميع الفئات",
           slides: "الشرائح",
