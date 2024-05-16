@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userModel from '../../db/models/user.model';
-import asyncHandler from 'express-async-handler';
 
-export const signup = asyncHandler(async (req, res) => {
+export const signup = async (req, res) => {
+    try {
         const {
             firstname,
             lastname, 
@@ -34,11 +34,14 @@ export const signup = asyncHandler(async (req, res) => {
 
         res.status(201).json(newUser);
 
-    
-});
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
 
-export const signin = asyncHandler(async (req, res) => {
+export const signin = async (req, res) => {
+    try {
         const { identifier, password } = req.body;
 
         const user = await userModel.findOne({ 
@@ -67,4 +70,7 @@ export const signin = asyncHandler(async (req, res) => {
                 studentID: user.studentID
             }
         });
-});
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
