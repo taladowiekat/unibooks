@@ -15,12 +15,12 @@ export function useValidations() {
       .required(t('Required'))
       .test(
         'FILE_TYPE',
-        t('invalidFileType!'),
+        t('invalidFileType'),
         value => value && ['image/png', 'image/jpeg'].includes(value.type)
       )
       .test(
         'FILE_SIZE',
-        t('fileSizeTooBig!'),
+        t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
   });

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import   ChangeLanguageButton from '../../i18next/changeLangugeButton'
 import {
     Box, AppBar, Toolbar, Button,
     Divider, Typography, MenuItem, Drawer,
@@ -44,8 +45,14 @@ function Navbar() {
                                        {t ("contactUs")}
                                     </Typography>
                                 </MenuItem>
+                              
                             </Box>
                         </Box>
+                        <MenuItem>
+    <Button variant="text" color="primary" onClick={toggleDrawer(false)}>
+        <ChangeLanguageButton  />
+    </Button>
+</MenuItem>
                         <Box
                             sx={{
                                 display: { xs: 'none', md: 'flex' },

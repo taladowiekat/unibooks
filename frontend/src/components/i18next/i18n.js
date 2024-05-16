@@ -2,7 +2,6 @@ import i18n from 'i18next'
 import LanguageDetector from'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-
 i18n.use(LanguageDetector).use(initReactI18next).init({
 debug:true,
 lng:"arabic",
@@ -109,7 +108,12 @@ resources:{
               editButton:" Edit",
               deleteButton:" Delete",
               createPostTypography:"     Provide your post details",
-              uploadImage:"Upload Image"
+              uploadImage:"Upload Image",
+              
+                
+                Arabic:" Arabic",
+              English :" English"
+             
                 }
     
     },
@@ -177,7 +181,7 @@ resources:{
             signUp: "سجل",
             signIn: "تسجيل الدخول",
             SELLEXCHANGEDONATE      :"بيع، استبدال، تبرع",
-           
+            Required: "مطلوب",
           allCategories: "جميع الفئات",
           slides: "الشرائح",
           compulsoryUniversityBooks: "الكتب الجامعية الإلزامية",
@@ -215,13 +219,24 @@ typeoperation: {
 editButton:" تعديل",
 deleteButton:" حذف",
 createPostTypography: "قدم تفاصيل منشورك",
-uploadImage:"قم بتحميل الصورة "
+uploadImage:"قم بتحميل الصورة ",
+invalidFileType: "نوع ملف غير صالح!",
+fileSizeTooBig:  "حجم الملف كبير جداً!",
+
+  Arabic:" اللغة العربية ",
+English :" اللغة الانجليزية"
 
                 }
     }
 
+,
+
+
+
+
+
 },
 
-  }
+  },
 
 )
