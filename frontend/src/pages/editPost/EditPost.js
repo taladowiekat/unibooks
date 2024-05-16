@@ -28,8 +28,15 @@ const EditPost = () => {
         validationSchema: editPostValidationSchema,
     });
     const handleUploadClick = (event) => {
-            formik.setFieldValue('selectedFile', event.currentTarget.files[0]);
+        const file = event.currentTarget.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                formik.setFieldValue('selectedFile', reader.result);
+            };
+            reader.readAsDataURL(file);
         }
+    };
     
     return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
@@ -61,9 +68,9 @@ const EditPost = () => {
                     </label>
                 </Box>
                 <CardMedia
-                    component="img"
-                    image={formik.values.selectedFile ? URL.createObjectURL(formik.values.selectedFile) : bookImage}
-                    sx={{ minHeight: '20vh', maxWidth: '90%', marginLeft: '5%' }}
+                   component="img"
+                   src={formik.values.selectedFile || bookImage}
+                   sx={{ minHeight: '20vh', maxWidth: '90%', marginLeft: '5%' }}
                 />
 
                 <form
