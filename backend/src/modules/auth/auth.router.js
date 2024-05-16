@@ -7,6 +7,6 @@ import asyncHandler from 'express-async-handler';
 const authRouter = Router();
 
 authRouter.post('/signup',validation(signupschema) ,asyncHandler(AuthConroller.signup))
-authRouter.post('/signin',validation(signinschema) ,asyncHandler(AuthConroller.login))
+authRouter.post('/signin',validation(signinschema) ,asyncHandler(AuthConroller.signin))
 
 export default authRouter ; 
