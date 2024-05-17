@@ -4,6 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+
 const LogIn = () => {
   const {signInValidationSchema}=useValidations();
   const initialValues = {
@@ -11,9 +13,20 @@ const LogIn = () => {
     password: ''
   };
 
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
-    resetForm();
+  const onSubmit = async(values, { setSubmitting }) => {
+    console.log('hhhhh')
+    try{
+      const { data } = await axios.post('http://localhost:3000/auth/signin', {
+        identifier:values.emailOrstudentID,
+        password:values.password
+          });
+        console.log(data);
+        console.log('ghlkhk')
+    }catch(error){
+      console.log("error: ", error);
+    }finally{
     setSubmitting(false);
+    }
   };
   
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +44,7 @@ const LogIn = () => {
           onSubmit={onSubmit}
           validationSchema={signInValidationSchema}
         >
-          {({ errors, touched, isValid }) => (
+          {({ errors, touched }) => (
             <Form>
               <Field
                 name="emailOrstudentID"
@@ -39,7 +52,6 @@ const LogIn = () => {
                 id="emailOrstudentID"
                 label={t("EmailOrstudentID")}
                 autoComplete="email"
-                type="email"
                 required
                 fullWidth
                 error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
@@ -75,8 +87,6 @@ const LogIn = () => {
                 variant="contained"
                 fullWidth
                 style={{ marginTop: 20 }}
-                component={Link}
-                to="/createPost"
               >
                 {t("loginButton")}
               </Button>
