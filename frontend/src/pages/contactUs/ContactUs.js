@@ -1,23 +1,25 @@
 import React, { useRef } from 'react';
 import { Container, Typography, Box, Button, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
-import { contactValidation } from '../../components/validation/validation.js';
+import { useValidations } from '../../components/validation/validation';
 import emailjs from '@emailjs/browser';
-
+import { useTranslation } from 'react-i18next';
 const ContactUs = () => {
+    const {contactValidationSchema}=useValidations();
 const form = useRef(); 
-
+const {t}=useTranslation();
+   
 const sendEmail = (values, { resetForm }) => {
     emailjs
     .sendForm('1', '1', form.current, 'FGH6FuDi0f-4TkC4G') 
     .then(
         () => {
-        alert("Your message has been sent successfully!"); 
-        resetForm();
+            alert(t("contactUsSuccessfullAlert")); 
+            resetForm();
         },
         (error) => {
-        console.log('Failed to send message:', error.text);
-        alert("There was an error sending your message. Please try again later."); 
+            console.log('Failed to send message:', error.text);
+            alert(t("contactUsErrorAlert")); 
         }
     );
 };
@@ -33,15 +35,15 @@ return (
     <Container maxWidth="sm">
     <Box sx={{ marginTop: 8, flexDirection: 'column' }}>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '2rem' }}>
-        Contact Us
+{t("contactUs")}
         </Typography>
         <Typography>
-        If you encounter any problems or have suggestions, please feel free to contact us.
+     {t( "contactUsTypography")}
         </Typography>
 
         <Formik
         initialValues={initialValues}
-        validationSchema={contactValidation} 
+        validationSchema={contactValidationSchema} 
         onSubmit={sendEmail}
         >
         {({ errors, touched }) => (
@@ -49,7 +51,7 @@ return (
             <Field
                 as={TextField}
                 fullWidth
-                label="Name"
+                label={t( "nameOfTheSender")}
                 name="name"
                 error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
@@ -58,7 +60,7 @@ return (
             <Field
                 as={TextField}
                 fullWidth
-                label="Phone Number"
+                label={t( "senderPhoneNumber")}
                 name="phoneNumber"
                 error={touched.phoneNumber && !!errors.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
@@ -67,7 +69,7 @@ return (
             <Field
                 as={TextField}
                 fullWidth
-                label="Email"
+                label={t( "senderEmail")}
                 name="email"
                 type="email"
                 error={touched.email && !!errors.email}
@@ -77,7 +79,7 @@ return (
             <Field
                 as={TextField}
                 fullWidth
-                label="Message"
+                label={t( "senderMessage")}
                 name="message"
                 multiline
                 rows={4}
@@ -90,7 +92,7 @@ return (
                 variant="contained"
                 sx={{ background: 'black', color: 'white' }}
             >
-                Send
+            {t( "sendButton")}
             </Button>
             </Form>
         )}

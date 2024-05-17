@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import {
     TextField,
@@ -10,9 +11,10 @@ import {
     Container,
     Grid,
 } from '@mui/material';
-import CreatePostButton from '../../components/web/createPost/CreatePostButton.js'
+import CreatePostButton from '../../components/web/createPost/CreatePostButton.js';
 import PostCard from '../../components/shared/Cards.js';
 
+    
 const Posts = () => {
     const [category, setCategory] = useState('');
     
@@ -20,7 +22,7 @@ const Posts = () => {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
     };
-
+    const {t}=useTranslation();
     const postsData = [
         {
             id: 1,
@@ -37,7 +39,7 @@ const Posts = () => {
             userName: 'Jane Smith',
             bookName: ' Handbook',
             type: 'Engineering',
-            typeoperation: 'exhange',
+            typeoperation: 'exchange',
             image: 'physics.png',
         },
         {
@@ -56,7 +58,7 @@ const Posts = () => {
             userName: 'Jane Smith',
             bookName: 'Handbook',
             type: 'Engineering',
-            typeoperation: 'exhange',
+            typeoperation: 'exchange',
 
             image: 'physics.png',
         }
@@ -77,7 +79,7 @@ const Posts = () => {
             userName: 'Jane Smith',
             bookName: 'Handbook',
             type: 'Engineering',
-            typeoperation: 'exhange',
+            typeoperation: 'exchange',
             image: 'physics.png',
         }
         ,
@@ -87,7 +89,7 @@ const Posts = () => {
             userName: 'Jane Smith',
             bookName: 'Handbook',
             type: 'Engineering',
-            typeoperation: 'exhange',
+            typeoperation: 'exchange',
             image: 'physics.png',
         }
         ,
@@ -100,6 +102,7 @@ const Posts = () => {
             typeoperation: 'donate',
             image: 'physics.png',
         }
+
     ];
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', flexDirection: 'column' }}>
@@ -107,7 +110,7 @@ const Posts = () => {
             <CreatePostButton />
             <Box sx={{ display: 'flex', gap: '1rem', width: '100%' , mt : '10px' }}>
                 <TextField
-                    placeholder="Article name or keywords..."
+                    placeholder={t("search2")}
                     variant="outlined"
                     InputProps={{
                         startAdornment: (
@@ -133,10 +136,10 @@ const Posts = () => {
                         '& .MuiOutlinedInput-input': { py: '10px' },
                     }}
                 >
-                    <MenuItem value="">All categories</MenuItem>
-                    <MenuItem value="slides">Slides</MenuItem>
-                    <MenuItem value="university_books">Compulsory university books</MenuItem>
-                    <MenuItem value="specialty_books">Compulsory specialty books</MenuItem>
+                    <MenuItem value="">{t("allCategories")}</MenuItem>
+                    <MenuItem value="slides">{t("slides")}</MenuItem>
+                    <MenuItem value="university_books">{t("compulsoryUniversityBooks")}</MenuItem>
+                    <MenuItem value="specialty_books">{t("compulsorySpecialtyBooks")}</MenuItem>
                 </Select>
                 <Button
                     variant="contained"
@@ -148,7 +151,7 @@ const Posts = () => {
                         '&:hover': { backgroundColor: '#555' },
                     }}
                 >
-                    Search
+                    {t("Search")}
                 </Button>
             </Box>
             <Grid container spacing={2} justifyContent="center">
@@ -166,7 +169,7 @@ const Posts = () => {
                                     bookName={post.bookName}
                                     bookType={post.type}
                                     image={post.image}
-                                    typeoperation={post.typeoperation}
+                                    typeoperation={t(`typeoperation.${post.typeoperation}`)}
                                 />
                             </div>
                         </Grid>

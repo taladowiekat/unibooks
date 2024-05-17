@@ -1,44 +1,49 @@
 import React from 'react';
-import Inputs from './Inputs';
-import {  Radio, RadioGroup, FormControlLabel, FormControl, FormLabel} from '@mui/material';
+import { Field } from 'formik';
+import { TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-const InputsComponent = ({ formik }) => {
+const InputsComponent = ({ values, handleChange, handleBlur, touched, errors }) => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <Inputs type="text"
-      label="Book Name"
-      name="bookName"
-      value={formik.values.bookName}
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      error={formik.touched.bookName && formik.errors.bookName}
-      helperText={formik.touched.bookName && formik.errors.bookName}/>
-      
-      <Inputs
-        type="text"
-        label="Notes"
+      <Field
+        name="bookName"
+        as={TextField}
+        label={t("bookName")}
+        fullWidth
+        margin="normal"
+        error={touched.bookName && Boolean(errors.bookName)}
+        helperText={touched.bookName && errors.bookName}
+      />
+
+      <Field
         name="notes"
-        value={formik.values.notes}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
+        as={TextField}
+        label={t("notes")}
+        fullWidth
+        margin="normal"
+        multiline
         rows={6}
       />
+
       <FormControl component="fieldset" style={{ marginTop: 20 }}>
-        <FormLabel component="legend">Listing Type</FormLabel>
-        <RadioGroup row name="listingType" value={formik.values.listingType} onChange={formik.handleChange}>
-          <FormControlLabel value="sell" control={<Radio />} label="Sell" />
-          <FormControlLabel value="donate" control={<Radio />} label="Donate" />
-          <FormControlLabel value="exchange" control={<Radio />} label="Exchange" />
+        <FormLabel component="legend">{t("listingType")}</FormLabel>
+        <RadioGroup row name="listingType" value={values.listingType} onChange={handleChange}>
+          <FormControlLabel value="sell" control={<Radio />} label={t("sellType")} />
+          <FormControlLabel value="donate" control={<Radio />} label={t("donateType")} />
+          <FormControlLabel value="exchange" control={<Radio />} label={t("exchangeType")} />
         </RadioGroup>
       </FormControl>
-      {formik.values.listingType === 'exchange' && (
-        <Inputs
-          type="text"
-          label="Exchange Book Name"
+
+      {values.listingType === 'exchange' && (
+        <Field
           name="exchangeBookName"
-          value={formik.values.exchangeBookName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          as={TextField}
+          label={t("exchangeBookName")}
+          fullWidth
+          margin="normal"
         />
       )}
     </>

@@ -4,8 +4,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import EmailIcon from '@mui/icons-material/Email';
-
+import { useTranslation } from 'react-i18next';
 const Footer = () => {
+    const {t}=useTranslation();
     return (
         <AppBar position='fixed' maxWidth={false} color='default'
             sx={{
@@ -20,7 +21,7 @@ const Footer = () => {
                 <Grid item >
                     <img src='Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO' style={{ paddingLeft:'15px' , maxHeight: '45px' }} />
                     <Typography sx={{ ml: 6, color: 'GrayText' }}>
-                        SELL, EXCHANGE, DONATE
+                        {t("SELLEXCHANGEDONATE")}
                     </Typography>
                 </Grid>
                 <Grid item style={{paddingRight: '13px' }} >

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Container, Grid, Paper, Typography, Button, InputAdornment, IconButton, TextField, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
-import { signInValidationSchema } from '../../components/validation/validation';
-
+import { useValidations } from '../../components/validation/validation';
+import { useTranslation } from 'react-i18next';
 const LogIn = () => {
+  const {signInValidationSchema}=useValidations();
   const initialValues = {
-    emailOrUniversityId: '',
+    emailOrstudentID: '',
     password: ''
   };
 
@@ -16,13 +17,14 @@ const LogIn = () => {
   };
   
   const [showPassword, setShowPassword] = useState(false);
-
+  const {t}=useTranslation();
   return (
     <Container maxWidth='sm'sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
+        <Paper elevation={3} style={{ padding: 20 }}>
 
-        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}> Sign In </Typography>
+        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
 
         <Formik
           initialValues={initialValues}
@@ -32,23 +34,23 @@ const LogIn = () => {
           {({ errors, touched, isValid }) => (
             <Form>
               <Field
-                name="emailOrUniversityId"
+                name="emailOrstudentID"
                 as={TextField}
-                id="emailOrUniversityId"
-                label="Email or University ID"
+                id="emailOrstudentID"
+                label={t("EmailOrstudentID")}
                 autoComplete="email"
                 type="email"
                 required
                 fullWidth
-                error={touched.emailOrUniversityId && Boolean(errors.emailOrUniversityId)}
-                helperText={touched.emailOrUniversityId && errors.emailOrUniversityId}
+                error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
+                helperText={touched.emailOrstudentID && errors.emailOrstudentID}
               />
               <Box sx={{ height: '30px' }} />
               <Field
                 name="password"
                 as={TextField}
                 id="password"
-                label="Password"
+                label={t("Password")}
                 autoComplete="current-password"
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -75,9 +77,8 @@ const LogIn = () => {
                 style={{ marginTop: 20 }}
                 component={Link}
                 to="/createPost"
-                disabled={!isValid}
               >
-                Login
+                {t("loginButton")}
               </Button>
               <Box height={20} />
 
@@ -85,13 +86,13 @@ const LogIn = () => {
 
                 <Grid item xs={5.5}>
                   <Link to="/resetPass" variant="body2">
-                    Forgot password?
+                    {t("forgotPassword")}
                   </Link>
                 </Grid>
 
                 <Grid item xs={6}>
                   <Link to="/register" variant="body2">
-                    Don't have an account? Sign Up
+                    {t("loginSubTextOne")}
                   </Link>
                 </Grid>
 
@@ -101,6 +102,7 @@ const LogIn = () => {
             </Form>
           )}
         </Formik>
+        </Paper>
       </Box>
     </Container>
   );
