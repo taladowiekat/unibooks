@@ -43,8 +43,8 @@ export function useValidations() {
 
   // Validation schema for signing up
   const signUpValidationSchema = yup.object({
-    firstname : yup.string().required(t('firstnameRequired')),
-    lastname : yup.string().required(t('lastnameRequired')),
+    firstname: yup.string().required(t('firstnameRequired')),
+    lastname: yup.string().required(t('lastnameRequired')),
     studentID: yup.string()
       .matches(/^\d{8}$/, t('invalidUniversityIdFormat'))
       .required(t('universityIdRequired')),
@@ -58,7 +58,7 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-      image: yup.mixed().required(t('imageRequired'))
+    image: yup.mixed().required(t('imageRequired'))
   });
 
   // Validation schema for resetting password
@@ -80,6 +80,19 @@ export function useValidations() {
     message: yup.string().required(t('enterMessage')),
   });
 
+  // Validation schema for profile page
+  const profileValidationSchema = yup.object().shape({
+    email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
+    password: yup.string("Enter your password").required("Enter your password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+  })
+
+  // Validation schema for password reset form
+  const resetCodeValidationSchema = yup.object().shape({
+    code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
+    password: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+    confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
+  })
+
   return {
     createPostValidationSchema,
     editPostValidationSchema,
@@ -87,5 +100,7 @@ export function useValidations() {
     signUpValidationSchema,
     resetPasswordValidationSchema,
     contactValidationSchema,
+    profileValidationSchema,
+    resetCodeValidationSchema
   };
 }
