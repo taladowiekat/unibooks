@@ -40,7 +40,8 @@ const Register = () => {
         email: values.email,
         password: values.password,
         gender: values.gender,
-        college: values.college
+        college: values.college,
+        confirmPassword: values.confirmPassword
       });
       Swal.fire({
         title: t('signUp Success'),
@@ -61,7 +62,9 @@ const Register = () => {
           confirmButtonText: t('OK'),
         });
       } else {
+        console.log(error)
         Swal.fire({
+
           title: t('signUp Error'),
           text: t('An error occurred during registration. Please try again.'),
           icon: 'error',
