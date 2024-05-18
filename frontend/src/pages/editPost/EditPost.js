@@ -1,22 +1,99 @@
-import { Box, Button, Card, CardContent, CardHeader, CardMedia, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Avatar,} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Card, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Avatar, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import ButtonBase from '@mui/material/ButtonBase';
 import userImage from './Avatar.png';
 import bookImage from './Frame_129.png';
-import EditIcon from '@mui/icons-material/Edit';
 import { useValidations } from '../../components/validation/validation';
-import { useFormik } from 'formik';
+import { Formik, Form } from 'formik';
 import InputsComponent from '../../components/shared/PostInfo.js';
 import { useTranslation } from 'react-i18next';
+
+const initialValues = {
+  bookName: '',
+  notes: '',
+  listingType: 'sell',
+  exchangeBookName: '',
+  status: 'Done',
+  selectedFile: null
+};
+
+const ImageButton = styled(ButtonBase)(({ theme }) => ({
+  position: 'relative',
+  height: 200,
+  [theme.breakpoints.down('sm')]: {
+    width: '100% !important',
+    height: 100,
+  },
+  '&:hover, &.Mui-focusVisible': {
+    zIndex: 1,
+    '& .MuiImageBackdrop-root': {
+      opacity: 0.15,
+    },
+    '& .MuiImageMarked-root': {
+      opacity: 0,
+    },
+    '& .MuiTypography-root': {
+      border: '4px solid currentColor',
+    },
+  },
+}));
+
+const ImageSrc = styled('span')({
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center 40%',
+});
+
+const ImageBackdrop = styled('span')(({ theme }) => ({
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  backgroundColor: theme.palette.common.black,
+  opacity: 0.4,
+  transition: theme.transitions.create('opacity'),
+}));
+
+const ImageMarked = styled('span')(({ theme }) => ({
+  height: 3,
+  width: 18,
+  backgroundColor: theme.palette.common.white,
+  position: 'absolute',
+  bottom: -2,
+  left: 'calc(50% - 9px)',
+  transition: theme.transitions.create('opacity'),
+}));
+
 const EditPost = () => {
-    const {editPostValidationSchema}=useValidations();
-    const {t}=useTranslation();
-    const initialValues = {
-        bookName: '',
-        notes: '',
-        listingType: 'sell',
-        exchangeBookName: '',
-        status: 'Done' ,
-        selectedFile: null
-    };
+  const { editPostValidationSchema } = useValidations();
+  const { t } = useTranslation();
+  const [image, setImage] = useState(bookImage);
+  const [preview, setPreview] = useState(bookImage);
+
+  useEffect(() => {
+    if (!image || typeof image === 'string') {
+      setPreview(image);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const handleUploadClick = (e, setFieldValue) => {
+    const file = e.currentTarget.files[0];
+    if (file) {
+      setImage(file);
+      setFieldValue('selectedFile', file);
+    }
+  };
 
     const onSubmit = (values, { resetForm }) => {
         resetForm();
@@ -55,17 +132,43 @@ const EditPost = () => {
                         style={{ display: 'none' }}
                         onChange={handleUploadClick}
                     />
-
                     <label htmlFor="editImge">
-                        <Button
-                            sx={{ marginBottom: '2%' }}
-                            variant="outlined"
-                            component="span"
-                            startIcon={<EditIcon />}
-                        >
-                               {t("editImage")}
-                        </Button>
+                      <Typography
+                        component="span"
+                        variant="subtitle1"
+                        color="inherit"
+                        sx={{
+                          position: 'relative',
+                          p: 4,
+                          pt: 2,
+                          pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                        }}
+                      >
+                        Edit Image
+                        <ImageMarked className="MuiImageMarked-root" />
+                      </Typography>
                     </label>
+                  </Box>
+                </ImageButton>
+              </Box>
+
+              <CardContent>
+                <Box display="flex" flexDirection="column">
+                  <InputsComponent
+                    values={values}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    errors={errors}
+                    touched={touched}
+                  />
+                  <FormControl sx={{ marginTop: 2 }}>
+                    <FormLabel>{t("status")}</FormLabel>
+                    <RadioGroup row name="status" value={values.status} onChange={handleChange}>
+                      <FormControlLabel value="Done" control={<Radio />} label={t("done")} />
+                      <FormControlLabel value="Not yet" control={<Radio />} label={t("notYet")} />
+                    </RadioGroup>
+                  </FormControl>
+                </Box>
                 </Box>
                 <CardMedia
                    component="img"
@@ -92,16 +195,17 @@ const EditPost = () => {
         </FormControl>
     </Box>
 
-    <Box mt={2} display="flex" justifyContent="flex-end">
-        <Button type="submit" variant="contained" color="primary" disabled={!formik.isValid || formik.isSubmitting}>{t("postbutton")}</Button>
-        <Button type="button" variant="contained" color="error" style={{ marginLeft: 10 }} onClick={formik.handleReset}>{t("cancelbutton")}</Button>
+                <Box mt={2} display="flex" justifyContent="flex-end">
+                  <Button type="submit" variant="contained" color="primary" disabled={!isValid}>{t("postbutton")}</Button>
+                  <Button type="button" variant="contained" color="error" style={{ marginLeft: 10 }} onClick={() => setImage(bookImage)}>{t("cancelbutton")}</Button>
+                </Box>
+              </CardContent>
+            </Form>
+          )}
+        </Formik>
+      </Card>
     </Box>
-                   </CardContent>
-
-                </form>
-            </Card>
-        </Box>
-    );
+  );
 };
 
 export default EditPost;

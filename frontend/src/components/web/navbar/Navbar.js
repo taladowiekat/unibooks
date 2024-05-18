@@ -17,7 +17,7 @@ function Navbar() {
     const {t}=useTranslation();
     return (
         <>
-            <AppBar position='fixed' color='default'  >
+            <AppBar position='fixed' color='default' maxWidth={false} >
                     <Toolbar >
                         <Box
                             sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', }}>
