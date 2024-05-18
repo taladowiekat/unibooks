@@ -4,8 +4,14 @@ import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
+import { useNavigate } from "react-router-dom";
+
+import axios from 'axios';
 
 const Register = () => {
+
+  const navigate = useNavigate();
+
   const { signUpValidationSchema } = useValidations();
   const initialValues = {
     firstname: '',
@@ -14,24 +20,40 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    image: null, 
+    image: null
   };
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const { t } = useTranslation();
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
-    resetForm();
-    setSubmitting(false);
-    setSelectedImage(null);
+
+  const onSubmit = async (values, { setSubmitting }) => {
+    try {
+      const { data } = await axios.post('http://localhost:3000/auth/signup', {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        studentID: values.studentID,
+        email: values.email,
+        password: values.password,
+        gender: values.gender,
+        college: values.college
+      });
+      console.log(data);
+      navigate('/login')
+    } catch (error) {
+      console.log("error: ", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
   };
+
 
   return (
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
@@ -48,6 +70,7 @@ const Register = () => {
           >
             {({ errors, touched, isValid, setFieldValue }) => (
               <Form>
+
                 <label htmlFor="upload-avatar">
                   <Avatar
                     alt=""
@@ -62,42 +85,48 @@ const Register = () => {
                   style={{ display: 'none' }}
                   onChange={(event) => {
                     handleImageChange(event);
-                    setFieldValue('image', event.currentTarget.files[0]); 
-            
+                    setFieldValue('image', event.currentTarget.files[0]);
+
                   }}
                 />
 
-    
+
                 {errors.image && touched.image && (
                   <div style={{ color: 'red' }}>{errors.image}</div>
                 )}
                 <Box sx={{ height: '10px' }} />
 
+
+                <Grid container spacing={2}>
+                <Grid item xs={6}>
                 <Field
                   name="firstname"
                   as={TextField}
                   id="firstname"
-                  label={t("firstName")}
+                  label={t("firstname")}
                   required
                   fullWidth
                   error={touched.firstname && Boolean(errors.firstname)}
                   helperText={touched.firstname && errors.firstname}
                 />
-
-                <Box sx={{ height: '10px' }} />
-
+                </Grid>
+                <Grid item xs={6}>
                 <Field
                   name="lastname"
                   as={TextField}
                   id="lastname"
-                  label={t("lastName")}
+                  label={t("lastname")}
                   required
                   fullWidth
                   error={touched.lastname && Boolean(errors.lastname)}
                   helperText={touched.lastname && errors.lastname}
                 />
+                </Grid>
+                </Grid>
                 <Box sx={{ height: '10px' }} />
-
+                
+                <Grid container spacing={2}>
+                <Grid item xs={4}>
                 <Field
                   name="gender"
                   as={TextField}
@@ -112,8 +141,8 @@ const Register = () => {
                   <option value="male">{t("male")}</option>
                   <option value="female">{t("female")}</option>
                 </Field>
-                <Box sx={{ height: '10px' }} />
-
+                </Grid>
+                <Grid item xs={8}>
                 <Field
                   name="college"
                   as={TextField}
@@ -135,6 +164,8 @@ const Register = () => {
                   <option value="Faculty of Science">{t("Faculty of Science")}</option>
                   <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
                 </Field>
+                </Grid>
+                </Grid>
                 <Box sx={{ height: '10px' }} />
 
                 <Field
@@ -213,7 +244,7 @@ const Register = () => {
                   variant="contained"
                   fullWidth
                   sx={{ mt: 2 }}
-    
+
                 >
                   {t("createAccount")}
                 </Button>

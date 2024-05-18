@@ -33,7 +33,7 @@ export function useValidations() {
   // Validation schema for signing in
   const signInValidationSchema = yup.object({
     emailOrstudentID: yup.string()
-      .matches(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/, t('invalidEmailOrUniversityId'))
+      .matches(/^(s\d{8}@stu.najah.edu|\d{8})$/, t('invalidEmailOrUniversityId'))
       .required(t('emailOrUniversityIdIsRequired')),
     password: yup.string()
       .required(t('passwordRequired'))
@@ -58,7 +58,7 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-      image: yup.mixed().required(t('imageRequired'))
+
   });
 
   // Validation schema for resetting password

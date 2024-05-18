@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import userModel from '../../db/models/user.model';
+import userModel from '../../../db/models/user.model.js';
 
 export const signup = async (req, res) => {
         const {
@@ -9,6 +9,8 @@ export const signup = async (req, res) => {
             email,
             studentID,
             password,
+            college,
+            gender,
         } = req.body;
 
         const existingUser = await userModel.findOne({ email });
@@ -17,14 +19,16 @@ export const signup = async (req, res) => {
         }
 
         const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = await userModel.create({
             firstname,
             lastname, 
             email,
             studentID,
-            password: passwordHash,
+            password:passwordHash,
+            college,
+            gender,
         });
 
         if (!newUser) {
