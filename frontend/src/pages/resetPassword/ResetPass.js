@@ -23,7 +23,7 @@ const ResetPassword = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.patch('http://localhost:3000/auth/forgotPassword', { email: values.email });
+      const { data } = await axios.patch('http://localhost:4000/auth/forgotPassword', { email: values.email });
       console.log(data);
 
       if (data.message === "success") {

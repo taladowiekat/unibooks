@@ -28,7 +28,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.patch('http://localhost:3000/auth/resetPassword', { ...values, email });
+      const { data } = await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email });
 
       if (data.message === "success") {
         navigate('/login');
