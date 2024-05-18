@@ -65,8 +65,9 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   as={TextField}
                   id="code"
                   label="Reset Code"
-                  variant="filled"
+                  variant="outlined"
                   type="text"
+                  sx={{ width: '4cm' }}
                   fullWidth
                   required
                   disabled={isSubmitting}
