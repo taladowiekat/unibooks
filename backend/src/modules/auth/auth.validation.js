@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import * as yup from 'yup';
 
 const allowedColleges = [
     "Faculty of Agriculture and Veterinary Medicine",
@@ -17,52 +17,44 @@ const allowedGender = [
     "male"
 ];
 
-export const signupschema = Joi.object({
-        firstname: Joi.string().min(1).max(30).required().messages({
-            'string.min': 'First name must be at least 1 character long!',
-            'string.max': 'First name must not exceed 30 characters!',
-            'any.required': 'First name is required!'
-        }),
-        lastname: Joi.string().min(1).max(30).required().messages({
-            'string.min': 'Last name must be at least 1 character long!',
-            'string.max': 'Last name must not exceed 30 characters!',
-            'any.required': 'Last name is required!'
-        }),
-        studentID: Joi.string().pattern(new RegExp(/^\d{8}$/)).required().messages({
-            'string.pattern.base': 'Student ID must be 8 digits long!',
-            'any.required': 'Student ID is required!'
-        }),
-        email: Joi.string().pattern(new RegExp(/^s\d{8}@stu.najah.edu$/)).required().messages({
-            'string.pattern.base': 'Invalid student email address!',
-            'any.required': 'Email is required!'
-        }),
-        password: Joi.string().min(6).max(30).required().messages({
-            'string.min': 'Password must be at least 6 characters long!',
-            'string.max': 'Password must not exceed 30 characters!',
-            'any.required': 'Password is required!'
-        })
-        ,
-        college: Joi.string().valid(...allowedColleges).required().messages({
-            'any.required': 'Password is required!'
-        }) ,
-        gender: Joi.string().valid(...allowedGender).required().messages({
-            'any.required': 'Password is required!'
-        })     
-    })
+export const signupschema = yup.object({
+    firstname: yup.string().required('First name is required'),
+    lastname: yup.string().required('Last name is required'),
+    studentID: yup.string()
+      .matches(/^\d{8}$/, 'Student ID must be 8 digits long')
+      .required('Student ID is required'),
+    email: yup.string()
+      .required('Email is required')
+      .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
+      .test('email-match-studentID', 'Email must contain the student ID', function (value) {
+          const { studentID } = this.parent;
+          if (value) {
+              const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+              return regex.test(value);
+          }
+          return false;
+      }),
+    password: yup.string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters long')
+      .max(30, 'Password must not exceed 30 characters'),
+    confirmPassword: yup.string()
+      .oneOf([yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
+    college: yup.string()
+      .oneOf(allowedColleges, 'Invalid college')
+      .required('College is required'),
+    gender: yup.string()
+      .oneOf(allowedGender, 'Invalid gender')
+      .required('Gender is required')
+});
 
-
-    export const signinschema = Joi.object({
-        email: Joi.string() 
-            .pattern(new RegExp(/^s\d{8}@stu\.najah\.edu$|^\d{8}$/))// user can use his uni.. id
-            .required()
-            .messages({
-                'string.pattern.base': 'Invalid email or university ID format',
-                'any.required': 'Email or university ID is required'
-            }),
-        password: Joi.string().min(6).max(30).required().messages({
-            'string.min': 'Password must be at least 6 characters long!',
-            'string.max': 'Password must not exceed 30 characters!',
-            'any.required': 'Password is required!'
-        }),
-
-    })
+export const signinschema = yup.object({
+    email: yup.string()
+      .matches(/^(s\d{8}@stu\.najah\.edu|\d{8})$/, 'Invalid email or student ID format')
+      .required('Email or student ID is required'),
+    password: yup.string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters long')
+      .max(30, 'Password must not exceed 30 characters')
+});

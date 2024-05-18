@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const LogIn = () => {
   const {signInValidationSchema}=useValidations();
@@ -13,19 +14,36 @@ const LogIn = () => {
     password: ''
   };
 
-  const onSubmit = async(values, { setSubmitting }) => {
-    console.log('hhhhh')
-    try{
+  const onSubmit = async (values, { setSubmitting }) => {
+    try {
       const { data } = await axios.post('http://localhost:3000/auth/signin', {
-        identifier:values.emailOrstudentID,
-        password:values.password
+        identifier: values.emailOrstudentID,
+        password: values.password
+      });
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) { 
+          Swal.fire({
+            icon: 'error',
+            title: 'User not found',
+            text: 'The provided email or student ID does not exist.',
           });
-        console.log(data);
-        console.log('ghlkhk')
-    }catch(error){
-      console.log("error: ", error);
-    }finally{
-    setSubmitting(false);
+        } else if (error.response.status === 401) { 
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid credentials',
+            text: 'The provided password is incorrect.',
+          });
+        }
+      } else {
+        Swal.fire({ 
+          icon: 'error',
+          title: 'Login failed',
+          text: 'An error occurred during login. Please try again later.',
+        });
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
   

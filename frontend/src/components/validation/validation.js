@@ -45,12 +45,17 @@ export function useValidations() {
   const signUpValidationSchema = yup.object({
     firstname : yup.string().required(t('firstnameRequired')),
     lastname : yup.string().required(t('lastnameRequired')),
-    studentID: yup.string()
-      .matches(/^\d{8}$/, t('invalidUniversityIdFormat'))
-      .required(t('universityIdRequired')),
     email: yup.string()
-      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
-      .required(t('emailIsRequired')),
+    .required('Email is required')
+    .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
+    .test('email-match-studentID', 'Email must contain the student ID', function (value) {
+        const { studentID } = this.parent;
+        if (value) {
+            const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+            return regex.test(value);
+        }
+        return false;
+    }),
     password: yup.string()
       .required(t('passwordRequired'))
       .min(6, t('passwordTooShort'))
