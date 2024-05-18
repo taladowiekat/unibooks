@@ -8,5 +8,7 @@ const authRouter = Router();
 
 authRouter.post('/signup',validation(signupschema) ,asyncHandler(AuthConroller.signup))
 authRouter.post('/signin',validation(signinschema) ,asyncHandler(AuthConroller.signin))
+authRouter.patch('/forgotPassword',asyncHandler(AuthConroller.forgotPassword));
+authRouter.patch('/resetPassword',asyncHandler(AuthConroller.resetPassword));
 
 export default authRouter ;

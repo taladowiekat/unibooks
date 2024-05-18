@@ -1,12 +1,9 @@
-// imports
-import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
+import { TextField, Button, Container, Box, Modal, Typography } from "@mui/material";
 import { Formik, Form, Field } from "formik";
-import { useTranslation } from 'react-i18next';
-import { useValidations } from '../../components/validation/validation';
+import { useValidations } from "../../components/validation/validation";
 import axios from "axios";
-import {Navigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-// function
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -19,37 +16,40 @@ const modalStyle = {
   outline: "none",
 };
 
-const RecoveryPopup = ({ open, handleClose }) => {
-  const {recoveryValidationSchema}=useValidations();
+const ForgotPassword = ({ open, handleClose, email }) => {
+  const { forgotPasswordValidationSchema } = useValidations();
+  const navigate = useNavigate();
+
   const initialValues = {
-    currentPassword: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    code: '',
+    password: ''
   };
 
-  const handleSubmit = async (user) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.patch('', {
-      });
-      if (data.message === "success")
-        Navigate('/login');
+      const { data } = await axios.patch('http://localhost:3000/auth/resetPassword', { ...values, email });
 
-    }
-    catch (error) {
+      if (data.message === "success") {
+        navigate('/login');
+      }
+    } catch (error) {
+      // TODO change to toast or something nicer idk
+      alert(error);
+    } finally {
+      setSubmitting(false);
     }
   };
-
-  const {t}=useTranslation();
 
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="change-password-modal"
-      aria-describedby="change-password-form"
+      aria-labelledby="reset-code-modal"
+      aria-describedby="reset-code-form"
     >
       <Formik
-        validationSchema={recoveryValidationSchema}
+        validationSchema={forgotPasswordValidationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
@@ -57,63 +57,56 @@ const RecoveryPopup = ({ open, handleClose }) => {
           <Form>
             <Container sx={modalStyle}>
               <Box display="flex" flexDirection="column" gap={2}>
+                <Typography gutterBottom sx={{ alignItems: 'center', fontSize: '1.2rem' }}>
+                  Please check your email for a message with your code.
+                </Typography>
                 <Field
-                  name="currentPassword"
+                  name="code"
                   as={TextField}
-                  id="currentPassword"
-                  label={t("currentPassword")}
+                  id="code"
+                  label="Reset Code"
                   variant="filled"
-                  type="password"
+                  type="text"
                   fullWidth
                   required
                   disabled={isSubmitting}
-                  error={
-                    touched.currentPassword && Boolean(errors.currentPassword)
-                  }
-                  helperText={
-                    touched.currentPassword ? errors.currentPassword : ""
-                  }
+                  inputProps={{ maxLength: 4 }}
+                  error={touched.code && Boolean(errors.code)}
+                  helperText={touched.code ? errors.code : ""}
                 />
                 <Field
-                  name="newPassword"
+                  name="password"
                   as={TextField}
-                  id="newPassword"
-                  label={t("newPassword")}
+                  id="password"
+                  label="New Password"
                   variant="outlined"
                   type="password"
                   fullWidth
                   required
                   disabled={isSubmitting}
-                  error={touched.newPassword && Boolean(errors.newPassword)}
-                  helperText={touched.newPassword ? errors.newPassword : ""}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password ? errors.password : ""}
                 />
                 <Field
                   name="confirmPassword"
                   as={TextField}
                   id="confirmPassword"
-                  label={t("confirmPassword")}
+                  label="Confirm Password"
                   variant="outlined"
                   type="password"
                   fullWidth
                   required
                   disabled={isSubmitting}
-                  error={
-                    touched.confirmPassword && Boolean(errors.confirmPassword)
-                  }
-                  helperText={
-                    touched.confirmPassword ? errors.confirmPassword : ""
-                  }
+                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                  helperText={touched.confirmPassword ? errors.confirmPassword : ""}
                 />
-                <Link href="#" underline="none">
-                  {t("forgotPassword")}
-                </Link>
                 <Box display="flex" justifyContent="space-between">
                   <Button
                     variant="outlined"
                     color="secondary"
                     onClick={handleClose}
                   >
-                    {t("cancelbutton")}
+                    Cancel
                   </Button>
                   <Button
                     variant="contained"
@@ -121,7 +114,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    {t("confirmButton")}
+                    Confirm
                   </Button>
                 </Box>
               </Box>
@@ -133,5 +126,4 @@ const RecoveryPopup = ({ open, handleClose }) => {
   );
 };
 
-// export
-export default RecoveryPopup;
+export default ForgotPassword;
