@@ -95,42 +95,38 @@ const EditPost = () => {
     }
   };
 
-    const onSubmit = (values, { resetForm }) => {
-        resetForm();
-    };
+  const onSubmit = (values, { resetForm }) => {
+    resetForm();
+    setImage(bookImage);
+  };
 
-    const formik = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema: editPostValidationSchema,
-    });
-    const handleUploadClick = (event) => {
-        const file = event.currentTarget.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                formik.setFieldValue('selectedFile', reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    
-    return (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-            <Card id="EditPostFormBoxCardId" sx={{ maxWidth: 600, width: '100%', m: 2 }}>
-                <CardHeader
-                    avatar={<Avatar alt="User Name" src={userImage} sx={{ width: 70, height: 70 }} />}
-                    title= {t("userName")}
-                    titleTypographyProps={{ variant: 'h6' }}
-                />
-              <Box mt={2} display="flex" justifyContent="flex-end">
-              <input
-                        accept="image/*"
-                        id="editImge"
-                        multiple
-                        type="file"
-                        style={{ display: 'none' }}
-                        onChange={handleUploadClick}
+  return (
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Card sx={{ maxWidth: 600, width: '100%', m: 2 }}>
+        <CardHeader
+          avatar={<Avatar alt="User Name" src={userImage} sx={{ width: 70, height: 70 }} />}
+          title={t("userName")}
+          titleTypographyProps={{ variant: 'h6' }}
+        />
+
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={editPostValidationSchema}
+        >
+          {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
+            <Form>
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <ImageButton focusRipple style={{ width: '100%' }}>
+                  <ImageSrc style={{ backgroundImage: `url(${preview})` }} />
+                  <ImageBackdrop className="MuiImageBackdrop-root" />
+                  <Box>
+                    <input
+                      accept="image/*"
+                      id="editImge"
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={(e) => handleUploadClick(e, setFieldValue)}
                     />
                     <label htmlFor="editImge">
                       <Typography
@@ -169,31 +165,6 @@ const EditPost = () => {
                     </RadioGroup>
                   </FormControl>
                 </Box>
-                </Box>
-                <CardMedia
-                   component="img"
-                   src={formik.values.selectedFile || bookImage}
-                   sx={{ minHeight: '20vh', maxWidth: '90%', marginLeft: '5%' }}
-                />
-
-                <form
-                    id="form"
-                    className="flex flex-col"
-                    onSubmit={formik.handleSubmit}
-                >
-                
-                   <CardContent>
-    <Box display="flex" flexDirection="column">
-     <InputsComponent formik={formik}/>
-
-        <FormControl sx={{ marginTop: 2 }}>
-            <FormLabel>{t("status")}</FormLabel>
-            <RadioGroup row name="status" value={formik.values.status} onChange={formik.handleChange}>
-                <FormControlLabel value="Done" control={<Radio />} label={t("done")} />
-                <FormControlLabel value="Not yet" control={<Radio />} label={t("notYet")} />
-            </RadioGroup>
-        </FormControl>
-    </Box>
 
                 <Box mt={2} display="flex" justifyContent="flex-end">
                   <Button type="submit" variant="contained" color="primary" disabled={!isValid}>{t("postbutton")}</Button>
