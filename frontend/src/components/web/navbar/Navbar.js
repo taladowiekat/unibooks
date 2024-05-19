@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import   ChangeLanguageButton from '../../i18next/changeLangugeButton'
 import {
     Box, AppBar, Toolbar, Button,
     Divider, Typography, MenuItem, Drawer,
@@ -26,26 +27,32 @@ function Navbar() {
                                 display: { xs: 'none', md: 'flex' },
                                 justifyContent: 'center', flexGrow: 1,
                             }}>
-                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                <MenuItem sx={{ py: '6px', px: '12px', ml:"33%" }}
                                     component={Link} to='/' >
                                     <Typography variant='body' color='text.primary'>
                                      {t("home")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                <MenuItem sx={{ py: '6px', px: '12px', }}
                                     component={Link} to='allPosts'>
                                     <Typography variant='body' color='text.primary'>
                                         {t("allPosts")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem sx={{ py: '6px', px: '12px' }} component={Link}
+                                <MenuItem sx={{ py: '6px', px: '12px', }} component={Link}
                                     to='contactUs'>
                                     <Typography variant='body' color='text.primary'>
                                        {t ("contactUs")}
                                     </Typography>
                                 </MenuItem>
+                                <MenuItem sx={{ py: '6px', px: '12px', ml:"30%" }} >
+    <Button variant="text" color="primary"  onClick={toggleDrawer(false)}>
+        <ChangeLanguageButton  />
+    </Button>
+</MenuItem>
                             </Box>
                         </Box>
+                       
                         <Box
                             sx={{
                                 display: { xs: 'none', md: 'flex' },
@@ -95,6 +102,13 @@ function Navbar() {
                                         <Button color='primary' variant='outlined'
                                             component={Link} to='login' >
                                             {t("signIn")}
+                                        </Button>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Button color='primary' variant='outlined'
+                                            >
+                                                    <ChangeLanguageButton  />
+
                                         </Button>
                                     </MenuItem>
                                 </Box>
