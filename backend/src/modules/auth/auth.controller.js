@@ -50,7 +50,7 @@ export const signin = async (req, res) => {
         const { identifier, password } = req.body;
 
         const user = await userModel.findOne({ 
-            $or: [{ email: identifier }, { studentID: identifier }]
+            $or: [{ email:identifier }, { studentID: identifier }]
         });
 
         if (!user) {

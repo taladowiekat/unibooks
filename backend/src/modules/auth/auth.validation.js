@@ -50,9 +50,9 @@ export const signupschema = yup.object({
 });
 
 export const signinschema = yup.object({
-    email: yup.string()
-      .matches(/^(s\d{8}@stu\.najah\.edu|\d{8})$/, 'Invalid email or student ID format')
-      .required('Email or student ID is required'),
+  identifier: yup.string()
+  .matches(/^(s\d{8}@stu\.najah\.edu|\d{8})$/, 'Invalid email or university ID format')
+  .required('Email or university ID is required'),
     password: yup.string()
       .required('Password is required')
       .min(6, 'Password must be at least 6 characters long')
