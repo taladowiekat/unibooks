@@ -8,14 +8,19 @@ export const signup = async (req, res) => {
             lastname, 
             email,
             studentID,
+            confirmPassword,
             password,
             college,
             gender,
         } = req.body;
 
-        const existingUser = await userModel.findOne({ email });
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: 'Passwords do not match' });
+        }
+
+        const existingUser = await userModel.findOne({ studentID });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists with this email" });
+            return res.status(409).json({ message: "User already exists with this student id" });
         }
 
         const salt = await bcrypt.genSalt();
@@ -45,7 +50,7 @@ export const signin = async (req, res) => {
         const { identifier, password } = req.body;
 
         const user = await userModel.findOne({ 
-            $or: [{ email: identifier }, { studentID: identifier }]
+            $or: [{ email:identifier }, { studentID: identifier }]
         });
 
         if (!user) {
@@ -54,7 +59,7 @@ export const signin = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });      
