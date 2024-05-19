@@ -1,7 +1,6 @@
 import cors from "cors";
 import dbconnection from '../../db/connection.js'
-import authRouter from "./auth/auth.router.js";
-
+import postRouter from './posts/posts.router.js';
 
 const initApp = (app, express) => {
 
@@ -16,7 +15,9 @@ const initApp = (app, express) => {
     });
 
     //all routers
-    app.use('/auth', authRouter)
+
+
+    app.use('/post', postRouter)
     
     app.use("*", (req, res) => {
         return res.status(404).json({ message: "page not found" });
