@@ -77,17 +77,17 @@ export const signin = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
-    
+
     const generateCode = customAlphabet('123456789abcdef', 4);
     const code = generateCode(); // Generate the code
-    
+
     const user = await userModel.findOneAndUpdate(
         { email },
         { sendCode: code }, // Store the generated code in the user model
         { new: true }
     );
 
-    
+
     if (!user)
         return res.status(404).json({ message: "user not found" });
 
@@ -118,3 +118,37 @@ export const resetPassword = async (req, res) => {
 
     res.json({ message: "success" });
 };
+
+
+export const changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    const token = req.headers.authorization.split(' ')[1];
+
+    const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY
+    );
+
+    if (!decodedToken)
+        return res.status(401).send({ message: "Invalid token" });
+
+    const user = await userModel.findOne({ _id: decodedToken.id });
+
+    if (!user)
+        return res.status(404).send({ message: "User Not Found" });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch)
+        return res.status(400).json({ message: 'Invalid credentials' });
+    
+    if (currentPassword == newPassword)
+        return res.status(401).send({ message: "Current Password and New Password Must Not Be The Same" });
+
+
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(newPassword, salt);
+    await user.save();
+    return res.status(200).send({ message: "Password Changed Successfully" });
+}

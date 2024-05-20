@@ -50,7 +50,7 @@ resources:{
             changePassword:" Change Password",
             saveButton:"Save",
             security:"Security",
-             /**RecoveryPopup */
+             /**ChangePassword */
              currentPassword:"Current Password",
              newPassword:"New Password",
              confirmPassword:"Confirm Password",
@@ -157,7 +157,7 @@ resources:{
              changePassword: "تغيير كلمة المرور",
             saveButton: "حفظ",
             security:"الحماية",
-            /**RecoveryPopup */
+            /**ChangePassword */
             currentPassword:"كلمة المرور الحالية",
             newPassword:"كلمة المرور الجديدة",
             confirmPassword:"تأكيد كلمة المرور",

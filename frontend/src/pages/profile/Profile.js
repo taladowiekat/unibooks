@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import userImage from './profilepic.png';
-import RecoveryPopup from './RecoveryPopup.js';
+import ChangePassword from './ChangePassword.js';
 import { Field, Form, Formik } from 'formik';
 import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
@@ -138,7 +138,7 @@ const ProfileForm = ( ) => {
                                {t("changePassword")}
                             </Button>
 
-                            <RecoveryPopup open={open} handleClose={handleClose} />
+                            <ChangePassword open={open} handleClose={handleClose} />
 
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                                 <Button

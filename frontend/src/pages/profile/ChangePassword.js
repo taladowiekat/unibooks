@@ -1,13 +1,11 @@
-// imports
-import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { Modal, TextField, Button, Container, Box, Link } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
-import axios from "axios";
-import {Navigate} from "react-router-dom";
+import axios from 'axios';
 
-// function
 const modalStyle = {
+
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -19,27 +17,35 @@ const modalStyle = {
   outline: "none",
 };
 
-const RecoveryPopup = ({ open, handleClose }) => {
-  const {recoveryValidationSchema}=useValidations();
+const ChangePassword = ({ open, handleClose }) => {
+
+  const { recoveryValidationSchema } = useValidations();
   const initialValues = {
-    currentPassword: "",
-    password: "",
-    confirmPassword: "",
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   };
 
-  const handleSubmit = async (user) => {
+  const handleSubmit = async (user, { setSubmitting }) => {
     try {
-      const { data } = await axios.patch('', {
+      const token = localStorage.getItem("userToken");
+
+      await axios.patch('http://localhost:4000/auth/changePassword', {
+        currentPassword: user.currentPassword,
+        newPassword: user.newPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
-      if (data.message === "success")
-        Navigate('/login');
-
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setSubmitting(false);
     }
-    catch (error) {
-    }
-  };
+  }
 
-  const {t}=useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -133,5 +139,4 @@ const RecoveryPopup = ({ open, handleClose }) => {
   );
 };
 
-// export
-export default RecoveryPopup;
+export default ChangePassword;

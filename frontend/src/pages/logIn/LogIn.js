@@ -7,111 +7,113 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 const LogIn = () => {
-  const {signInValidationSchema}=useValidations();
+  const { signInValidationSchema } = useValidations();
   const initialValues = {
     emailOrstudentID: '',
     password: ''
   };
 
-  const onSubmit = async(values, { setSubmitting }) => {
+  const onSubmit = async (values, { setSubmitting }) => {
     console.log('hhhhh')
-    try{
+    try {
       const { data } = await axios.post('http://localhost:4000/auth/signin', {
-        identifier:values.emailOrstudentID,
-        password:values.password
-          });
-        console.log(data);
-        console.log('ghlkhk')
-    }catch(error){
+        identifier: values.emailOrstudentID,
+        password: values.password
+      });
+
+      if (data.message === 'Success')
+        localStorage.setItem("userToken", data.token);
+
+    } catch (error) {
       console.log("error: ", error);
-    }finally{
-    setSubmitting(false);
+    } finally {
+      setSubmitting(false);
     }
   };
-  
+
   const [showPassword, setShowPassword] = useState(false);
-  const {t}=useTranslation();
+  const { t } = useTranslation();
   return (
-    <Container maxWidth='sm'sx={{ justifyContent: 'center' }}>
+    <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
         <Paper elevation={3} style={{ padding: 20 }}>
 
-        <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
+          <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
 
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={signInValidationSchema}
-        >
-          {({ errors, touched }) => (
-            <Form>
-              <Field
-                name="emailOrstudentID"
-                as={TextField}
-                id="emailOrstudentID"
-                label={t("EmailOrstudentID")}
-                autoComplete="email"
-                required
-                fullWidth
-                error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
-                helperText={touched.emailOrstudentID && errors.emailOrstudentID}
-              />
-              <Box sx={{ height: '30px' }} />
-              <Field
-                name="password"
-                as={TextField}
-                id="password"
-                label={t("Password")}
-                autoComplete="current-password"
-                type={showPassword ? 'text' : 'password'}
-                required
-                fullWidth
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword(!showPassword)} color='primary'>
-                        {showPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
-                      </IconButton>
-                    </InputAdornment>
-                  )
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={signInValidationSchema}
+          >
+            {({ errors, touched }) => (
+              <Form>
+                <Field
+                  name="emailOrstudentID"
+                  as={TextField}
+                  id="emailOrstudentID"
+                  label={t("EmailOrstudentID")}
+                  autoComplete="email"
+                  required
+                  fullWidth
+                  error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
+                  helperText={touched.emailOrstudentID && errors.emailOrstudentID}
+                />
+                <Box sx={{ height: '30px' }} />
+                <Field
+                  name="password"
+                  as={TextField}
+                  id="password"
+                  label={t("Password")}
+                  autoComplete="current-password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  fullWidth
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={() => setShowPassword(!showPassword)} color='primary'>
+                          {showPassword ? <span>&#128065;</span> : <span>&#128064;</span>}
+                        </IconButton>
+                      </InputAdornment>
+                    )
 
-                }}
-              />
+                  }}
+                />
 
-              <Box sx={{ height: '30px' }} />
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                style={{ marginTop: 20 }}
-              >
-                {t("loginButton")}
-              </Button>
-              <Box height={20} />
+                <Box sx={{ height: '30px' }} />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  style={{ marginTop: 20 }}
+                >
+                  {t("loginButton")}
+                </Button>
+                <Box height={20} />
 
-              <Grid container  spacing={2} style={{ padding: 4 }}>
+                <Grid container spacing={2} style={{ padding: 4 }}>
 
-                <Grid item xs={5.5}>
-                  <Link to="/resetPass" variant="body2">
-                    {t("forgotPassword")}
-                  </Link>
+                  <Grid item xs={5.5}>
+                    <Link to="/resetPass" variant="body2">
+                      {t("forgotPassword")}
+                    </Link>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Link to="/register" variant="body2">
+                      {t("loginSubTextOne")}
+                    </Link>
+                  </Grid>
+
                 </Grid>
 
-                <Grid item xs={6}>
-                  <Link to="/register" variant="body2">
-                    {t("loginSubTextOne")}
-                  </Link>
-                </Grid>
 
-              </Grid>
-
-
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
         </Paper>
       </Box>
     </Container>
