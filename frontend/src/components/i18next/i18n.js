@@ -154,7 +154,6 @@ resources:{
           forgotPassword:"هل نسيت كلمة المرور؟",
          loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
  /**   Profile.js       */
-<<<<<<< HEAD
              general: "العامة",
             college: "اسم الكلية",
             email: "البريد الإلكتروني",
@@ -167,20 +166,6 @@ resources:{
             newPassword:"كلمة المرور الجديدة",
             confirmPassword:"تأكيد كلمة المرور",
             confirmButton:"تأكيد",
-=======
-          general: "العامة",
-          college: "اسم الكلية",
-          email: "البريد الإلكتروني",
-          password: "كلمة المرور",
-          changePassword: "تغيير كلمة المرور",
-          saveButton: "حفظ",
-          security:"الحماية",
-            /**RecoveryPopup */
-          currentPassword:"كلمة المرور الحالية",
-          newPassword:"كلمة المرور الجديدة",
-          confirmPassword:"تأكيد كلمة المرور",
-          confirmButton:"تأكيد",
->>>>>>> d00d0e8ce9f342d36ca25aec98a168f2b8df53a9
             //Register
           signUp:"إنشاء حساب",
           universityId:"رقم التسجيل الجامعي",
