@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+
 
 import axios from 'axios';
 
@@ -38,17 +40,41 @@ const Register = () => {
         email: values.email,
         password: values.password,
         gender: values.gender,
-        college: values.college
+        college: values.college,
+        confirmPassword: values.confirmPassword
       });
-      console.log(data);
-      navigate('/login')
+      Swal.fire({
+        title: t('signUp Success'),
+        text: t('You are now part of the unibooks community'),
+        icon: 'success',
+        confirmButtonText: t('tap to signin'),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
     } catch (error) {
-      console.log("error: ", error);
+      if (error.response && error.response.status === 409) {
+        Swal.fire({
+          title: t('signUp Error'),
+          text: t('User already registered. Please log in.'),
+          icon: 'error',
+          confirmButtonText: t('OK'),
+        });
+      } else {
+        console.log(error)
+        Swal.fire({
+
+          title: t('signUp Error'),
+          text: t('An error occurred during registration. Please try again.'),
+          icon: 'error',
+          confirmButtonText: t('OK'),
+        });
+      }
     } finally {
       setSubmitting(false);
     }
   };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);

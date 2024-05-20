@@ -2,7 +2,6 @@ import i18n from 'i18next'
 import LanguageDetector from'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-
 i18n.use(LanguageDetector).use(initReactI18next).init({
 debug:true,
 lng:"arabic",
@@ -109,47 +108,53 @@ resources:{
               editButton:" Edit",
               deleteButton:" Delete",
               createPostTypography:"     Provide your post details",
-              uploadImage:"Upload Image"
+              uploadImage:"Upload Image",
+              
+                
+                Arabic:" Arabic",
+              English :" English"
+             
                 }
     
     },
     
-    arabic:{
-        translation:{
+  arabic:{
+      translation:{
             /**Edit Post */
-            editImage:"تعديل الصورة ",
-            userName:" اسم المستخدم ",
-            bookName:"اسم الكتاب ",
-            notes:" الملاحظات",
-            notescontains:"",
-            listingType:"نوع الإعلان ",
-            sellType:" بيع",
-            donateType:"تبرع ",         
-            exchangeType:" تبادل",
-            status:"الحالة",
-            done:"تم ",
-            notYet:"لم يتم بعد ",
-            exchangeBookName:"اسم الكتاب للتبادل ",
-            cancelbutton:" الغاء",
-            postbutton:" نشر ",
+          editImage:"تعديل الصورة ",
+          userName:" اسم المستخدم ",
+          bookName:"اسم الكتاب ",
+          notes:" الملاحظات",
+          notescontains:"",
+          listingType:"نوع الإعلان ",
+          sellType:" بيع",
+          donateType:"تبرع ",         
+          exchangeType:" تبادل",
+          status:"الحالة",
+          done:"تم ",
+          notYet:"لم يتم بعد ",
+          exchangeBookName:"اسم الكتاب للتبادل ",
+          cancelbutton:" الغاء",
+          postbutton:" نشر ",
             /** contactUs */
-            contactUs:" تواصل معنا",
-            contactUsTypography:       "إذا واجهت أي مشاكل أو كان لديك اقتراحات، فلا تتردد في الاتصال بنا.",
+          contactUs:" تواصل معنا",
+          contactUsTypography:       "إذا واجهت أي مشاكل أو كان لديك اقتراحات، فلا تتردد في الاتصال بنا.",
           nameOfTheSender:" اسم المُرسِل",
-            senderPhoneNumber:"رقم الهاتف  ",
-            senderEmail:"البريد الإلكتروني ",
-            senderMessage:" الرسالة المرسلة",
-            sendButton:"إرسال",  
-             contactUsSuccessfullAlert:"تم إرسال رسالتك بنجاح! ",
-               contactUsErrorAlert:" حدثت مشكلة أثناء إرسال رسالتك. يرجى المحاولة مرة أخرى في وقت لاحق.",
+          senderPhoneNumber:"رقم الهاتف  ",
+          senderEmail:"البريد الإلكتروني ",
+          senderMessage:" الرسالة المرسلة",
+          sendButton:"إرسال",  
+          contactUsSuccessfullAlert:"تم إرسال رسالتك بنجاح! ",
+          contactUsErrorAlert:" حدثت مشكلة أثناء إرسال رسالتك. يرجى المحاولة مرة أخرى في وقت لاحق.",
             /**LogIn Sign Up */
-            signIn: "تسجيل الدخول",
-            EmailOrUniversityID:" البريد الالكتروني او رقم التسجيل الجامعي",
-            Password: "كلمة المرور",
-            loginButton: "تسجيل الدخول",
-            forgotPassword:"هل نسيت كلمة المرور؟",
-            loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
+          signIn: "تسجيل الدخول",
+          EmailOrUniversityID:" البريد الالكتروني او رقم التسجيل الجامعي",
+          Password: "كلمة المرور",
+          loginButton: "تسجيل الدخول",
+          forgotPassword:"هل نسيت كلمة المرور؟",
+         loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
  /**   Profile.js       */
+<<<<<<< HEAD
              general: "العامة",
             college: "اسم الكلية",
             email: "البريد الإلكتروني",
@@ -162,22 +167,36 @@ resources:{
             newPassword:"كلمة المرور الجديدة",
             confirmPassword:"تأكيد كلمة المرور",
             confirmButton:"تأكيد",
+=======
+          general: "العامة",
+          college: "اسم الكلية",
+          email: "البريد الإلكتروني",
+          password: "كلمة المرور",
+          changePassword: "تغيير كلمة المرور",
+          saveButton: "حفظ",
+          security:"الحماية",
+            /**RecoveryPopup */
+          currentPassword:"كلمة المرور الحالية",
+          newPassword:"كلمة المرور الجديدة",
+          confirmPassword:"تأكيد كلمة المرور",
+          confirmButton:"تأكيد",
+>>>>>>> d00d0e8ce9f342d36ca25aec98a168f2b8df53a9
             //Register
-            signUp:"إنشاء حساب",
-            universityId:"رقم التسجيل الجامعي",
-            createAccount:"إنشاء حساب",
-            signUpSubTextOne :"هل لديك حساب بالفعل؟ قم بتسجيل الدخول",
+          signUp:"إنشاء حساب",
+          universityId:"رقم التسجيل الجامعي",
+          createAccount:"إنشاء حساب",
+          signUpSubTextOne :"هل لديك حساب بالفعل؟ قم بتسجيل الدخول",
             //reset Password
-            resetPassword:"إعادة تعيين كلمة المرور",
-            backToLogin:"العودة لتسجيل الدخول",
-            resetYourPassword:"إعادة تعيين كلمة المرور الخاصة بك",
-            createyourPost: "أنشئ منشورك",
-            home: "الصفحة الرئيسية",
-            allPosts: "جميع المنشورات",
-            signUp: "سجل",
-            signIn: "تسجيل الدخول",
-            SELLEXCHANGEDONATE      :"بيع، استبدال، تبرع",
-           
+          resetPassword:"إعادة تعيين كلمة المرور",
+          backToLogin:"العودة لتسجيل الدخول",
+          resetYourPassword:"إعادة تعيين كلمة المرور الخاصة بك",
+          createyourPost: "أنشئ منشورك",
+          home: "الصفحة الرئيسية",
+          allPosts: "جميع المنشورات",
+          signUp: "سجل",
+          signIn: "تسجيل الدخول",
+          SELLEXCHANGEDONATE:"بيع، استبدال، تبرع",
+          Required: "مطلوب",
           allCategories: "جميع الفئات",
           slides: "الشرائح",
           compulsoryUniversityBooks: "الكتب الجامعية الإلزامية",
@@ -200,28 +219,22 @@ resources:{
           enterEmail: 'الرجاء إدخال البريد الإلكتروني',
           enterMessage: 'الرجاء إدخال الرسالة',
           universityIdRequired: 'رقم التسجيل الجامعي مطلوب',
-emailIsRequired: 'البريد الإلكتروني مطلوب',
-confirmPasswordRequired: 'يرجى تأكيد كلمة المرور',
-phoneNumberIsRequired: 'رقم الهاتف مطلوب',
-invalidEmailFormat: 'صيغة البريد الإلكتروني غير صالحة',
-nameIsRequired: 'الاسم مطلوب',
-search2:" اسم المقال أو الكلمات الرئيسية...",
-typeoperation: {
-  donate: "تبرع",
-  exchange: "تبادل",
-  sell :"بيع",
-
-},
-editButton:" تعديل",
-deleteButton:" حذف",
-createPostTypography: "قدم تفاصيل منشورك",
-uploadImage:"قم بتحميل الصورة "
-
-                }
-    }
-
-},
-
-  }
-
-)
+          emailIsRequired: 'البريد الإلكتروني مطلوب',
+          confirmPasswordRequired: 'يرجى تأكيد كلمة المرور',
+          phoneNumberIsRequired: 'رقم الهاتف مطلوب',
+          invalidEmailFormat: 'صيغة البريد الإلكتروني غير صالحة',
+          nameIsRequired: 'الاسم مطلوب',
+          search2:" اسم المقال أو الكلمات الرئيسية...",
+          typeoperation: {
+                 donate: "تبرع",
+                 exchange: "تبادل",
+                 sell :"بيع",
+                         },
+          editButton:" تعديل",
+          deleteButton:" حذف",
+          createPostTypography: "قدم تفاصيل منشورك",
+          uploadImage:"قم بتحميل الصورة ",
+          invalidFileType: "نوع ملف غير صالح!",
+          fileSizeTooBig:  "حجم الملف كبير جداً!",
+          Arabic:" اللغة العربية ",
+          English :" اللغة الانجليزية"}},},},)

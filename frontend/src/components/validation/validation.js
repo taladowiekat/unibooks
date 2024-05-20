@@ -14,12 +14,12 @@ export function useValidations() {
       .required(t('Required'))
       .test(
         'FILE_TYPE',
-        t('invalidFileType!'),
+        t('invalidFileType'),
         value => value && ['image/png', 'image/jpeg'].includes(value.type)
       )
       .test(
         'FILE_SIZE',
-        t('fileSizeTooBig!'),
+        t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
   });
@@ -45,9 +45,6 @@ export function useValidations() {
   const signUpValidationSchema = yup.object({
     firstname: yup.string().required(t('firstnameRequired')),
     lastname: yup.string().required(t('lastnameRequired')),
-    studentID: yup.string()
-      .matches(/^\d{8}$/, t('invalidUniversityIdFormat'))
-      .required(t('universityIdRequired')),
     email: yup.string()
       .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
       .required(t('emailIsRequired')),
@@ -81,7 +78,7 @@ export function useValidations() {
   });
 
   // Validation schema for changing password in the profile page
-   const recoveryValidationSchema = yup.object().shape({
+  const recoveryValidationSchema = yup.object().shape({
     currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Enter your password"),
     newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),

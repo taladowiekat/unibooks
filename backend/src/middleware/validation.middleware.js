@@ -1,35 +1,14 @@
-const dataMethods = ['body', 'query', 'params', 'headers']
+
 
 const validation = (schema) => {
-
-    return (req, res, next) => {
-
-        const validationArray = [];
-
-        dataMethods.forEach(key => {
-
-            if (schema[key]) {
-
-                const validationResult = schema[key].validate(req[key], { abortEarly: false });
-
-                if (validationResult.error) {
-                    validationArray.push(validationResult.error)
-                }
-
-            }
-        })
-
-
-        if (validationArray.length > 0) {
-
-            return res.status(400).json({ menubar: "validation error", validationArray })
-
+    return async (req, res, next) => {
+        try {
+            await schema.validate(req.body, { abortEarly: false });
+            next();
+        } catch (error) {
+            res.status(400).json({ errors: error.errors });
         }
+    };
+};
 
-        next();
-    }
-
-
-}
-
-export default validation
+export default validation;

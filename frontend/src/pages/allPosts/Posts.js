@@ -153,6 +153,7 @@ const Posts = () => {
                 >
                     {t("Search")}
                 </Button>
+              
             </Box>
             <Grid container spacing={2} justifyContent="center">
                     {postsData.map((post, index) => (
