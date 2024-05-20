@@ -78,7 +78,7 @@ export function useValidations() {
   });
 
   // Validation schema for changing password in the profile page
-  const recoveryValidationSchema = yup.object().shape({
+  const changePasswordValidationSchema = yup.object().shape({
     currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Enter your password"),
     newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
@@ -106,6 +106,6 @@ export function useValidations() {
     contactValidationSchema,
     profileValidationSchema,
     forgotPasswordValidationSchema,
-    recoveryValidationSchema
+    changePasswordValidationSchema
   };
 }

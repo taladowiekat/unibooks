@@ -19,7 +19,7 @@ const modalStyle = {
 
 const ChangePassword = ({ open, handleClose }) => {
 
-  const { recoveryValidationSchema } = useValidations();
+  const { changePasswordValidationSchema } = useValidations();
   const initialValues = {
     currentPassword: '',
     newPassword: '',
@@ -55,7 +55,7 @@ const ChangePassword = ({ open, handleClose }) => {
       aria-describedby="change-password-form"
     >
       <Formik
-        validationSchema={recoveryValidationSchema}
+        validationSchema={changePasswordValidationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
