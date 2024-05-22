@@ -84,12 +84,6 @@ export function useValidations() {
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
   });
 
-  // Validation schema for profile page
-  const profileValidationSchema = yup.object().shape({
-    email: yup.string().matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid Email format').required('Email is required'),
-    password: yup.string("Enter your password").required("Enter your password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
-  })
-
   // Validation schema for forgot password form
   const forgotPasswordValidationSchema = yup.object().shape({
     code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
@@ -104,7 +98,6 @@ export function useValidations() {
     signUpValidationSchema,
     resetPasswordValidationSchema,
     contactValidationSchema,
-    profileValidationSchema,
     forgotPasswordValidationSchema,
     changePasswordValidationSchema
   };
