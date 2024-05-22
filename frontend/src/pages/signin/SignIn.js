@@ -5,10 +5,15 @@ import { Link } from 'react-router-dom';
 import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 const LogIn = () => {
+
+  const navigate = useNavigate();
+
   const { signInValidationSchema } = useValidations();
+
   const initialValues = {
     emailOrstudentID: '',
     password: ''
@@ -19,8 +24,13 @@ const LogIn = () => {
       const { data } = await axios.post('http://localhost:4000/auth/signin', {
         identifier: values.emailOrstudentID,
         password: values.password
+      }); Swal.fire({
+        icon: 'success',
+        title: 'Login Successful',
+        text: 'You have successfully logged in.',
       });
       localStorage.setItem("userToken", data.token);
+      navigate('/allPosts');
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
