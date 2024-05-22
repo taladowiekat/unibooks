@@ -87,7 +87,7 @@ const ProfileForm = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [showPassword, setShowPassword] = useState(false);
+    
     const { t } = useTranslation();
     const initialValues = {
         // connect with database to get student's info
