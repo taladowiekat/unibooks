@@ -2,31 +2,96 @@ import postModel from '../../../db/models/post.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
 
-//create a new post
+// Create a new post
+export const createPost = async (req, res) => {
+    const { bookName, postType, notes, exchangeBookName } = req.body;
 
-export const create = async (req, res) => {
-        req.body.bookName = req.body.bookName.toLowerCase();
-        req.body.slug = slugify(req.body.bookName);
+    req.body.slug = slugify(bookName);
 
-        const bookImages = [];
-        for (const file of req.files) {
-            const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
-                folder: 'uniBook/posts'
-            });
-            bookImages.push({ secure_url, public_id });
-        }
+    const studentID = req.user._id;
 
-        req.body.bookImages = bookImages;
-        req.body.studentID = req.user._id;
+    const folderPath = `unibooks/${studentID}/${slugify(bookName)}`;
 
-        if (req.body.postType === 'exchange') {
-            req.body.exchangeBookName = req.body.exchangeBookName;
-        }
+    const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path,
+        { folder: `${folderPath}/main` }
+    )
 
-        const newPost = await postModel.create(req.body);
+    req.body.mainImage = { secure_url, public_id }
 
-        const populatedPost = await postModel.findById(newPost._id).populate('studentID', 'firstname lastname email');
+    req.body.subImages = [];
 
-        return res.status(201).json({ message: 'Post created successfully', post: populatedPost });
+    req.body.studentID = studentID;
+
+    const userName = `${req.user.firstname} ${req.user.lastname}`
+
+    for (const file of req.files.subImages) {
+        const { secure_url, public_id } = await cloudinary.uploader.upload(file.path,
+            { folder: `${folderPath}/subimages` }
+        )
+        req.body.subImages.push({ secure_url, public_id })
+    }
+
+    req.body.exchangeBookName = postType === 'Exchange' ? exchangeBookName : null;
+
+    const post = await postModel.create(req.body);
+
+    return res.status(200).json({ message: "Success", userName, post })
+
 
 };
+
+//update post
+export const updatePost = async (req, res) => {
+    const { id } = req.params;
+    const { bookName, postType, notes, exchangeBookName } = req.body;
+
+    const post = await postModel.findById(id);
+
+    if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Ensure the user is the owner of the post
+    if (post.studentID.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: 'You are not authorized to update this post' });
+    }
+
+    const studentID = req.user._id;
+    const userName = `${req.user.firstname} ${req.user.lastname}`;
+    const folderPath = `unibooks/${studentID}/${slugify(bookName || post.bookName)}`;
+
+    // Update the post fields
+    if (bookName) {
+        post.bookName = bookName;
+        post.slug = slugify(bookName);
+    }
+    post.postType = postType || post.postType;
+    post.notes = notes || post.notes;
+    post.exchangeBookName = postType === 'Exchange' ? exchangeBookName : post.exchangeBookName;
+
+    // Handle main image update if provided
+    if (req.files && req.files.mainImage) {
+        const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, {
+            folder: `${folderPath}/main`
+        });
+        post.mainImage = { secure_url, public_id };
+    }
+
+    // Handle sub images update if provided
+    if (req.files && req.files.subImages) {
+        post.subImages = []; // Clear existing subImages
+        for (const file of req.files.subImages) {
+            const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
+                folder: `${folderPath}/subimages`
+            });
+            post.subImages.push({ secure_url, public_id });
+        }
+    }
+
+    await post.save();
+
+    return res.status(200).json({ message: "Success", userName, post });
+}
+
+
+
