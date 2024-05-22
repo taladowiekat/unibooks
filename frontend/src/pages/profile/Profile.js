@@ -18,7 +18,7 @@ import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
 
 const ProfileForm = ( ) => {
-    const {signUpValidationSchema}=useValidations()
+    const {profileValidationSchema}=useValidations()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -40,7 +40,7 @@ const ProfileForm = ( ) => {
         <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
-            validationSchema={signUpValidationSchema}
+            validationSchema={profileValidationSchema}
         >
             {({ errors, touched, isSubmitting }) => (
 
