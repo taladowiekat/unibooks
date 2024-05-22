@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 const Footer = () => {
     const {t}=useTranslation();
     return (
-        <AppBar position='fixed' maxWidth={false} color='default'
+        <AppBar position='fixed' color='default'
             sx={{
                 width: '100%', 
                 top:'auto',

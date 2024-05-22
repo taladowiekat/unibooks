@@ -69,7 +69,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   type="text"
                   sx={{ width: '4cm' }}
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   inputProps={{ maxLength: 4 }}
                   error={touched.code && Boolean(errors.code)}
@@ -83,7 +83,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password ? errors.password : ""}
@@ -96,7 +96,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   helperText={touched.confirmPassword ? errors.confirmPassword : ""}

@@ -62,7 +62,6 @@ const ResetPassword = () => {
                   label={t("email")}
                   autoComplete="email"
                   type="email"
-                  required
                   fullWidth
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}

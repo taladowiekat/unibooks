@@ -71,7 +71,7 @@ const ChangePassword = ({ open, handleClose }) => {
                   variant="filled"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={
                     touched.currentPassword && Boolean(errors.currentPassword)
@@ -88,7 +88,7 @@ const ChangePassword = ({ open, handleClose }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={touched.newPassword && Boolean(errors.newPassword)}
                   helperText={touched.newPassword ? errors.newPassword : ""}
@@ -101,7 +101,7 @@ const ChangePassword = ({ open, handleClose }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={
                     touched.confirmPassword && Boolean(errors.confirmPassword)

@@ -23,13 +23,13 @@ const LogIn = () => {
       localStorage.setItem("userToken", data.token);
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 404) { 
+        if (error.response.status === 404) {
           Swal.fire({
             icon: 'error',
             title: 'User not found',
             text: 'The provided email or student ID does not exist.',
           });
-        } else if (error.response.status === 401) { 
+        } else if (error.response.status === 401) {
           Swal.fire({
             icon: 'error',
             title: 'Invalid credentials',
@@ -37,7 +37,7 @@ const LogIn = () => {
           });
         }
       } else {
-        Swal.fire({ 
+        Swal.fire({
           icon: 'error',
           title: 'Login failed',
           text: 'An error occurred during login. Please try again later.',
@@ -71,7 +71,7 @@ const LogIn = () => {
                   id="emailOrstudentID"
                   label={t("EmailOrstudentID")}
                   autoComplete="email"
-                  required
+
                   fullWidth
                   error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
                   helperText={touched.emailOrstudentID && errors.emailOrstudentID}
@@ -84,7 +84,7 @@ const LogIn = () => {
                   label={t("Password")}
                   autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}
-                  required
+
                   fullWidth
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password && errors.password}
