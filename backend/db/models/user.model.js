@@ -9,7 +9,7 @@ const userSchema = new Schema({
         unique: true     
     },
      profilePicture: {
-        type: Object       
+        type: Object,
     },
     firstname: {
         type: String,
@@ -19,7 +19,17 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    college: {
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+        min: 6,
+        max: 30
+    }, college: {
         type: String,
         required: true,
         enum: [
@@ -34,21 +44,10 @@ const userSchema = new Schema({
         "Faculty of Shari'ah"
         ]
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 30
-    },
      gender: {
         type: String,
         required: true,
-        enum: ["Male", "Female"]
+        enum: ["male", "female"]
     },
     role: {
         type: String,
