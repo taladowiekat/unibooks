@@ -94,11 +94,10 @@ const ProfileForm = () => {
         name: "",
         college: "",
         email: "",
-        password: "",
     };
 
-    const handleSubmit = () => {
-        // if password matches with user, change info in database
+    const handleSubmit = async (user) => {
+        // "save info" logic here
     };
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -123,17 +122,6 @@ const ProfileForm = () => {
     const handleDeleteImage = (setFieldValue) => {
         setImage(null);
         setFieldValue('image', '');
-    };
-
-    const onSubmit = async (values, { resetForm }) => {
-        const formData = new FormData();
-        formData.append('bookName', values.bookName);
-        formData.append('notes', values.notes);
-        formData.append('listingType', values.listingType);
-        formData.append('image', values.image);
-        formData.append('exchangeBookName', values.exchangeBookName);
-        resetForm();
-        setImage(null);
     };
 
 
