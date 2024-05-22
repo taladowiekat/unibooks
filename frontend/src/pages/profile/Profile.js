@@ -14,7 +14,6 @@ import userImage from './profilepic.png';
 import { styled } from '@mui/material/styles';
 import ChangePassword from './ChangePassword.js';
 import { Field, Form, Formik } from 'formik';
-import { useValidations } from '../../components/validation/validation';
 import { useTranslation } from 'react-i18next';
 import { DeleteOutlined } from '@mui/icons-material';
 
@@ -83,16 +82,15 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 const ProfileForm = () => {
-    const { profileValidationSchema } = useValidations()
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
+
     const { t } = useTranslation();
     const initialValues = {
         // connect with database to get student's info
         name: "",
-        college: "",
+        college: "Choose ",
         email: "",
     };
 
@@ -129,7 +127,6 @@ const ProfileForm = () => {
         <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
-            validationSchema={profileValidationSchema}
         >
 
             {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
@@ -227,14 +224,26 @@ const ProfileForm = () => {
                                 </Grid>
                             </Grid>
                             <Field
+                                name="college"
                                 as={TextField}
-                                margin="normal"
-                                fullWidth
+                                select
                                 id="college"
                                 label={t("college")}
-                                name="college"
-                                autoComplete="college"
-                            />
+
+                                fullWidth
+                                SelectProps={{ native: true }}
+                            >
+                                <option value="Choose One">Choose One</option>
+                                <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
+                                <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
+                                <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>
+                                <option value="Faculty of Fine Arts">{t("Faculty of Fine Arts")}</option>
+                                <option value="Faculty of Medicine and Health Sciences">{t("Faculty of Medicine and Health Sciences")}</option>
+                                <option value="Faculty of Law and Political Sciences">{t("Faculty of Law and Political Sciences")}</option>
+                                <option value="Faculty of Humanities and Educational Sciences">{t("Faculty of Humanities and Educational Sciences")}</option>
+                                <option value="Faculty of Science">{t("Faculty of Science")}</option>
+                                <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
+                            </Field>
 
                             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', marginTop: '1rem' }}>
                                 {t("security")}
