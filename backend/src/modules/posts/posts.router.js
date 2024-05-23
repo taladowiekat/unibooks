@@ -16,7 +16,5 @@ router.put('/update/:id', auth('user'), fileUpload(fileType.image).fields([
     { name: 'subImages', maxCount: 4 }
 ]), asyncHandler(controller.updatePost));
 
-router.get('/all', asyncHandler(controller.getAllPosts));
-router.get('/:id', asyncHandler(controller.getPostById));
 
 export default router;

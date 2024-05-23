@@ -2,7 +2,7 @@ import postModel from '../../../db/models/post.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
 
-// Create a new post
+//create a new post
 export const createPost = async (req, res) => {
     const { bookName, postType, notes, exchangeBookName } = req.body;
 
@@ -51,7 +51,7 @@ export const updatePost = async (req, res) => {
         return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Ensure the user is the owner of the post
+    //ensure the user is the owner of the post
     if (post.studentID.toString() !== req.user._id.toString()) {
         return res.status(403).json({ message: 'You are not authorized to update this post' });
     }
@@ -60,7 +60,7 @@ export const updatePost = async (req, res) => {
     const userName = `${req.user.firstname} ${req.user.lastname}`;
     const folderPath = `unibooks/${studentID}/${slugify(bookName || post.bookName)}`;
 
-    // Update the post fields
+    //update the post fields
     if (bookName) {
         post.bookName = bookName;
         post.slug = slugify(bookName);
@@ -69,7 +69,7 @@ export const updatePost = async (req, res) => {
     post.notes = notes || post.notes;
     post.exchangeBookName = postType === 'Exchange' ? exchangeBookName : post.exchangeBookName;
 
-    // Handle main image update if provided
+    //handle main image update if provided
     if (req.files && req.files.mainImage) {
         const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, {
             folder: `${folderPath}/main`
@@ -77,9 +77,9 @@ export const updatePost = async (req, res) => {
         post.mainImage = { secure_url, public_id };
     }
 
-    // Handle sub images update if provided
+    //handle sub images update if provided
     if (req.files && req.files.subImages) {
-        post.subImages = []; // Clear existing subImages
+        post.subImages = [];
         for (const file of req.files.subImages) {
             const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
                 folder: `${folderPath}/subimages`
