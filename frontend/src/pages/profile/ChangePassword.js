@@ -1,11 +1,11 @@
-// imports
-import { TextField, Button, Container, Link, Box, Modal } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import { Modal, TextField, Button, Container, Box, Link } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
+import axios from 'axios';
 
-// function
 const modalStyle = {
+
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -17,18 +17,35 @@ const modalStyle = {
   outline: "none",
 };
 
-const RecoveryPopup = ({ open, handleClose }) => {
-  const {signUpValidationSchema}=useValidations();
+const ChangePassword = ({ open, handleClose }) => {
+
+  const { changePasswordValidationSchema } = useValidations();
   const initialValues = {
-    currentPassword: "",
-    password: "",
-    confirmPassword: "",
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   };
 
-  const handleSubmit = () => {
-    // if current password matches with user, change password in database
-  };
-  const {t}=useTranslation();
+  const handleSubmit = async (user, { setSubmitting }) => {
+    try {
+      const token = localStorage.getItem("userToken");
+
+      await axios.patch('http://localhost:4000/auth/changePassword', {
+        currentPassword: user.currentPassword,
+        newPassword: user.newPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -38,7 +55,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
       aria-describedby="change-password-form"
     >
       <Formik
-        validationSchema={signUpValidationSchema}
+        validationSchema={changePasswordValidationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
@@ -54,7 +71,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   variant="filled"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={
                     touched.currentPassword && Boolean(errors.currentPassword)
@@ -64,17 +81,17 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   }
                 />
                 <Field
-                  name="password"
+                  name="newPassword"
                   as={TextField}
-                  id="password"
+                  id="newPassword"
                   label={t("newPassword")}
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password ? errors.password : ""}
+                  error={touched.newPassword && Boolean(errors.newPassword)}
+                  helperText={touched.newPassword ? errors.newPassword : ""}
                 />
                 <Field
                   name="confirmPassword"
@@ -84,7 +101,7 @@ const RecoveryPopup = ({ open, handleClose }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  required
+                  
                   disabled={isSubmitting}
                   error={
                     touched.confirmPassword && Boolean(errors.confirmPassword)
@@ -122,5 +139,4 @@ const RecoveryPopup = ({ open, handleClose }) => {
   );
 };
 
-// export
-export default RecoveryPopup;
+export default ChangePassword;

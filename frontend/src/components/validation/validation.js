@@ -43,19 +43,11 @@ export function useValidations() {
 
   // Validation schema for signing up
   const signUpValidationSchema = yup.object({
-    firstname : yup.string().required(t('firstnameRequired')),
-    lastname : yup.string().required(t('lastnameRequired')),
+    firstname: yup.string().required(t('firstnameRequired')),
+    lastname: yup.string().required(t('lastnameRequired')),
     email: yup.string()
-    .required('Email is required')
-    .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
-    .test('email-match-studentID', 'Email must contain the student ID', function (value) {
-        const { studentID } = this.parent;
-        if (value) {
-            const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
-            return regex.test(value);
-        }
-        return false;
-    }),
+      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
+      .required(t('emailIsRequired')),
     password: yup.string()
       .required(t('passwordRequired'))
       .min(6, t('passwordTooShort'))
@@ -85,6 +77,20 @@ export function useValidations() {
     message: yup.string().required(t('enterMessage')),
   });
 
+  // Validation schema for changing password in the profile page
+  const changePasswordValidationSchema = yup.object().shape({
+    currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Enter your password"),
+    newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+    confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
+  });
+
+  // Validation schema for forgot password form
+  const forgotPasswordValidationSchema = yup.object().shape({
+    code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
+    password: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+    confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
+  })
+
   return {
     createPostValidationSchema,
     editPostValidationSchema,
@@ -92,5 +98,7 @@ export function useValidations() {
     signUpValidationSchema,
     resetPasswordValidationSchema,
     contactValidationSchema,
+    forgotPasswordValidationSchema,
+    changePasswordValidationSchema
   };
 }

@@ -33,7 +33,7 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post('http://localhost:3000/auth/signup', {
+      const { data } = await axios.post('http://localhost:4000/auth/signup', {
         firstname: values.firstname,
         lastname: values.lastname,
         studentID: values.studentID,
@@ -130,7 +130,7 @@ const Register = () => {
                   as={TextField}
                   id="firstname"
                   label={t("firstname")}
-                  required
+                  
                   fullWidth
                   error={touched.firstname && Boolean(errors.firstname)}
                   helperText={touched.firstname && errors.firstname}
@@ -142,7 +142,7 @@ const Register = () => {
                   as={TextField}
                   id="lastname"
                   label={t("lastname")}
-                  required
+                  
                   fullWidth
                   error={touched.lastname && Boolean(errors.lastname)}
                   helperText={touched.lastname && errors.lastname}
@@ -159,7 +159,7 @@ const Register = () => {
                   select
                   id="gender"
                   label={t("gender")}
-                  required
+                  
                   fullWidth
                   SelectProps={{ native: true }}
                 >
@@ -175,7 +175,7 @@ const Register = () => {
                   select
                   id="college"
                   label={t("college")}
-                  required
+                  
                   fullWidth
                   SelectProps={{ native: true }}
                 >
@@ -199,7 +199,7 @@ const Register = () => {
                   as={TextField}
                   id="studentID"
                   label={t("studentID")}
-                  required
+                  
                   fullWidth
                   error={touched.studentID && Boolean(errors.studentID)}
                   helperText={touched.studentID && errors.studentID}
@@ -213,7 +213,7 @@ const Register = () => {
                   label={t("email")}
                   autoComplete="email"
                   type="email"
-                  required
+                  
                   fullWidth
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}
@@ -227,7 +227,7 @@ const Register = () => {
                   label={t("password")}
                   autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}
-                  required
+                  
                   fullWidth
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password && errors.password}
@@ -250,7 +250,7 @@ const Register = () => {
                   label={t("confirmPassword")}
                   autoComplete="new-password"
                   type={showConfirmPassword ? 'text' : 'password'}
-                  required
+                  
                   fullWidth
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   helperText={touched.confirmPassword && errors.confirmPassword}
