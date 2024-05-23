@@ -4,7 +4,11 @@ import slugify from 'slugify';
 
 //create a new post
 export const createPost = async (req, res) => {
-    const { bookName, postType, notes, exchangeBookName } = req.body;
+    const { bookName, postType, exchangeBookName } = req.body;
+
+    if (postType === 'Exchange' && !exchangeBookName) {
+        return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
+    }
 
     req.body.slug = slugify(bookName);
 
@@ -44,6 +48,10 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     const { id } = req.params;
     const { bookName, postType, notes, exchangeBookName } = req.body;
+
+    if (postType === 'Exchange' && !exchangeBookName) {
+        return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
+    }
 
     const post = await postModel.findById(id);
 
