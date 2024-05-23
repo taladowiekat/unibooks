@@ -30,3 +30,17 @@ export const create = async (req, res) => {
         return res.status(201).json({ message: 'Post created successfully', post: populatedPost });
 
 };
+
+///////////////////////////////////////////////
+
+export const getAllPosts =async(req,res)=> {
+try{
+    const posts =await postModel.find();
+    return res.status(200).json(posts);
+}
+catch(err){
+    console.log('No data founded');
+    return res.status(204);
+}
+};
+

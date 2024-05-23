@@ -7,4 +7,5 @@ const router = Router();
 
 router.post('/create', auth('user'), fileUpload(fileType.image).array('image', 4), asyncHandler(controller.create));
 
+router.get('/getAllPosts',asyncHandler(controller.getAllPosts));
 export default router;

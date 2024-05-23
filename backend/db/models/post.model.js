@@ -8,7 +8,7 @@ const postSchema = new Schema({
         ref: 'User',
     },
     bookImage: {
-        type: String,
+        type: Object,
     },
     bookName: {
         type: String,
