@@ -6,8 +6,8 @@ import userModel from '../../../db/models/user.model.js';
 
 export const signup = async (req, res) => {
         const {
-            firstname,
-            lastname, 
+            firstName,
+            lastName, 
             email,
             studentID,
             confirmPassword,
@@ -29,8 +29,8 @@ export const signup = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = await userModel.create({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         studentID,
         password: passwordHash,
@@ -71,8 +71,8 @@ export const signin = async (req, res) => {
         message: "Success", 
         token,
         user: {
-            firstname: user.firstname,
-            lastname: user.lastname,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             studentID: user.studentID
         }
