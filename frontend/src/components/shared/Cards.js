@@ -1,11 +1,11 @@
 
 import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-import { useTranslation } from 'react-i18next';
+
 
 function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation }) {
 
-    const {t}=useTranslation();
+
    
  
     return (
