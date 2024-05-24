@@ -83,7 +83,7 @@ export const signin = async (req, res) => {
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
-    const generateCode = customAlphabet('123456789abcdef', 4);
+    const generateCode = customAlphabet('123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 4);
     const code = generateCode(); // Generate the code
 
     const user = await userModel.findOneAndUpdate(
@@ -97,7 +97,7 @@ export const forgotPassword = async (req, res) => {
         return res.status(404).json({ message: "user not found" });
 
     await sendEmail(email, 'Reset Password', `<h2>${code}</h2>`);
-
+// TODO remove code from response message
     return res.status(200).json({ message: "success", code });
 };
 
@@ -121,7 +121,7 @@ export const resetPassword = async (req, res) => {
 
     await user.save();
 
-    res.json({ message: "success" });
+    return res.status(200).json({ message: "success" });
 };
 
 
