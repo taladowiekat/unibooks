@@ -6,9 +6,6 @@ import asyncHandler from 'express-async-handler';
 
 const router = Router();
 
-
-router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
-
 router.post('/create', auth('user'), fileUpload(fileType.image).fields([
     { name: 'mainImage', maxCount: 1 },
     { name: 'subImages', maxCount: 4 },
@@ -19,5 +16,6 @@ router.put('/update/:id', auth('user'), fileUpload(fileType.image).fields([
     { name: 'subImages', maxCount: 4 }
 ]), asyncHandler(controller.updatePost));
 
+router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
 
 export default router;
