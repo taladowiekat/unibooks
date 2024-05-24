@@ -99,7 +99,6 @@ export const updatePost = async (req, res) => {
 
     return res.status(200).json({ message: "Success", userName, post });
 }
-};
 
 //delete post
 export const deletePost = async (req, res) => {
