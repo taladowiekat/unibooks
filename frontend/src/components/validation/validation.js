@@ -15,12 +15,12 @@ export function useValidations() {
     "Faculty of Humanities and Educational Sciences",
     "Faculty of Science",
     "Faculty of Shari'ah"
-];
+  ];
 
-const allowedGender = [
+  const allowedGender = [
     "female",
     "male"
-];
+  ];
 
   // Validation schema for creating a post
   const createPostValidationSchema = yup.object({
@@ -69,12 +69,12 @@ const allowedGender = [
       .required('Email is required')
       .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
       .test('email-match-studentID', 'Email must contain the student ID', function (value) {
-          const { studentID } = this.parent;
-          if (value) {
-              const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
-              return regex.test(value);
-          }
-          return false;
+        const { studentID } = this.parent;
+        if (value) {
+          const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+          return regex.test(value);
+        }
+        return false;
       }),
     password: yup.string()
       .required(t('passwordRequired'))
@@ -83,7 +83,7 @@ const allowedGender = [
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-      college: yup.string()
+    college: yup.string()
       .required('College is required'),
     gender: yup.string()
       .required('Gender is required')
@@ -122,6 +122,7 @@ const allowedGender = [
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
   })
 
+  // Validation schema for profile page
   const profileValidationSchema = yup.object({
     firstName: yup.string().required(t('firstnameRequired')),
     lastName: yup.string().required(t('lastnameRequired')),
