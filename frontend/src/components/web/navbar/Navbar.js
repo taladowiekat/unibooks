@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import   ChangeLanguageButton from '../../i18next/changeLangugeButton'
 import {
     Box, AppBar, Toolbar, Button,
     Divider, Typography, MenuItem, Drawer,
@@ -7,13 +8,13 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
-
+import { useTranslation } from 'react-i18next';
 function Navbar() {
     const [open, setOpen] = useState(false);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-
+    const {t}=useTranslation();
     return (
         <>
             <AppBar position='fixed' color='default' maxWidth={false} >
@@ -26,26 +27,30 @@ function Navbar() {
                                 display: { xs: 'none', md: 'flex' },
                                 justifyContent: 'center', flexGrow: 1,
                             }}>
-                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                <MenuItem sx={{ py: '6px', px: '12px', ml:"33%" }}
                                     component={Link} to='/' >
                                     <Typography variant='body' color='text.primary'>
-                                        Home
+                                     {t("home")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem sx={{ py: '6px', px: '12px' }}
+                                <MenuItem sx={{ py: '6px', px: '12px', }}
                                     component={Link} to='allPosts'>
                                     <Typography variant='body' color='text.primary'>
-                                        All Posts
+                                        {t("allPosts")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem sx={{ py: '6px', px: '12px' }} component={Link}
+                                <MenuItem sx={{ py: '6px', px: '12px', }} component={Link}
                                     to='contactUs'>
                                     <Typography variant='body' color='text.primary'>
-                                        Contact Us
+                                       {t ("contactUs")}
                                     </Typography>
                                 </MenuItem>
+                                <MenuItem  sx={{ py: '6px', px: '12px', ml:"30%" }} >
+                                    <ChangeLanguageButton  />
+                               </MenuItem>
                             </Box>
                         </Box>
+                       
                         <Box
                             sx={{
                                 display: { xs: 'none', md: 'flex' },
@@ -53,11 +58,11 @@ function Navbar() {
                             }}>
                             <Button color='primary' variant='outlined'
                                 component={Link} to='login' >
-                                Sign in
+                                {t("signIn")}
                             </Button>
                             <Button color='primary' variant='outlined'
                                 component={Link} to='register' >
-                                Sign up
+                              {t ("signUp")}
                             </Button>
                         </Box>
                         <Box sx={{ display: { md: 'none' } }}>
@@ -76,25 +81,32 @@ function Navbar() {
                                     }} >
                                     </Box>
                                     <MenuItem>
-                                        Home
+                                    {t("home")}
                                     </MenuItem>
                                     <MenuItem component={Link} to='allPosts'>
-                                        All Posts
+                                    {t("allPosts")}
                                     </MenuItem>
                                     <MenuItem component={Link} to='contactUs'>
-                                        Contact us
+                                    {t ("contactUs")}
                                     </MenuItem>
                                     <Divider />
                                     <MenuItem>
                                         <Button color='primary' variant='outlined'
                                             component={Link} to='register'>
-                                            Sign up
+                                           {t ("signUp")}
                                         </Button>
                                     </MenuItem>
                                     <MenuItem>
                                         <Button color='primary' variant='outlined'
                                             component={Link} to='login' >
-                                            Sign in
+                                            {t("signIn")}
+                                        </Button>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Button color='primary' variant='outlined'
+                                            >
+                                                    <ChangeLanguageButton  />
+
                                         </Button>
                                     </MenuItem>
                                 </Box>

@@ -1,16 +1,19 @@
-import React from 'react';
+
 import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 
+
 function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation, onChatClick }) {
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: '1rem', flexDirection: 'column' }}>
             <Card sx={{ maxWidth: 360, borderRadius: '16px', boxShadow: 3 }}>
-                <CardMedia
+           
+        <CardMedia
                     component="img"
                     sx={{
                         height: 180,
-                        objectFit: 'cover', 
+                        objectFit: 'cover',
                     }}
                     image={image}
                     alt={bookName}
@@ -42,5 +45,4 @@ function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperati
         </Box>
     );
 }
-
 export default PostCard;

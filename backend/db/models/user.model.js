@@ -9,7 +9,7 @@ const userSchema = new Schema({
         unique: true     
     },
      profilePicture: {
-        type: Object       
+        type: Object,
     },
     firstname: {
         type: String,
@@ -19,7 +19,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    college: {
+ college: {
         type: String,
         required: true,
         enum: [
@@ -34,6 +34,7 @@ const userSchema = new Schema({
         "Faculty of Shari'ah"
         ]
     },
+
     email: {
         type: String,
         required: true,
@@ -64,4 +65,6 @@ const userSchema = new Schema({
 
 const userModel = model('User', userSchema);
 
+
 export default userModel;
+

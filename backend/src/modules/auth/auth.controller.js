@@ -1,6 +1,8 @@
-import bcrypt from 'bcrypt';
+
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import userModel from '../../db/models/user.model';
+import userModel from '../../../db/models/user.model.js';
+
 
 export const signup = async (req, res) => {
         const {
@@ -8,23 +10,33 @@ export const signup = async (req, res) => {
             lastname, 
             email,
             studentID,
+            confirmPassword,
             password,
+            college,
+            gender,
         } = req.body;
 
-        const existingUser = await userModel.findOne({ email });
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: 'Passwords do not match' });
+        }
+
+        const existingUser = await userModel.findOne({ studentID });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists with this email" });
+            return res.status(409).json({ message: "User already exists with this student id" });
         }
 
         const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = await userModel.create({
             firstname,
             lastname, 
             email,
             studentID,
-            password: passwordHash,
+            password:passwordHash,
+            college,
+            gender,
+
         });
 
         if (!newUser) {
@@ -41,7 +53,8 @@ export const signin = async (req, res) => {
         const { identifier, password } = req.body;
 
         const user = await userModel.findOne({ 
-            $or: [{ email: identifier }, { studentID: identifier }]
+            $or: [{ email:identifier }, { studentID: identifier }]
+
         });
 
         if (!user) {
@@ -50,11 +63,12 @@ export const signin = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });      
-        delete user.password;
+       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });      
+       delete user.password;
+
 
         res.status(200).json({ 
             message: "Success", 
@@ -67,6 +81,7 @@ export const signin = async (req, res) => {
             }
         });
 };
+
 
 export const confirmEmail = async (req, res) => {
     const { token } = req.params;
@@ -89,3 +104,4 @@ export const confirmEmail = async (req, res) => {
             return res.status(500).json({ message: "Failed to confirm email" });
         }
     } 
+
