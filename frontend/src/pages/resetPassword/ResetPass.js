@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
 import axios from 'axios';
 import ResetCode from './ForgotPassword';
+import Swal from 'sweetalert2';
 
 
 const ResetPassword = () => {
@@ -22,19 +23,30 @@ const ResetPassword = () => {
   };
 
   const onSubmit = async (values, { setSubmitting }) => {
-    try {
-      const { data } = await axios.patch('http://localhost:4000/auth/forgotPassword', { email: values.email });
-      console.log(data);
+    await axios.patch('http://localhost:4000/auth/forgotPassword', { email: values.email })
+      .then((response) => {
 
-      if (data.message === "success") {
-        setUserEmail(values.email);
-        handleOpen();
-      }
-    } catch (error) {
-      console.log("error: ", error);
-    } finally {
-      setSubmitting(false);
-    }
+        if (response.status === 200) {
+          setUserEmail(values.email);
+          handleOpen();
+        }
+      }, (error) => {
+        if (error.response) {
+          if (error.response.status === 404)
+            Swal.fire({
+              icon: 'error',
+              title: 'User Not Found',
+              text: 'The provided email is not registered.',
+            });
+          else
+            Swal.fire({
+              icon: 'error',
+              title: "Oops",
+              text: 'An unexpected error occurred. Please try again later.',
+            });
+        }
+      })
+    setSubmitting(false);
   };
 
   const { t } = useTranslation();
@@ -61,7 +73,6 @@ const ResetPassword = () => {
                   id="email"
                   label={t("email")}
                   autoComplete="email"
-                  type="email"
                   fullWidth
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}

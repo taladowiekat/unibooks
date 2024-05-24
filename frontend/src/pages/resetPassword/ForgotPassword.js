@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { useValidations } from "../../components/validation/validation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const modalStyle = {
   position: "absolute",
@@ -13,7 +14,8 @@ const modalStyle = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  outline: "none",
+  outline: "none"
+
 };
 
 const ForgotPassword = ({ open, handleClose, email }) => {
@@ -26,23 +28,42 @@ const ForgotPassword = ({ open, handleClose, email }) => {
     password: ''
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const { data } = await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email });
+  const onSubmit = async (values, { setSubmitting }) => {
 
-      if (data.message === "success") {
-        navigate('/login');
-      }
-    } catch (error) {
-      // TODO change to toast or something nicer idk
-      alert(error);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email })
+      .then((response) => {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Password Changed',
+            text: 'Your password has been changed successfully.',
+          });
+          navigate('/login');
+        }
+      }, (error) => {
+        if (error.response.status === 400)
+          Swal.fire({
+            icon: 'error',
+            text: 'New Password cannot be the same as the old password.',
+          });
+        else if (error.response.status === 401)
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid Code',
+            text: 'The provided code is incorrect.',
+          });
+        else
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops',
+            text: 'An unexpected error occurred. Please try again later.',
+          });
+      })
+  }
 
   return (
     <Modal
+      sx={{ zIndex: 1050 }} // SweetAlert Z-Index is 1060. this is needed for alert to be on top
       open={open}
       onClose={handleClose}
       aria-labelledby="reset-code-modal"
@@ -51,7 +72,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
       <Formik
         validationSchema={forgotPasswordValidationSchema}
         initialValues={initialValues}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         {({ errors, touched, isSubmitting }) => (
           <Form>
@@ -69,7 +90,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   type="text"
                   sx={{ width: '4cm' }}
                   fullWidth
-                  
+
                   disabled={isSubmitting}
                   inputProps={{ maxLength: 4 }}
                   error={touched.code && Boolean(errors.code)}
@@ -83,7 +104,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  
+
                   disabled={isSubmitting}
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password ? errors.password : ""}
@@ -96,7 +117,7 @@ const ForgotPassword = ({ open, handleClose, email }) => {
                   variant="outlined"
                   type="password"
                   fullWidth
-                  
+
                   disabled={isSubmitting}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   helperText={touched.confirmPassword ? errors.confirmPassword : ""}
