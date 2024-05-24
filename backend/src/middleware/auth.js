@@ -11,7 +11,7 @@ const auth = (accessRole = []) => {
         const token = authorization.split(process.env.BEARERTOKEN)[1].trim();
         let decoded;
         try {
-            decoded = jwt.verify(token, process.env.LOGINSIG);
+            decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         } catch (error) {
             return res.status(400).json({ message: "Invalid token" });
         }
