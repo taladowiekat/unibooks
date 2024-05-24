@@ -10,12 +10,13 @@ const userSchema = new Schema({
     },
     profilePicture: {
         type: Object,
+        default: ''
     },
-    firstname: {
+    firstName: {
         type: String,
         required: true
     },
-    lastname: {
+    lastName: {
         type: String,
         required: true
     },
