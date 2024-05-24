@@ -5,6 +5,23 @@ export function useValidations() {
   const { t } = useTranslation();
   const mb = 1024 * 1024;
 
+  const allowedColleges = [
+    "Faculty of Agriculture and Veterinary Medicine",
+    "Faculty of Business and Communication",
+    "Faculty of Engineering and Information",
+    "Faculty of Fine Arts",
+    "Faculty of Medicine and Health Sciences",
+    "Faculty of Law and Political Sciences",
+    "Faculty of Humanities and Educational Sciences",
+    "Faculty of Science",
+    "Faculty of Shari'ah"
+];
+
+const allowedGender = [
+    "female",
+    "male"
+];
+
   // Validation schema for creating a post
   const createPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
@@ -43,11 +60,22 @@ export function useValidations() {
 
   // Validation schema for signing up
   const signUpValidationSchema = yup.object({
-    firstname: yup.string().required(t('firstnameRequired')),
-    lastname: yup.string().required(t('lastnameRequired')),
+    firstName: yup.string().required(t('firstnameRequired')),
+    lastName: yup.string().required(t('lastnameRequired')),
+    studentID: yup.string()
+      .matches(/^\d{8}$/, 'Student ID must be 8 digits long')
+      .required('Student ID is required'),
     email: yup.string()
-      .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
-      .required(t('emailIsRequired')),
+      .required('Email is required')
+      .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
+      .test('email-match-studentID', 'Email must contain the student ID', function (value) {
+          const { studentID } = this.parent;
+          if (value) {
+              const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+              return regex.test(value);
+          }
+          return false;
+      }),
     password: yup.string()
       .required(t('passwordRequired'))
       .min(6, t('passwordTooShort'))
@@ -55,7 +83,10 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-
+      college: yup.string()
+      .required('College is required'),
+    gender: yup.string()
+      .required('Gender is required')
   });
 
   // Validation schema for resetting password
@@ -79,7 +110,7 @@ export function useValidations() {
 
   // Validation schema for changing password in the profile page
   const changePasswordValidationSchema = yup.object().shape({
-    currentPassword: yup.string("Enter your password").min(8, "Password must be at least 6 characters long").required("Enter your password"),
+    currentPassword: yup.string("Enter your password").min(6, "Password must be at least 6 characters long").required("Enter your password"),
     newPassword: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("newPassword"), null], "Passwords must match").required("Please confirm your password"),
   });
@@ -91,8 +122,18 @@ export function useValidations() {
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
   })
 
+  const profileValidationSchema = yup.object({
+    firstName: yup.string().required(t('firstnameRequired')),
+    lastName: yup.string().required(t('lastnameRequired')),
+    college: yup.string()
+      .oneOf(allowedColleges, 'Invalid college')
+      .required('College is required'),
+  })
+
+
   return {
     createPostValidationSchema,
+    profileValidationSchema,
     editPostValidationSchema,
     signInValidationSchema,
     signUpValidationSchema,
