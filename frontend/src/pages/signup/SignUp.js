@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Container, Grid, Typography, Button, InputAdornment, IconButton, TextField, Box, Paper } from '@mui/material';
+import { Container, Grid, Typography, Button, InputAdornment, IconButton, TextField, Box, Paper } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -16,8 +16,8 @@ const Register = () => {
 
   const { signUpValidationSchema } = useValidations();
   const initialValues = {
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     studentID: '',
     email: '',
     password: '',
@@ -27,15 +27,14 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const { t } = useTranslation();
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       const { data } = await axios.post('http://localhost:4000/auth/signup', {
-        firstname: values.firstname,
-        lastname: values.lastname,
+        firstName: values.firstName,
+        lastName: values.lastName,
         studentID: values.studentID,
         email: values.email,
         password: values.password,
@@ -64,7 +63,6 @@ const Register = () => {
       } else {
         console.log(error)
         Swal.fire({
-
           title: t('signUp Error'),
           text: t('An error occurred during registration. Please try again.'),
           icon: 'error',
@@ -72,13 +70,10 @@ const Register = () => {
         });
       }
     } finally {
-      setSubmitting(false);
+      setSubmitting(false); 
     }
   };
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
-  };
+
 
 
   return (
@@ -86,7 +81,7 @@ const Register = () => {
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '30px' }} />
 
-        <Paper elevation={3} style={{ padding: 20 }}>
+        <Paper elevation={3} sx={{ p: 2 }}>
           <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signUp")}</Typography>
 
           <Formik
@@ -94,58 +89,31 @@ const Register = () => {
             onSubmit={onSubmit}
             validationSchema={signUpValidationSchema}
           >
-            {({ errors, touched, isValid, setFieldValue }) => (
+            {({ errors, touched}) => (
               <Form>
-
-                <label htmlFor="upload-avatar">
-                  <Avatar
-                    alt=""
-                    src={selectedImage ? URL.createObjectURL(selectedImage) : ""}
-                    sx={{ width: 100, height: 100, margin: 'auto' }}
-                  />
-                </label>
-                <input
-                  id="upload-avatar"
-                  type="file"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={(event) => {
-                    handleImageChange(event);
-                    setFieldValue('image', event.currentTarget.files[0]);
-
-                  }}
-                />
-
-
-                {errors.image && touched.image && (
-                  <div style={{ color: 'red' }}>{errors.image}</div>
-                )}
-                <Box sx={{ height: '10px' }} />
-
 
                 <Grid container spacing={2}>
                 <Grid item xs={6}>
                 <Field
-                  name="firstname"
+                  name="firstName"
                   as={TextField}
-                  id="firstname"
+                  id="firstName"
                   label={t("firstname")}
-                  
                   fullWidth
-                  error={touched.firstname && Boolean(errors.firstname)}
-                  helperText={touched.firstname && errors.firstname}
+                  error={touched.firstName && Boolean(errors.firstName)}
+                  helperText={touched.firstName && errors.firstName}
                 />
                 </Grid>
                 <Grid item xs={6}>
                 <Field
-                  name="lastname"
+                  name="lastName"
                   as={TextField}
-                  id="lastname"
-                  label={t("lastname")}
+                  id="lastName"
+                  label={t("last  ame")}
                   
                   fullWidth
-                  error={touched.lastname && Boolean(errors.lastname)}
-                  helperText={touched.lastname && errors.lastname}
+                  error={touched.lastName && Boolean(errors.lastName)}
+                  helperText={touched.lastName && errors.lastName}
                 />
                 </Grid>
                 </Grid>
@@ -159,11 +127,12 @@ const Register = () => {
                   select
                   id="gender"
                   label={t("gender")}
-                  
                   fullWidth
                   SelectProps={{ native: true }}
+                  error={ touched.gender && Boolean(errors.gender)}
+                  helperText={touched.gender && errors.gender}
                 >
-                  <option value=""></option>
+                <option value=""></option>
                   <option value="male">{t("male")}</option>
                   <option value="female">{t("female")}</option>
                 </Field>
@@ -178,6 +147,8 @@ const Register = () => {
                   
                   fullWidth
                   SelectProps={{ native: true }}
+                  error={ touched.college && Boolean(errors.college)}
+                  helperText={ touched.college && errors.college}
                 >
                   <option value=""></option>
                   <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
@@ -198,8 +169,7 @@ const Register = () => {
                   name="studentID"
                   as={TextField}
                   id="studentID"
-                  label={t("studentID")}
-                  
+                  label={t("studentID")}                  
                   fullWidth
                   error={touched.studentID && Boolean(errors.studentID)}
                   helperText={touched.studentID && errors.studentID}
@@ -212,8 +182,7 @@ const Register = () => {
                   id="email"
                   label={t("email")}
                   autoComplete="email"
-                  type="email"
-                  
+                  type="email"                  
                   fullWidth
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}
@@ -227,7 +196,6 @@ const Register = () => {
                   label={t("password")}
                   autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}
-                  
                   fullWidth
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password && errors.password}
@@ -250,7 +218,6 @@ const Register = () => {
                   label={t("confirmPassword")}
                   autoComplete="new-password"
                   type={showConfirmPassword ? 'text' : 'password'}
-                  
                   fullWidth
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   helperText={touched.confirmPassword && errors.confirmPassword}
