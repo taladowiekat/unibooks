@@ -40,7 +40,7 @@ const ProfileForm = () => {
 
     const fetchUserData = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("userToken");
             const { data } = await axios.get('http://localhost:4000/user/getUserProfile', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ const ProfileForm = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('userToken');
             const formData = new FormData();
             formData.append('firstName', values.firstName);
             formData.append('lastName', values.lastName);
