@@ -59,6 +59,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
             text: 'An unexpected error occurred. Please try again later.',
           });
       })
+      setSubmitting(false);
   }
 
   return (
