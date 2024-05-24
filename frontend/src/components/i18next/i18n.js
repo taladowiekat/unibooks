@@ -67,8 +67,6 @@ resources:{
                home:"Home ",
                allPosts:" All Posts",
                contactus:" Contact Us",
-               signUp:"Sign Up ",
-               signIn:" Sign In",
                SELLEXCHANGEDONATE:"SELL ,EXCHANGE,DONATE",
                allCategories: "All Categories",
                slides: "Slides",
@@ -96,7 +94,6 @@ resources:{
               emailIsRequired: 'Email is required',
               confirmPasswordRequired: 'Please confirm your password',
               phoneNumberIsRequired: 'Phone number is required',
-              invalidEmailFormat: 'Invalid email format',
               nameIsRequired: 'Name is required',
               search2:" Article name or keywords...",
               typeoperation: {
@@ -135,7 +132,6 @@ resources:{
              EmailmustcontainthestudentID:"Email must contain the student ID",
 
                 }
-    
     },
     
   arabic:{
@@ -187,7 +183,6 @@ resources:{
           confirmPassword:"تأكيد كلمة المرور",
           confirmButton:"تأكيد",
             //Register
-          signUp:"إنشاء حساب",
           universityId:"رقم التسجيل الجامعي",
           createAccount:"إنشاء حساب",
           signUpSubTextOne :"هل لديك حساب بالفعل؟ قم بتسجيل الدخول",
@@ -199,7 +194,6 @@ resources:{
           home: "الصفحة الرئيسية",
           allPosts: "جميع المنشورات",
           signUp: "انشئ حساب",
-          signIn: "تسجيل الدخول",
           SELLEXCHANGEDONATE:"بيع، استبدال، تبرع",
           Required: "مطلوب",
           allCategories: "جميع الفئات",
@@ -227,7 +221,6 @@ resources:{
           emailIsRequired: 'البريد الإلكتروني مطلوب',
           confirmPasswordRequired: 'يرجى تأكيد كلمة المرور',
           phoneNumberIsRequired: 'رقم الهاتف مطلوب',
-          invalidEmailFormat: 'صيغة البريد الإلكتروني غير صالحة',
           nameIsRequired: 'الاسم مطلوب',
           search2:" اسم المقال أو الكلمات الرئيسية...",
           typeoperation: {
@@ -239,8 +232,6 @@ resources:{
           deleteButton:" حذف",
           createPostTypography: "قدم تفاصيل منشورك",
           uploadImage:"قم بتحميل الصورة ",
-          invalidFileType: "نوع ملف غير صالح!",
-          fileSizeTooBig:  "حجم الملف كبير جداً!",
           Arabic:" اللغة العربية ",
           English :" اللغة الانجليزية",
           firstnameRequired:"الاسم الأول مطلوب",
