@@ -18,8 +18,8 @@ const allowedGender = [
 ];
 
 export const signupschema = yup.object({
-    firstname: yup.string().required('First name is required'),
-    lastname: yup.string().required('Last name is required'),
+    firstName: yup.string().required('First name is required'),
+    lastName: yup.string().required('Last name is required'),
     studentID: yup.string()
       .matches(/^\d{8}$/, 'Student ID must be 8 digits long')
       .required('Student ID is required'),
