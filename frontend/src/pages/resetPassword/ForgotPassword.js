@@ -1,150 +1,112 @@
-import { TextField, Button, Container, Box, Modal, Typography } from "@mui/material";
-import { Formik, Form, Field } from "formik";
-import { useValidations } from "../../components/validation/validation";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  outline: "none"
+import React, { useState } from 'react';
+import { Container, Grid, Paper, Typography, Button, TextField, Box } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useValidations } from '../../components/validation/validation';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import ResetPassword from './ResetPass';
 
-};
 
-const ForgotPassword = ({ open, handleClose, email }) => {
+const ForgotPassword = () => {
   const { forgotPasswordValidationSchema } = useValidations();
-  const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const initialValues = {
     email: '',
-    code: '',
-    password: ''
   };
 
   const onSubmit = async (values, { setSubmitting }) => {
-
-    await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email })
+    await axios.patch('http://localhost:4000/auth/forgotPassword', { email: values.email })
       .then((response) => {
+
         if (response.status === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Password Changed',
-            text: 'Your password has been changed successfully.',
-          });
-          navigate('/login');
+          setUserEmail(values.email);
+          handleOpen();
         }
       }, (error) => {
-        if (error.response.status === 400)
-          Swal.fire({
-            icon: 'error',
-            text: 'New Password cannot be the same as the old password.',
-          });
-        else if (error.response.status === 401)
-          Swal.fire({
-            icon: 'error',
-            title: 'Invalid Code',
-            text: 'The provided code is incorrect.',
-          });
-        else
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops',
-            text: 'An unexpected error occurred. Please try again later.',
-          });
+        if (error.response) {
+          if (error.response.status === 404)
+            Swal.fire({
+              icon: 'error',
+              title: 'User Not Found',
+              text: 'The provided email is not registered.',
+            });
+          else
+            Swal.fire({
+              icon: 'error',
+              title: "Oops",
+              text: 'An unexpected error occurred. Please try again later.',
+            });
+        }
       })
-  }
+    setSubmitting(false);
+  };
 
+  const { t } = useTranslation();
   return (
-    <Modal
-      sx={{ zIndex: 1050 }} // SweetAlert Z-Index is 1060. this is needed for alert to be on top
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="reset-code-modal"
-      aria-describedby="reset-code-form"
-    >
-      <Formik
-        validationSchema={forgotPasswordValidationSchema}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
-        {({ errors, touched, isSubmitting }) => (
-          <Form>
-            <Container sx={modalStyle}>
-              <Box display="flex" flexDirection="column" gap={2}>
-                <Typography gutterBottom sx={{ alignItems: 'center', fontSize: '1.2rem' }}>
-                  Please check your email for a message with your code.
-                </Typography>
-                <Field
-                  name="code"
-                  as={TextField}
-                  id="code"
-                  label="Reset Code"
-                  variant="outlined"
-                  type="text"
-                  sx={{ width: '4cm' }}
-                  fullWidth
+    <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
+      <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
+        <Box sx={{ height: '100px' }} />
+        <Paper elevation={3} style={{ padding: 20 }}>
 
-                  disabled={isSubmitting}
-                  inputProps={{ maxLength: 4 }}
-                  error={touched.code && Boolean(errors.code)}
-                  helperText={touched.code ? errors.code : ""}
-                />
-                <Field
-                  name="password"
-                  as={TextField}
-                  id="password"
-                  label="New Password"
-                  variant="outlined"
-                  type="password"
-                  fullWidth
+          <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>
+            {t("resetYourPassword")}
+          </Typography>
 
-                  disabled={isSubmitting}
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password ? errors.password : ""}
-                />
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={forgotPasswordValidationSchema}
+          >
+            {({ errors, touched, isValid, isSubmitting }) => (
+              <Form>
                 <Field
-                  name="confirmPassword"
+                  name="email"
                   as={TextField}
-                  id="confirmPassword"
-                  label="Confirm Password"
-                  variant="outlined"
-                  type="password"
+                  id="email"
+                  label={t("email")}
+                  autoComplete="email"
                   fullWidth
-
-                  disabled={isSubmitting}
-                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                  helperText={touched.confirmPassword ? errors.confirmPassword : ""}
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
                 />
-                <Box display="flex" justifyContent="space-between">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
-                    Confirm
-                  </Button>
-                </Box>
-              </Box>
-            </Container>
-          </Form>
-        )}
-      </Formik>
-    </Modal>
+
+                <Box sx={{ height: '30px' }} />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  disabled={!isValid || isSubmitting}
+                  color="primary"
+                  sx={{ mt: 2 }}
+                >
+                  {t("resetPassword")}
+                </Button>
+                <ResetPassword open={open} handleClose={handleClose} email={userEmail} />
+                <Box height={20} />
+
+                <Grid container>
+                  <Grid item xs>
+                    <Link to='/login' variant="body2">
+
+                      {t("backToLogin")}
+                    </Link>
+                  </Grid>
+                </Grid>
+
+              </Form>
+            )}
+          </Formik>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

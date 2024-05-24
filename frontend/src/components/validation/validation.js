@@ -90,7 +90,7 @@ export function useValidations() {
   });
 
   // Validation schema for resetting password
-  const resetPasswordValidationSchema = yup.object({
+  const forgotPasswordValidationSchema = yup.object({
     email: yup.string()
       .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
       .required(t('emailIsRequired')),
@@ -116,7 +116,7 @@ export function useValidations() {
   });
 
   // Validation schema for forgot password form
-  const forgotPasswordValidationSchema = yup.object().shape({
+  const resetPasswordValidationSchema = yup.object().shape({
     code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
     password: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),

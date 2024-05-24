@@ -4,10 +4,11 @@ import Layout from './Layout.js';
 import Login from '../pages/signin/SignIn.js';
 import Register from '../pages/signup/SignUp.js';
 import Posts from '../pages/allPosts/Posts.js';
-import ResetPassword from '../pages/resetPassword/ResetPass.js';
+import ResetPassword from '../pages/resetPassword/ForgotPassword.js';
 import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import EditPost from '../pages/editPost/EditPost.js';
+import ForgotPassword from '../pages/resetPassword/ForgotPassword.js';
 
 
 
@@ -34,8 +35,8 @@ export const router = createBrowserRouter([
                 element: <Posts />
             },
             {
-                path: 'resetPass',
-                element: <ResetPassword />
+                path: 'forgotPassword',
+                element: <ForgotPassword />
             },
             {
                 path: 'profile',
