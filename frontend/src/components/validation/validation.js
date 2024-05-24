@@ -66,9 +66,10 @@ export function useValidations() {
     firstname: yup.string().required(t('firstnameRequired')),
     lastname: yup.string().required(t('lastnameRequired')),
     email: yup.string()
-      .required('Email is required')
-      .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
-      .test('email-match-studentID', 'Email must contain the student ID', function (value) {
+
+    .required(t('emailIsRequired'))
+    .matches(/^s\d{8}@stu\.najah\.edu$/, 'invalidEmailFormat')
+    .test('email-match-studentID', t ('EmailmustcontainthestudentID'), function (value) {
         const { studentID } = this.parent;
         if (value) {
           const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
