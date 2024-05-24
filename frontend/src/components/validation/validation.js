@@ -8,10 +8,11 @@ export function useValidations() {
   // Validation schema for creating a post
   const createPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
-    listingType: yup.string().required(t('listingTypeRequired')),
+    postType: yup.string().required(t('postTypeRequired')),
+    notes: yup.string().required(t('notesRequired')),
     image: yup
       .mixed()
-      .required(t('Required'))
+      .required(t('required'))
       .test(
         'FILE_TYPE',
         t('invalidFileType'),
@@ -22,12 +23,31 @@ export function useValidations() {
         t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
+    subImages: yup
+      .array()
+      .of(
+        yup.mixed().test(
+          'FILE_TYPE',
+          t('invalidFileType'),
+          value => value && ['image/png', 'image/jpeg'].includes(value.type)
+        ).test(
+          'FILE_SIZE',
+          t('fileSizeTooBig'),
+          value => value && value.size < 10 * mb
+        )
+      )
+      .max(4, t('maxSubImages')),
+    exchangeBookName: yup.string().when('postType', {
+      is: 'Exchange',
+      then: schema => schema.required(t('exchangeBookNameRequired')),
+      otherwise: schema => schema.notRequired(),
+    }),
   });
 
   // Validation schema for editing a post
   const editPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
-    listingType: yup.string().required(t('listingTypeRequired')),
+    postType: yup.string().required(t('postTypeRequired')),
   });
 
   // Validation schema for signing in
@@ -43,19 +63,20 @@ export function useValidations() {
 
   // Validation schema for signing up
   const signUpValidationSchema = yup.object({
-    firstname : yup.string().required(t('firstnameRequired')),
-    lastname : yup.string().required(t('lastnameRequired')),
+    firstname: yup.string().required(t('firstnameRequired')),
+    lastname: yup.string().required(t('lastnameRequired')),
     email: yup.string()
+
     .required(t('emailIsRequired'))
     .matches(/^s\d{8}@stu\.najah\.edu$/, 'invalidEmailFormat')
     .test('email-match-studentID', t ('EmailmustcontainthestudentID'), function (value) {
         const { studentID } = this.parent;
         if (value) {
-            const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
-            return regex.test(value);
+          const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+          return regex.test(value);
         }
         return false;
-    }),
+      }),
     password: yup.string()
       .required(t('passwordRequired'))
       .min(6, t('passwordTooShort'))
@@ -63,7 +84,6 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-
   });
 
   // Validation schema for resetting password
