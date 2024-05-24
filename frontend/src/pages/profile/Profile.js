@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import {
     Container,
@@ -5,98 +6,100 @@ import {
     TextField,
     Box,
     Button,
-    Paper,
     IconButton,
-    ButtonBase,
-    Grid
+    Paper,
+    Grid,
+    Avatar
 } from '@mui/material';
-import userImage from './profilepic.png';
-import { styled } from '@mui/material/styles';
 import ChangePassword from './ChangePassword.js';
 import { Field, Form, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { DeleteOutlined } from '@mui/icons-material';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import stringToColor from 'string-to-color';
+import { useValidations } from '../../components/validation/validation';
 
-const ImageButton = styled(ButtonBase)(({ theme }) => ({
-    position: 'relative',
-    height: 200,
-    [theme.breakpoints.down('sm')]: {
-        width: '100% !important',
-        height: 100,
-    },
-    '&:hover, &.Mui-focusVisible': {
-        zIndex: 1,
-        '& .MuiImageBackdrop-root': {
-            opacity: 0.15,
-        },
-        '& .MuiImageMarked-root': {
-            opacity: 0,
-        },
-        '& .MuiTypography-root': {
-            border: '4px solid currentColor',
-        },
-    },
-}));
-
-const ImageSrc = styled('span')({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center 40%',
-});
-
-const Image = styled('span')(({ theme }) => ({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.palette.common.white,
-}));
-
-const ImageBackdrop = styled('span')(({ theme }) => ({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: theme.palette.common.black,
-    opacity: 0.4,
-    transition: theme.transitions.create('opacity'),
-}));
-
-const ImageMarked = styled('span')(({ theme }) => ({
-    height: 3,
-    width: 18,
-    backgroundColor: theme.palette.common.white,
-    position: 'absolute',
-    bottom: -2,
-    left: 'calc(50% - 9px)',
-    transition: theme.transitions.create('opacity'),
-}));
 
 const ProfileForm = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const { profileValidationSchema } = useValidations();
+
+
     const { t } = useTranslation();
-    const initialValues = {
-        // connect with database to get student's info
-        name: "",
-        college: "Choose ",
+    const [initialValues, setInitialValues] = useState({
+        firstName: "",
+        lastName: "",
+        college: "",
         email: "",
+        image: ""
+    });
+
+    const fetchUserData = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const { data } = await axios.get('http://localhost:4000/user/getUserProfile', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setInitialValues(data);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
     };
 
-    const handleSubmit = async (user) => {
-        // "save info" logic here
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    const handleSubmit = async (values, { setSubmitting }) => {
+        try {
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('firstName', values.firstName);
+            formData.append('lastName', values.lastName);
+            formData.append('college', values.college);
+            formData.append('profilePicture', values.image);
+            const { data } = await axios.patch('http://localhost:4000/profile/updateProfile', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            Swal.fire({
+                icon: 'success',
+                title: 'Update Successful',
+                text: 'You have successfully updated your information.',
+            });
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Update Failed',
+                        text: 'Invalid token. Please log in again.',
+                    });
+                } else if (error.response.status === 400) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No Changes',
+                        text: 'No changes detected.',
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: 'An error occurred while updating the profile. Please try again later.',
+                });
+            }
+        }
     };
+
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
@@ -107,7 +110,6 @@ const ProfileForm = () => {
         }
         const objectUrl = URL.createObjectURL(image);
         setPreview(objectUrl);
-
         return () => URL.revokeObjectURL(objectUrl);
     }, [image]);
 
@@ -122,184 +124,167 @@ const ProfileForm = () => {
         setFieldValue('image', '');
     };
 
+    const getInitial = (name) => {
+        return name ? name.charAt(0).toUpperCase() : '';
+    };
 
     return (
         <Formik
+            enableReinitialize
             initialValues={initialValues}
+            validationSchema={profileValidationSchema}
             onSubmit={handleSubmit}
         >
-
-            {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
-
+            {({ setFieldValue, errors, touched, values }) => (
                 <Form>
                     <Container maxWidth="sm">
-                        <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Paper sx={{ position: 'relative', width: 300, p: 2, mb: 4 }}>
-                                {!image && (
-                                    <div>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            id="image-upload"
-                                            name="image"
-                                            onChange={(e) => handleImageUpload(e, setFieldValue)}
-                                            style={{ display: 'none' }}
-                                        />
-                                        <label htmlFor="image-upload">
-
-                                            <ImageButton
-                                                focusRipple
-                                                component="span"
-                                                style={{
-                                                    width: '100%',
-                                                }}
-                                            >
-                                                <ImageSrc style={{ backgroundImage: `url(${preview || '/static/images/default.png'})` }} />
-                                                <ImageBackdrop className="MuiImageBackdrop-root" />
-                                                <Image src={userImage}>
-                                                    <Typography
-                                                        component="span"
-                                                        variant="subtitle1"
-                                                        color="inherit"
-                                                        sx={{
-                                                            position: 'relative',
-                                                            p: 4,
-                                                            pt: 2,
-                                                            pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-                                                        }}
-                                                    >
-                                                        {t("uploadImage")}
-                                                        <ImageMarked className="MuiImageMarked-root" />
-                                                    </Typography>
-                                                </Image>
-                                            </ImageButton>
-                                        </label>
-                                        {errors.image && touched.image && (
-                                            <div style={{ marginTop: 10, color: 'red' }}>
-                                                {errors.image}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-
-                                {preview && (
-                                    <>
-                                        <img src={preview} alt="Uploaded" style={{ width: '100%', height: 'auto', borderRadius: 10 }} />                                        <IconButton
-                                            style={{ position: 'absolute', top: 0, right: -30 }}
+                        <Paper elevation={3} sx={{ p: 2 }}>
+                            <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <Box sx={{ position: 'relative', mb: 4 }}>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="image-upload"
+                                        name="image"
+                                        onChange={(e) => handleImageUpload(e, setFieldValue)}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <label htmlFor="image-upload">
+                                        <Avatar
+                                            sx={{
+                                                width: 128,
+                                                height: 128,
+                                                cursor: 'pointer',
+                                                bgcolor: preview ? 'transparent' : stringToColor(values.studentID),
+                                                color: '#fff'
+                                            }}
+                                            src={preview || null}
+                                        >
+                                            {!preview && getInitial(values.firstName)}
+                                        </Avatar>
+                                    </label>
+                                    {preview && (
+                                        <IconButton
+                                            style={{ position: 'absolute', top: 0, right: 0 }}
                                             onClick={() => handleDeleteImage(setFieldValue)}
                                         >
                                             <DeleteOutlined />
                                         </IconButton>
-                                    </>
-                                )}
-                            </Paper>
+                                    )}
+                                    {errors.image && touched.image && (
+                                        <div style={{ marginTop: 10, color: 'red' }}>
+                                            {errors.image}
+                                        </div>
+                                    )}
+                                </Box>
 
-                            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
-                                {t("general")}
-                            </Typography>
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    <Field
-                                        as={TextField}
-                                        margin="normal"
-                                        fullWidth
-                                        id="firstName"
-                                        label={t("firstName")}
-                                        name="firstName"
-                                        autoComplete="name"
-                                        autoFocus
-                                    />
+                                <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem' }}>
+                                    {t("general")}
+                                </Typography>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6}>
+                                        <Field
+                                            as={TextField}
+                                            margin="normal"
+                                            fullWidth
+                                            id="firstName"
+                                            label={t("firstName")}
+                                            name="firstName"
+                                            autoComplete="name"
+                                            autoFocus
+                                            error={touched.firstName && Boolean(errors.firstName)}
+                                            helperText={touched.firstName && errors.firstName}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Field
+                                            as={TextField}
+                                            margin="normal"
+                                            fullWidth
+                                            id="lastName"
+                                            label={t("lastName")}
+                                            name="lastName"
+                                            autoComplete="name"
+                                            error={touched.lastName && Boolean(errors.lastName)}
+                                            helperText={touched.lastName && errors.lastName}
+                                        />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <Field
-                                        as={TextField}
-                                        margin="normal"
-                                        fullWidth
-                                        id="lastName"
-                                        label={t("lastName")}
-                                        name="lastName"
-                                        autoComplete="name"
-                                        autoFocus
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Field
-                                name="college"
-                                as={TextField}
-                                select
-                                id="college"
-                                label={t("college")}
-
-                                fullWidth
-                                SelectProps={{ native: true }}
-                            >
-                                <option value="Choose One">Choose One</option>
-                                <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
-                                <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
-                                <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>
-                                <option value="Faculty of Fine Arts">{t("Faculty of Fine Arts")}</option>
-                                <option value="Faculty of Medicine and Health Sciences">{t("Faculty of Medicine and Health Sciences")}</option>
-                                <option value="Faculty of Law and Political Sciences">{t("Faculty of Law and Political Sciences")}</option>
-                                <option value="Faculty of Humanities and Educational Sciences">{t("Faculty of Humanities and Educational Sciences")}</option>
-                                <option value="Faculty of Science">{t("Faculty of Science")}</option>
-                                <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
-                            </Field>
-
-                            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', marginTop: '1rem' }}>
-                                {t("security")}
-                            </Typography>
-                            <Field
-                                as={TextField}
-                                margin="normal"
-                                fullWidth
-                                name="email"
-                                disabled
-                                label={t("email")}
-                                type="email"
-                                id="email"
-                                autoComplete="email"
-
-                                error={
-                                    touched.email && Boolean(errors.email)
-                                }
-                                helperText={
-                                    touched.email ? errors.email : ""
-                                }
-                            />
-
-                            <Button
-                                variant="outlined"
-                                color="secondary"
-                                sx={{ mt: 2 }}
-                                onClick={handleOpen}
-                            >
-                                {t("changePassword")}
-                            </Button>
-
-                            <ChangePassword open={open} handleClose={handleClose} />
-
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    sx={{ mr: 1 }}
+                                <Field
+                                    name="college"
+                                    as={TextField}
+                                    select
+                                    id="college"
+                                    label={t("college")}
+                                    fullWidth
+                                    SelectProps={{ native: true }}
+                                    error={touched.college && Boolean(errors.college)}
+                                    helperText={touched.college && errors.college}
                                 >
-                                    {t("saveButton")}
-                                </Button>
+
+                                    <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
+                                    <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
+                                    <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>
+                                    <option value="Faculty of Fine Arts">{t("Faculty of Fine Arts")}</option>
+                                    <option value="Faculty of Medicine and Health Sciences">{t("Faculty of Medicine and Health Sciences")}</option>
+                                    <option value="Faculty of Law and Political Sciences">{t("Faculty of Law and Political Sciences")}</option>
+                                    <option value="Faculty of Humanities and Educational Sciences">{t("Faculty of Humanities and Educational Sciences")}</option>
+                                    <option value="Faculty of Science">{t("Faculty of Science")}</option>
+                                    <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
+                                </Field>
+
+                                <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', marginTop: '1rem' }}>
+                                    {t("security")}
+                                </Typography>
+                                <Field
+                                    as={TextField}
+                                    margin="normal"
+                                    fullWidth
+                                    name="email"
+                                    disabled
+                                    label={t("email")}
+                                    type="email"
+                                    id="email"
+                                    autoComplete="email"
+                                    error={
+                                        touched.email && Boolean(errors.email)
+                                    }
+                                    helperText={
+                                        touched.email ? errors.email : ""
+                                    }
+                                />
+
                                 <Button
                                     variant="outlined"
                                     color="secondary"
-                                    sx={{ ml: 1 }}
+                                    sx={{ mt: 2 }}
+                                    onClick={handleOpen}
                                 >
-                                    {t("cancelbutton")}
+                                    {t("changePassword")}
                                 </Button>
+
+                                <ChangePassword open={open} handleClose={handleClose} />
+
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{ mr: 1 }}
+                                    >
+                                        {t("saveButton")}
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        sx={{ ml: 1 }}
+                                    >
+                                        {t("cancelbutton")}
+                                    </Button>
+                                </Box>
                             </Box>
-                        </Box>
-
-
+                        </Paper>
                     </Container>
-
                 </Form>
             )}
         </Formik>
