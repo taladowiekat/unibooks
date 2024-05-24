@@ -31,7 +31,6 @@ const LogIn = () => {
       });
       localStorage.setItem("userToken", data.token);
       navigate('/allPosts');
-      localStorage.setItem('token', data.token);
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
