@@ -19,17 +19,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 30
-    }, college: {
+ college: {
         type: String,
         required: true,
         enum: [
@@ -44,10 +34,26 @@ const userSchema = new Schema({
         "Faculty of Shari'ah"
         ]
     },
-     gender: {
+
+    email: {
         type: String,
         required: true,
-        enum: ["male", "female"]
+        unique: true,
+    },
+    confirmEmail:{
+        type:Boolean,
+        default:false,
+    },
+    password: {
+        type: String,
+        required: true,
+        min: 6,
+        max: 30
+    },
+    gender: {
+        type: String,
+        required: true,
+        enum: ["Male", "Female"]
     },
     role: {
         type: String,
@@ -59,4 +65,6 @@ const userSchema = new Schema({
 
 const userModel = model('User', userSchema);
 
+
 export default userModel;
+

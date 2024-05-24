@@ -8,5 +8,8 @@ const authRouter = Router();
 
 authRouter.post('/signup',validation(signupschema) ,asyncHandler(AuthConroller.signup))
 authRouter.post('/signin',validation(signinschema) ,asyncHandler(AuthConroller.signin))
+authRouter.get('/confirmEmail/:token',asyncHandler(AuthConroller.confirmEmail))
+
 
 export default authRouter ;
+
