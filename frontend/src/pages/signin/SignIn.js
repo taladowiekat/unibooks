@@ -31,6 +31,7 @@ const LogIn = () => {
       });
       localStorage.setItem("userToken", data.token);
       navigate('/allPosts');
+      localStorage.setItem('token', data.token);
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
@@ -64,7 +65,7 @@ const LogIn = () => {
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
         <Box sx={{ height: '100px' }} />
-        <Paper elevation={3} style={{ padding: 20 }}>
+        <Paper elevation={3} sx={{ p: 2 }}>
 
           <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>{t("signIn")} </Typography>
 
@@ -81,7 +82,6 @@ const LogIn = () => {
                   id="emailOrstudentID"
                   label={t("EmailOrstudentID")}
                   autoComplete="email"
-
                   fullWidth
                   error={touched.emailOrstudentID && Boolean(errors.emailOrstudentID)}
                   helperText={touched.emailOrstudentID && errors.emailOrstudentID}
@@ -94,7 +94,6 @@ const LogIn = () => {
                   label={t("Password")}
                   autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}
-
                   fullWidth
                   error={touched.password && Boolean(errors.password)}
                   helperText={touched.password && errors.password}
