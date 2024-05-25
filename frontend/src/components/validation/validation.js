@@ -103,10 +103,10 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-    college: yup.string()
+      college: yup.string()
       .required('College is required'),
     gender: yup.string()
-      .required('Gender is required')
+      .required('Gender is required').oneOf(allowedGender, 'Invalid gender')
   });
 
   // Validation schema for resetting password
@@ -148,7 +148,7 @@ export function useValidations() {
     lastName: yup.string().required(t('lastnameRequired')),
     college: yup.string()
       .oneOf(allowedColleges, 'Invalid college')
-      .required('College is required'),
+      .required('College is required')
   })
 
 

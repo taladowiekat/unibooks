@@ -21,6 +21,8 @@ const Register = () => {
     studentID: '',
     email: '',
     password: '',
+    college: '',
+    gender: '',
     confirmPassword: '',
     image: null
   };
@@ -32,7 +34,7 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post('http://localhost:4000/auth/signup', {
+      await axios.post('http://localhost:4000/auth/signup', {
         firstName: values.firstName,
         lastName: values.lastName,
         studentID: values.studentID,
@@ -70,7 +72,7 @@ const Register = () => {
         });
       }
     } finally {
-      setSubmitting(false); 
+      setSubmitting(false);
     }
   };
 
@@ -89,79 +91,79 @@ const Register = () => {
             onSubmit={onSubmit}
             validationSchema={signUpValidationSchema}
           >
-            {({ errors, touched}) => (
+            {({ errors, touched }) => (
               <Form>
 
                 <Grid container spacing={2}>
-                <Grid item xs={6}>
-                <Field
-                  name="firstName"
-                  as={TextField}
-                  id="firstName"
-                  label={t("firstname")}
-                  fullWidth
-                  error={touched.firstName && Boolean(errors.firstName)}
-                  helperText={touched.firstName && errors.firstName}
-                />
-                </Grid>
-                <Grid item xs={6}>
-                <Field
-                  name="lastName"
-                  as={TextField}
-                  id="lastName"
-                  label={t("last  ame")}
-                  
-                  fullWidth
-                  error={touched.lastName && Boolean(errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
-                />
-                </Grid>
+                  <Grid item xs={6}>
+                    <Field
+                      name="firstName"
+                      as={TextField}
+                      id="firstName"
+                      label={t("firstname")}
+                      fullWidth
+                      error={touched.firstName && Boolean(errors.firstName)}
+                      helperText={touched.firstName && errors.firstName}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Field
+                      name="lastName"
+                      as={TextField}
+                      id="lastName"
+                      label={t("last  ame")}
+
+                      fullWidth
+                      error={touched.lastName && Boolean(errors.lastName)}
+                      helperText={touched.lastName && errors.lastName}
+                    />
+                  </Grid>
                 </Grid>
                 <Box sx={{ height: '10px' }} />
-                
+
                 <Grid container spacing={2}>
-                <Grid item xs={4}>
-                <Field
-                  name="gender"
-                  as={TextField}
-                  select
-                  id="gender"
-                  label={t("gender")}
-                  fullWidth
-                  SelectProps={{ native: true }}
-                  error={ touched.gender && Boolean(errors.gender)}
-                  helperText={touched.gender && errors.gender}
-                >
-                <option value=""></option>
-                  <option value="male">{t("male")}</option>
-                  <option value="female">{t("female")}</option>
-                </Field>
-                </Grid>
-                <Grid item xs={8}>
-                <Field
-                  name="college"
-                  as={TextField}
-                  select
-                  id="college"
-                  label={t("college")}
-                  
-                  fullWidth
-                  SelectProps={{ native: true }}
-                  error={ touched.college && Boolean(errors.college)}
-                  helperText={ touched.college && errors.college}
-                >
-                  <option value=""></option>
-                  <option value="Faculty of Agriculture and Veterinary Medicine">{t("FacultyofAgricultureandVeterinaryMedicine")}</option>
-                  <option value="Faculty of Business and Communication">{t("FacultyofBusinessandCommunication")}</option>
-                  <option value="Faculty of Engineering and Information">{t("FacultyofEngineeringandInformation")}</option>
-                  <option value="Faculty of Fine Arts">{t("FacultyofFineArts")}</option>
-                  <option value="Faculty of Medicine and Health Sciences">{t("FacultyofMedicineandHealthSciences")}</option>
-                  <option value="Faculty of Law and Political Sciences">{t("FacultyofLawandPoliticalSciences")}</option>
-                  <option value="Faculty of Humanities and Educational Sciences">{t("FacultyofHumanitiesandEducationalSciences")}</option>
-                  <option value="Faculty of Science">{t("FacultyofScience")}</option>
-                  <option value="Faculty of Shari'ah">{t("FacultyofShariah")}</option>
-                </Field>
-                </Grid>
+                  <Grid item xs={4}>
+                    <Field
+                      name="gender"
+                      as={TextField}
+                      select
+                      id="gender"
+                      label={t("gender")}
+                      fullWidth
+                      SelectProps={{ native: true }}
+                      error={touched.gender && Boolean(errors.gender)}
+                      helperText={touched.gender && errors.gender}
+                    >
+                      <option value=""></option>
+                      <option value="male">{t("male")}</option>
+                      <option value="female">{t("female")}</option>
+                    </Field>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Field
+                      name="college"
+                      as={TextField}
+                      select
+                      id="college"
+                      label={t("college")}
+
+                      fullWidth
+                      SelectProps={{ native: true }}
+                      error={touched.college && Boolean(errors.college)}
+                      helperText={touched.college && errors.college}
+                    >
+                      <option value=""></option>
+                      <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
+                      <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
+                      <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>
+                      <option value="Faculty of Fine Arts">{t("Faculty of Fine Arts")}</option>
+                      <option value="Faculty of Medicine and Health Sciences">{t("Faculty of Medicine and Health Sciences")}</option>
+                      <option value="Faculty of Law and Political Sciences">{t("Faculty of Law and Political Sciences")}</option>
+                      <option value="Faculty of Humanities and Educational Sciences">{t("Faculty of Humanities and Educational Sciences")}</option>
+                      <option value="Faculty of Science">{t("Faculty of Science")}</option>
+                      <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
+                    </Field>
+                  </Grid>
                 </Grid>
                 <Box sx={{ height: '10px' }} />
 
@@ -169,7 +171,7 @@ const Register = () => {
                   name="studentID"
                   as={TextField}
                   id="studentID"
-                  label={t("studentID")}                  
+                  label={t("studentID")}
                   fullWidth
                   error={touched.studentID && Boolean(errors.studentID)}
                   helperText={touched.studentID && errors.studentID}
@@ -182,7 +184,7 @@ const Register = () => {
                   id="email"
                   label={t("email")}
                   autoComplete="email"
-                  type="email"                  
+                  type="email"
                   fullWidth
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}

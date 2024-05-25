@@ -2,7 +2,7 @@ import userModel from '../../../db/models/user.model.js';
 import jwt from 'jsonwebtoken';
 
 export const getUserProfile = async (req, res) => {
-    try {
+   
         const token = req.headers.authorization.split(' ')[1];
         if (!token) {
             return res.status(401).send({ message: "Access token is missing" });
@@ -29,7 +29,5 @@ export const getUserProfile = async (req, res) => {
         };
 
         return res.status(200).json(userData);
-    } catch (error) {
-        return res.status(500).send({ message: "Server error", error: error.message });
-    }
+    
 };

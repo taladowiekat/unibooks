@@ -17,5 +17,5 @@ router.put('/update/:id', auth('user'), fileUpload(fileType.image).fields([
 ]), asyncHandler(controller.updatePost));
 
 router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
-
+router.delete('/admin/remove/:id',auth('admin'),asyncHandler(controller.AdminDeletePost))
 export default router;

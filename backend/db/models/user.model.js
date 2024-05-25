@@ -9,7 +9,7 @@ const userSchema = new Schema({
         unique: true
     },
     profilePicture: {
-        type: Object,
+        type: String,
         default: ''
     },
     firstName: {
@@ -46,10 +46,14 @@ const userSchema = new Schema({
             "Faculty of Shari'ah"
         ]
     },
+    confirmEmail:{
+        type:Boolean,
+        default:false,
+    },
     gender: {
         type: String,
         required: true,
-        enum: ["Male", "Female"]
+        enum: ["male", "female"]
     },
     role: {
         type: String,

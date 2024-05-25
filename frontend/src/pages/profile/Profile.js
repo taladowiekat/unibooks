@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import {
     Container,
@@ -20,7 +19,6 @@ import Swal from 'sweetalert2';
 import stringToColor from 'string-to-color';
 import { useValidations } from '../../components/validation/validation';
 
-
 const ProfileForm = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -28,19 +26,19 @@ const ProfileForm = () => {
 
     const { profileValidationSchema } = useValidations();
 
-
     const { t } = useTranslation();
     const [initialValues, setInitialValues] = useState({
         firstName: "",
         lastName: "",
         college: "",
         email: "",
-        image: ""
+        image: "",
+        deleteImage: false
     });
 
     const fetchUserData = async () => {
         try {
-            const token = localStorage.getItem("userToken");
+            const token = localStorage.getItem('userToken');
             const { data } = await axios.get('http://localhost:4000/user/getUserProfile', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -63,8 +61,11 @@ const ProfileForm = () => {
             formData.append('firstName', values.firstName);
             formData.append('lastName', values.lastName);
             formData.append('college', values.college);
-            formData.append('profilePicture', values.image);
-            const { data } = await axios.patch('http://localhost:4000/profile/updateProfile', formData, {
+            if (values.image) {
+                formData.append('profilePicture', values.image);
+            }
+            formData.append('deleteImage', values.deleteImage);
+            await axios.patch('http://localhost:4000/profile/updateProfile', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -75,6 +76,7 @@ const ProfileForm = () => {
                 title: 'Update Successful',
                 text: 'You have successfully updated your information.',
             });
+            fetchUserData();
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 401) {
@@ -104,24 +106,29 @@ const ProfileForm = () => {
     const [preview, setPreview] = useState(null);
 
     useEffect(() => {
-        if (!image) {
+        if (image) {
+            const objectUrl = URL.createObjectURL(image);
+            setPreview(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
+        } else if (initialValues.profilePicture) {
+            setPreview(initialValues.profilePicture);
+        } else {
             setPreview(null);
-            return;
         }
-        const objectUrl = URL.createObjectURL(image);
-        setPreview(objectUrl);
-        return () => URL.revokeObjectURL(objectUrl);
-    }, [image]);
+    }, [image, initialValues.profilePicture]);
 
     const handleImageUpload = (e, setFieldValue) => {
         const uploadedImage = e.currentTarget.files[0];
         setImage(uploadedImage);
         setFieldValue('image', uploadedImage);
+        setFieldValue('deleteImage', false);
     };
 
     const handleDeleteImage = (setFieldValue) => {
         setImage(null);
+        setPreview(null);
         setFieldValue('image', '');
+        setFieldValue('deleteImage', true);
     };
 
     const getInitial = (name) => {
@@ -221,7 +228,7 @@ const ProfileForm = () => {
                                     error={touched.college && Boolean(errors.college)}
                                     helperText={touched.college && errors.college}
                                 >
-
+                                    <option value=""></option>
                                     <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
                                     <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
                                     <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>

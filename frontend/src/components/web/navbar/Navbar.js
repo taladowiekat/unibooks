@@ -27,7 +27,12 @@ function Navbar() {
                                 display: { xs: 'none', md: 'flex' },
                                 justifyContent: 'center', flexGrow: 1,
                             }}>
-                                <MenuItem sx={{ py: '6px', px: '12px', ml:"33%" }}
+                                <Box sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                justifyContent: 'center', flexGrow: 1
+                                ,mr:" 12%"
+                            }}>
+                                <MenuItem sx={{ py: '6px', px: '12px', ml:"30%" }}
                                     component={Link} to='/' >
                                     <Typography variant='body' color='text.primary'>
                                      {t("home")}
@@ -45,9 +50,12 @@ function Navbar() {
                                        {t ("contactUs")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem  sx={{ py: '6px', px: '12px', ml:"30%" }} >
+                                </Box>
+                                <Box sx={{ py: '6px', px: '12px' ,mr:"5%" }}>
+                                <MenuItem  sx={{ py: '6px',ml:"30%", px: '12px' }} >
                                     <ChangeLanguageButton  />
                                </MenuItem>
+                               </Box>
                             </Box>
                         </Box>
                        
@@ -102,12 +110,11 @@ function Navbar() {
                                             {t("signIn")}
                                         </Button>
                                     </MenuItem>
-                                    <MenuItem>
-                                        <Button color='primary' variant='outlined'
-                                            >
-                                                    <ChangeLanguageButton  />
+                                    <MenuItem    >
+                                    
+                                                    <ChangeLanguageButton   />
 
-                                        </Button>
+                                       
                                     </MenuItem>
                                 </Box>
                             </Drawer>
