@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import {v2 as cloudinary} from 'cloudinary';
 
 export const updateProfile = async (req, res) => {
-    const { firstName, lastName, college, profilePicture } = req.body;
+    const { firstName, lastName, college, deleteImage } = req.body;
 
     const token = req.headers.authorization.split(' ')[1];
     if (!token) {
@@ -20,7 +20,28 @@ export const updateProfile = async (req, res) => {
         return res.status(404).send({ message: "User not found or unauthorized" });
     }
 
-    if (user.firstName === firstName && user.lastName === lastName && user.college === college && user.profilePicture === profilePicture) {
+    let profilePicture = user.profilePicture;
+
+    if (req.file) {
+        try {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'user-profiles'
+            });
+            profilePicture = result.secure_url;
+        } catch (error) {
+            console.error("Error uploading profile picture to Cloudinary:", error);
+            return res.status(500).json({ message: "Failed to upload profile picture" });
+        }
+    } else if (deleteImage === 'true') {
+        profilePicture = null;
+    }
+
+    if (
+        user.firstName === firstName &&
+        user.lastName === lastName &&
+        user.college === college &&
+        user.profilePicture === profilePicture
+    ) {
         return res.status(400).send({ message: "No changes detected" });
     }
 
@@ -28,20 +49,6 @@ export const updateProfile = async (req, res) => {
     user.lastName = lastName;
     user.college = college;
     user.profilePicture = profilePicture;
-
-    if (req.file) {
-        try {
-            const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'user-profiles'
-            });
-
-            user.profilePicture = result.secure_url;
-       
-        } catch (error) {
-            console.error("Error uploading profile picture to Cloudinary:", error);
-            return res.status(500).json({ message: "Failed to upload profile picture" });
-        }
-    }
 
     const updatedUser = await user.save();
 
