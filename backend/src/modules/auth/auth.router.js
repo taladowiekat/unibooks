@@ -9,8 +9,12 @@ const authRouter = Router();
 authRouter.post('/signup',validation(signupschema) ,asyncHandler(AuthController.signup))
 authRouter.post('/signin',validation(signinschema) ,asyncHandler(AuthController.signin))
 
+authRouter.get('/confirmEmail/:token',asyncHandler(AuthController.confirmEmail))
+
 authRouter.patch('/forgotPassword', validation(forgotPasswordSchema), asyncHandler(AuthController.forgotPassword));
 authRouter.patch('/resetPassword', validation(resetPasswordSchema), asyncHandler(AuthController.resetPassword));
 authRouter.patch('/changePassword', validation(changePasswordSchema), asyncHandler(AuthController.changePassword));
+
+
 
 export default authRouter ;
