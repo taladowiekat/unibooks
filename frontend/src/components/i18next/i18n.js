@@ -131,6 +131,13 @@ resources:{
              FacultyofShariah: "Faculty of Shari'ah",
              EmailmustcontainthestudentID:"Email must contain the student ID",
              postTypeRequired :"Post Type Required",
+             notesRequired :"Notes are required",
+             required:"Required",
+             maxSubImages :"Maximum number of sub-images",
+             SendEmail:" Send Email",
+             Message:"Message",
+             SendEmail2:" Send Email"
+    
                 }
     },
     
@@ -254,5 +261,10 @@ resources:{
          FacultyofShariah: "كلية الشريعة",
          EmailmustcontainthestudentID :" البريد الالكتروني يجب ان يحتوي على الرقم الجامعي الخاص بالطالب",
          postTypeRequired :"نوع المنشور مطلوب",
-       
+         notesRequired :"الملاحظات مطلوبة",
+         required :"مطلوب",
+         maxSubImages :"الحد الأقصى لعدد الصور الفرعية",
+         SendEmail:'إرسال البريد الإلكتروني',
+         Message      :"رسالة",
+         SendEmail2:"قم بارسال البريد الالكتروني"
         }},},},)
