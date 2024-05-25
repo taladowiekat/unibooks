@@ -25,7 +25,7 @@ export const updateProfile = async (req, res) => {
     if (req.file) {
         try {
             const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'user-profiles'
+                folder: 'unibooks/user-profiles'
             });
             profilePicture = result.secure_url;
         } catch (error) {
