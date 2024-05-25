@@ -9,7 +9,7 @@ const userSchema = new Schema({
         unique: true
     },
     profilePicture: {
-        type: Object,
+        type: String,
         default: ''
     },
     firstName: {
