@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem ,Box} from '@mui/material';
+import { Button, Menu, MenuItem,Divider } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 
@@ -29,25 +29,28 @@ const ChangeLanguageButton = () => {
   return (
     <>
       <Button
-    
-        startIcon={<LanguageIcon sx={{ color: "black" }}/>}
+        variant="outlined"
+        startIcon={<LanguageIcon sx={{ color: "primary"}}/>}
         onClick={handleClick}
+    
       />
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+      
       >
         <MenuItem
-          sx={{ color: "blue" }}
+          sx={{ color: 'primary.main',fontSize:"14px", minWidth: "100px", padding: "6px 16px"}}
           className={Languages[0].code === i18n.language ? "selected" : ""}
           onClick={() => handleLanguageChange(Languages[0].code)}
         >
    {t("English")}
          
         </MenuItem>
+        <Divider orientation="horizontal" flexItem />
         <MenuItem
-          sx={{ color: "blue" }}
+          sx={{ color: 'primary.main',fontSize:"15px", minWidth: "100px", padding: "6px 16px" }}
           className={Languages[1].code === i18n.language ? "selected" : ""}
           onClick={() => handleLanguageChange(Languages[1].code)}
         >
