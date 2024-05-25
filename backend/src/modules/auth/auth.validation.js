@@ -58,3 +58,32 @@ export const signinschema = yup.object({
       .min(6, 'Password must be at least 6 characters long')
       .max(30, 'Password must not exceed 30 characters')
 });
+
+export const forgotPasswordSchema = yup.object({
+  email: yup.string()
+    .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid email format')
+    .required('Email is required')
+});
+
+export const resetPasswordSchema = yup.object({
+  email: yup.string()
+    .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid email format')
+    .required('Email is required'),
+  password: yup.string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters long')
+    .max(30, 'Password must not exceed 30 characters'),
+  code: yup.string().max(4, 'Code is only 4 characters')
+});
+
+export const changePasswordSchema = yup.object({
+  currentPassword: yup.string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters long')
+    .max(30, 'Password must not exceed 30 characters'),
+  newPassword: yup.string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters long')
+    .max(30, 'Password must not exceed 30 characters')
+    .test('passwords-match', 'Current and New Password cannot be the same', function (value) { return this.parent.currentPassword != value })
+});

@@ -15,12 +15,12 @@ export function useValidations() {
     "Faculty of Humanities and Educational Sciences",
     "Faculty of Science",
     "Faculty of Shari'ah"
-];
+  ];
 
-const allowedGender = [
+  const allowedGender = [
     "female",
     "male"
-];
+  ];
 
   // Validation schema for creating a post
   const createPostValidationSchema = yup.object({
@@ -89,12 +89,12 @@ const allowedGender = [
       .required('Email is required')
       .matches(/^s\d{8}@stu\.najah\.edu$/, 'Invalid student email format')
       .test('email-match-studentID', 'Email must contain the student ID', function (value) {
-          const { studentID } = this.parent;
-          if (value) {
-              const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
-              return regex.test(value);
-          }
-          return false;
+        const { studentID } = this.parent;
+        if (value) {
+          const regex = new RegExp(`^s${studentID}@stu\\.najah\\.edu$`);
+          return regex.test(value);
+        }
+        return false;
       }),
     password: yup.string()
       .required(t('passwordRequired'))
@@ -110,7 +110,7 @@ const allowedGender = [
   });
 
   // Validation schema for resetting password
-  const resetPasswordValidationSchema = yup.object({
+  const forgotPasswordValidationSchema = yup.object({
     email: yup.string()
       .matches(/^s\d{8}@stu\.najah\.edu$/, t('invalidEmailFormat'))
       .required(t('emailIsRequired')),
@@ -136,12 +136,13 @@ const allowedGender = [
   });
 
   // Validation schema for forgot password form
-  const forgotPasswordValidationSchema = yup.object().shape({
+  const resetPasswordValidationSchema = yup.object().shape({
     code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
     password: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
     confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
   })
 
+  // Validation schema for profile page
   const profileValidationSchema = yup.object({
     firstName: yup.string().required(t('firstnameRequired')),
     lastName: yup.string().required(t('lastnameRequired')),

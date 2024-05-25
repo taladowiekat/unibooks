@@ -122,7 +122,7 @@ const LogIn = () => {
                 <Grid container spacing={2} style={{ padding: 4 }}>
 
                   <Grid item xs={5.5}>
-                    <Link to="/resetPass" variant="body2">
+                    <Link to="/forgotPassword" variant="body2">
                       {t("forgotPassword")}
                     </Link>
                   </Grid>
