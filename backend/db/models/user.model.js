@@ -49,7 +49,7 @@ const userSchema = new Schema({
     gender: {
         type: String,
         required: true,
-        enum: ["male", "female"]
+        enum: ["Male", "Female"]
     },
     role: {
         type: String,
@@ -65,4 +65,6 @@ const userSchema = new Schema({
 
 const userModel = model('User', userSchema);
 
+
 export default userModel;
+

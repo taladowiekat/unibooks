@@ -45,11 +45,9 @@ function Navbar() {
                                        {t ("contactUs")}
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem sx={{ py: '6px', px: '12px', ml:"30%" }} >
-    <Button variant="text" color="primary"  onClick={toggleDrawer(false)}>
-        <ChangeLanguageButton  />
-    </Button>
-</MenuItem>
+                                <MenuItem  sx={{ py: '6px', px: '12px', ml:"30%" }} >
+                                    <ChangeLanguageButton  />
+                               </MenuItem>
                             </Box>
                         </Box>
                        

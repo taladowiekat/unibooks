@@ -1,8 +1,10 @@
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
 import { sendEmail } from "../../utls/email.js";
 import userModel from '../../../db/models/user.model.js';
+
 
 export const signup = async (req, res) => {
     const {
@@ -80,6 +82,29 @@ export const signin = async (req, res) => {
 };
 
 
+export const confirmEmail = async (req, res) => {
+    const { token } = req.params;
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        const user = await userModel.findOneAndUpdate(
+            { email: decoded.email },
+            { confirmEmail: true },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.confirmEmail) {
+            return res.json({ message: "Email is confirmed", user });
+        } else {
+            return res.status(500).json({ message: "Failed to confirm email" });
+        }
+}; 
+
+    
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
@@ -157,4 +182,4 @@ export const changePassword = async (req, res) => {
     await user.save();
 
     return res.status(200).json({ message: "Password Changed Successfully" });
-}
+};
