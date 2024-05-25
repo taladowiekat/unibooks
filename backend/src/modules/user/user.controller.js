@@ -1,4 +1,4 @@
-import userModel from '../../../db/models/user.model'
+import userModel from '../../../db/models/user.model.js'
 import postModel from '../../../db/models/post.model.js';
 import jwt from 'jsonwebtoken';
 //Delete Users And Their Posts For Admin *_*
