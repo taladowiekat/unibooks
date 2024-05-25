@@ -100,6 +100,16 @@ export const updatePost = async (req, res) => {
     return res.status(200).json({ message: "Success", userName, post });
 }
 
+
+/* aisha
+mongosse query used :
+   (findById):
+      Finds a single document by its _id field.
+      findById(id) is almost* equivalent to findOne({ _id: id }).
+      If you want to query by a document's _id, use findById() instead of findOne()
+    (findByIdAndDelete):
+      Finds a matching document, removes it, and returns the found document (if any).
+*/
 //delete post for user *_*
 export const deletePost = async (req, res) => {
     const { id: postID } = req.params;
