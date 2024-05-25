@@ -100,7 +100,7 @@ export const updatePost = async (req, res) => {
     return res.status(200).json({ message: "Success", userName, post });
 }
 
-//delete post for user 
+//delete post for user *_*
 export const deletePost = async (req, res) => {
     const { id: postID } = req.params;
   
@@ -118,14 +118,16 @@ export const deletePost = async (req, res) => {
         res.status(200).send({ message: `Post with Id:${postID} has been deleted by student which  have id:${userId}` });
     
 };
-//Delete Post For Admin
+//Delete Post For Admin *_*
 export const AdminDeletePost = async (req, res) => {
     const { id: postID } = req.params;
     const userId = req.user._id;
-        const post = await postModel.findByIdAndDelete(postID);
+    const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
+        
+        await postModel.findByIdAndDelete(postID);
         res.status(200).send({ message: `Hello Admin, the post with ID ${postID} belonging to user with ID ${userId} has been successfully deleted.  ` });
 
 };
