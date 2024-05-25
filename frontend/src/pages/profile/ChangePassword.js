@@ -28,7 +28,7 @@ const ChangePassword = ({ open, handleClose }) => {
 
   const handleSubmit = async (user, { setSubmitting }) => {
     try {
-      const token = localStorage.getItem("userToken");
+      const token = localStorage.getItem('userToken');
 
       await axios.patch('http://localhost:4000/auth/changePassword', {
         currentPassword: user.currentPassword,

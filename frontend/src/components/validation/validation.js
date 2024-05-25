@@ -25,10 +25,11 @@ const allowedGender = [
   // Validation schema for creating a post
   const createPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
-    listingType: yup.string().required(t('listingTypeRequired')),
+    postType: yup.string().required(t('postTypeRequired')),
+    notes: yup.string().required(t('notesRequired')),
     image: yup
       .mixed()
-      .required(t('Required'))
+      .required(t('required'))
       .test(
         'FILE_TYPE',
         t('invalidFileType'),
@@ -39,12 +40,31 @@ const allowedGender = [
         t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
+    subImages: yup
+      .array()
+      .of(
+        yup.mixed().test(
+          'FILE_TYPE',
+          t('invalidFileType'),
+          value => value && ['image/png', 'image/jpeg'].includes(value.type)
+        ).test(
+          'FILE_SIZE',
+          t('fileSizeTooBig'),
+          value => value && value.size < 10 * mb
+        )
+      )
+      .max(4, t('maxSubImages')),
+    exchangeBookName: yup.string().when('postType', {
+      is: 'Exchange',
+      then: schema => schema.required(t('exchangeBookNameRequired')),
+      otherwise: schema => schema.notRequired(),
+    }),
   });
 
   // Validation schema for editing a post
   const editPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
-    listingType: yup.string().required(t('listingTypeRequired')),
+    postType: yup.string().required(t('postTypeRequired')),
   });
 
   // Validation schema for signing in
@@ -127,10 +147,7 @@ const allowedGender = [
     lastName: yup.string().required(t('lastnameRequired')),
     college: yup.string()
       .oneOf(allowedColleges, 'Invalid college')
-      .required('College is required'),
-      gender: yup.string()
-      .oneOf(allowedGender, 'Invalid gender')
-      .required('gender is required'),
+      .required('College is required')
   })
 
 

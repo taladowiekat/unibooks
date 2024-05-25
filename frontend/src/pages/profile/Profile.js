@@ -38,7 +38,7 @@ const ProfileForm = () => {
 
     const fetchUserData = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('userToken');
             const { data } = await axios.get('http://localhost:4000/user/getUserProfile', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -56,7 +56,7 @@ const ProfileForm = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('userToken');
             const formData = new FormData();
             formData.append('firstName', values.firstName);
             formData.append('lastName', values.lastName);
@@ -65,7 +65,7 @@ const ProfileForm = () => {
                 formData.append('profilePicture', values.image);
             }
             formData.append('deleteImage', values.deleteImage);
-            const { data } = await axios.patch('http://localhost:4000/profile/updateProfile', formData, {
+            await axios.patch('http://localhost:4000/profile/updateProfile', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'

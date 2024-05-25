@@ -29,7 +29,7 @@ const LogIn = () => {
         title: 'Login Successful',
         text: 'You have successfully logged in.',
       });
-      localStorage.setItem("token", data.token);
+      localStorage.setItem('userToken', data.token);
       navigate('/allPosts');
     } catch (error) {
       if (error.response) {

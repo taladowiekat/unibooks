@@ -13,10 +13,14 @@ import {
 } from '@mui/material';
 import CreatePostButton from '../../components/web/createPost/CreatePostButton.js';
 import PostCard from '../../components/shared/Cards.js';
+import Chats from './Chat';
 
     
 const Posts = () => {
     const [category, setCategory] = useState('');
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
@@ -169,8 +173,10 @@ const Posts = () => {
                                     userName={post.userName}
                                     bookName={post.bookName}
                                     bookType={post.type}
-                                    image={post.image}
+                                    image={post.image}                                
+                                    onChatClick={handleOpen}
                                     typeoperation={t(`typeoperation.${post.typeoperation}`)}
+
                                 />
                             </div>
                         </Grid>
@@ -178,6 +184,7 @@ const Posts = () => {
                     
                     </Grid>
             </Container>
+            <Chats open={open} handleClose={handleClose}/>
         </Box>
     );
 };
