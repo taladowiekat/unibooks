@@ -1,9 +1,14 @@
-import express from 'express';
-import * as userController from './user.controller.js';
+import { Router } from 'express';
+import auth from '../../middleware/auth.js';
 import asyncHandler from 'express-async-handler';
+import * as  controller from './user.controller.js'
 
-const userRouter = express.Router();
+const router = Router();
 
-userRouter.get('/getUserProfile', asyncHandler(userController.getUserProfile));
+router.delete('/admin/removeUser/:id',auth('admin'),asyncHandler(controller.deleteUserWithPosts))
 
-export default userRouter;
+
+router.get('/getUserProfile', asyncHandler(controller.getUserProfile));
+
+export default router;
+
