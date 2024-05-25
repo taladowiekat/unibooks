@@ -49,7 +49,7 @@ resources:{
             changePassword:" Change Password",
             saveButton:"Save",
             security:"Security",
-             /**RecoveryPopup */
+             /**ChangePassword */
              currentPassword:"Current Password",
              newPassword:"New Password",
              confirmPassword:"Confirm Password",
@@ -177,18 +177,18 @@ resources:{
           forgotPassword:"هل نسيت كلمة المرور؟",
          loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
  /**   Profile.js       */
-          general: "العامة",
-          college: "اسم الكلية",
-          email: "البريد الإلكتروني",
-          password: "كلمة المرور",
-          changePassword: "تغيير كلمة المرور",
-          saveButton: "حفظ",
-          security:"الحماية",
-            /**RecoveryPopup */
-          currentPassword:"كلمة المرور الحالية",
-          newPassword:"كلمة المرور الجديدة",
-          confirmPassword:"تأكيد كلمة المرور",
-          confirmButton:"تأكيد",
+             general: "العامة",
+            college: "اسم الكلية",
+            email: "البريد الإلكتروني",
+             password: "كلمة المرور",
+             changePassword: "تغيير كلمة المرور",
+            saveButton: "حفظ",
+            security:"الحماية",
+            /**ChangePassword */
+            currentPassword:"كلمة المرور الحالية",
+            newPassword:"كلمة المرور الجديدة",
+            confirmPassword:"تأكيد كلمة المرور",
+            confirmButton:"تأكيد",
             //Register
           universityId:"رقم التسجيل الجامعي",
           createAccount:"إنشاء حساب",

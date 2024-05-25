@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, IconButton, Grid, AppBar } from '@mui/material';
+import { Typography, IconButton, Grid, Box } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TelegramIcon from '@mui/icons-material/Telegram';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 const Footer = () => {
     const {t}=useTranslation();
     return (
-        <AppBar position='fixed' maxWidth={false} color='default'
+        <Box 
             sx={{
                 width: '100%', 
                 top:'auto',
@@ -39,7 +39,7 @@ const Footer = () => {
                     </IconButton>
                 </Grid>
             </Grid>
-        </AppBar>
+        </Box>
     );
 }
 

@@ -2,6 +2,9 @@ import cors from "cors";
 import dbconnection from '../../db/connection.js'
 import authRouter from './auth/auth.router.js';
 import postRouter from './posts/posts.router.js';
+import profileRouter from './profile/profile.router.js';
+import userRouter from './user/user.router.js';
+
 
 const initApp = (app, express) => {
 
@@ -20,6 +23,11 @@ const initApp = (app, express) => {
     app.use('/auth' , authRouter)
 
     app.use('/post', postRouter)
+
+    app.use('/profile', profileRouter); 
+
+    app.use('/user', userRouter);
+
 
 
     

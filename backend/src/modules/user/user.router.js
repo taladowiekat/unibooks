@@ -6,3 +6,9 @@ import * as  controller from './user.controller.js'
 const router = Router();
 
 router.delete('/admin/removeUser/:id',auth('admin'),asyncHandler(controller.deleteUserWithPosts))
+
+
+router.get('/getUserProfile', asyncHandler(controller.getUserProfile));
+
+export default router;
+

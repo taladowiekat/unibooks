@@ -5,44 +5,25 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema({
     studentID: {
         type: String,
-        required: true,   
-        unique: true     
-    },
-     profilePicture: {
-        type: Object,
-    },
-    firstname: {
-        type: String,
-        required: true
-    },
-    lastname: {
-        type: String,
-        required: true
-    },
- college: {
-        type: String,
         required: true,
-        enum: [
-        "Faculty of Agriculture and Veterinary Medicine",
-        "Faculty of Business and Communication",
-        "Faculty of Engineering and Information",
-        "Faculty of Fine Arts",
-        "Faculty of Medicine and Health Sciences",
-        "Faculty of Law and Political Sciences",
-        "Faculty of Humanities and Educational Sciences",
-        "Faculty of Science",
-        "Faculty of Shari'ah"
-        ]
+        unique: true
     },
-
+    profilePicture: {
+        type: String,
+        default: ''
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
         unique: true,
-    },
-    confirmEmail:{
-        type:Boolean,
-        default:false,
     },
     password: {
         type: String,
@@ -50,17 +31,40 @@ const userSchema = new Schema({
         min: 6,
         max: 30
     },
+    college: {
+        type: String,
+        required: true,
+        enum: [
+            "Faculty of Agriculture and Veterinary Medicine",
+            "Faculty of Business and Communication",
+            "Faculty of Engineering and Information",
+            "Faculty of Fine Arts",
+            "Faculty of Medicine and Health Sciences",
+            "Faculty of Law and Political Sciences",
+            "Faculty of Humanities and Educational Sciences",
+            "Faculty of Science",
+            "Faculty of Shari'ah"
+        ]
+    },
+    confirmEmail:{
+        type:Boolean,
+        default:false,
+    },
     gender: {
         type: String,
         required: true,
-        enum: ["Male", "Female"]
+        enum: ["male", "female"]
     },
     role: {
         type: String,
-        enum: ['user','admin'],
+        enum: ['user', 'admin'],
         default: 'user'
-    }   
-},{ timestamps: true });
+    },
+    sendCode: {
+        type: String
+    }
+
+}, { timestamps: true });
 
 
 const userModel = model('User', userSchema);
