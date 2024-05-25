@@ -86,7 +86,7 @@ const allowedGender = [
       college: yup.string()
       .required('College is required'),
     gender: yup.string()
-      .required('Gender is required')
+      .required('Gender is required').oneOf(allowedGender, 'Invalid gender')
   });
 
   // Validation schema for resetting password
@@ -128,6 +128,9 @@ const allowedGender = [
     college: yup.string()
       .oneOf(allowedColleges, 'Invalid college')
       .required('College is required'),
+      gender: yup.string()
+      .oneOf(allowedGender, 'Invalid gender')
+      .required('gender is required'),
   })
 
 
