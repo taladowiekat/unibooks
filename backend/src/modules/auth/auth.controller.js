@@ -1,6 +1,8 @@
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../../../db/models/user.model.js';
+
 
 export const signup = async (req, res) => {
         const {
@@ -34,6 +36,7 @@ export const signup = async (req, res) => {
             password:passwordHash,
             college,
             gender,
+
         });
 
         if (!newUser) {
@@ -51,6 +54,7 @@ export const signin = async (req, res) => {
 
         const user = await userModel.findOne({ 
             $or: [{ email:identifier }, { studentID: identifier }]
+
         });
 
         if (!user) {
@@ -65,6 +69,7 @@ export const signin = async (req, res) => {
        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });      
        delete user.password;
 
+
         res.status(200).json({ 
             message: "Success", 
             token,
@@ -76,3 +81,27 @@ export const signin = async (req, res) => {
             }
         });
 };
+
+
+export const confirmEmail = async (req, res) => {
+    const { token } = req.params;
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        const user = await userModel.findOneAndUpdate(
+            { email: decoded.email },
+            { confirmEmail: true },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.confirmEmail) {
+            return res.json({ message: "Email is confirmed", user });
+        } else {
+            return res.status(500).json({ message: "Failed to confirm email" });
+        }
+    } 
+
