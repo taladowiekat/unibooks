@@ -59,7 +59,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
             text: 'An unexpected error occurred. Please try again later.',
           });
       })
-      setSubmitting(false);
+    setSubmitting(false);
   }
 
   return (
@@ -70,81 +70,83 @@ const ResetPassword = ({ open, handleClose, email }) => {
       aria-labelledby="reset-code-modal"
       aria-describedby="reset-code-form"
     >
-      <Formik
-        validationSchema={resetPasswordValidationSchema}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
-        {({ errors, touched, isSubmitting }) => (
-          <Form>
-            <Container sx={modalStyle}>
-              <Box display="flex" flexDirection="column" gap={2}>
-                <Typography gutterBottom sx={{ alignItems: 'center', fontSize: '1.2rem' }}>
-                  Please check your email for a message with your code.
-                </Typography>
-                <Field
-                  name="code"
-                  as={TextField}
-                  id="code"
-                  label="Reset Code"
-                  variant="outlined"
-                  type="text"
-                  sx={{ width: '4cm' }}
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  inputProps={{ maxLength: 4 }}
-                  error={touched.code && Boolean(errors.code)}
-                  helperText={touched.code ? errors.code : ""}
-                />
-                <Field
-                  name="password"
-                  as={TextField}
-                  id="password"
-                  label="New Password"
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password ? errors.password : ""}
-                />
-                <Field
-                  name="confirmPassword"
-                  as={TextField}
-                  id="confirmPassword"
-                  label="Confirm Password"
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                  helperText={touched.confirmPassword ? errors.confirmPassword : ""}
-                />
-                <Box display="flex" justifyContent="space-between">
-                  <Button
+      <>
+        <Formik
+          validationSchema={resetPasswordValidationSchema}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+        >
+          {({ errors, touched, isSubmitting }) => (
+            <Form>
+              <Container sx={modalStyle}>
+                <Box display="flex" flexDirection="column" gap={2}>
+                  <Typography gutterBottom sx={{ alignItems: 'center', fontSize: '1.2rem' }}>
+                    Please check your email for a message with your code.
+                  </Typography>
+                  <Field
+                    name="code"
+                    as={TextField}
+                    id="code"
+                    label="Reset Code"
                     variant="outlined"
-                    color="secondary"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
+                    type="text"
+                    sx={{ width: '4cm' }}
+                    fullWidth
+
                     disabled={isSubmitting}
-                  >
-                    Confirm
-                  </Button>
+                    inputProps={{ maxLength: 4 }}
+                    error={touched.code && Boolean(errors.code)}
+                    helperText={touched.code ? errors.code : ""}
+                  />
+                  <Field
+                    name="password"
+                    as={TextField}
+                    id="password"
+                    label="New Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password ? errors.password : ""}
+                  />
+                  <Field
+                    name="confirmPassword"
+                    as={TextField}
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                    helperText={touched.confirmPassword ? errors.confirmPassword : ""}
+                  />
+                  <Box display="flex" justifyContent="space-between">
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Confirm
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Container>
-          </Form>
-        )}
-      </Formik>
+              </Container>
+            </Form>
+          )}
+        </Formik>
+      </>
     </Modal>
   );
 };
