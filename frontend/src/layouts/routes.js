@@ -7,7 +7,7 @@ import Posts from '../pages/allPosts/Posts.js';
 import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import EditPost from '../pages/editPost/EditPost.js';
-import ForgotPassword from '../pages/resetPassword/ForgotPassword.js';
+import ForgotPassword from '../pages/forgotPassword/ForgotPassword.js';
 
 
 
