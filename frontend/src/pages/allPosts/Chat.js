@@ -18,7 +18,7 @@ const modalStyle = {
 
 const Chats = ({ messageId, open, handleClose }) => {
     const [email, setEmail] = useState('');
-    const {t}=useTranslation();
+    const { t } = useTranslation();
     useEffect(() => {
         axios.get(`http://localhost:3000/api/message/${messageId}`)
             .then(response => setEmail(response.data.user.email))
@@ -32,16 +32,18 @@ const Chats = ({ messageId, open, handleClose }) => {
 
     return (
         <Modal open={open} onClose={handleClose}>
-            <Formik initialValues={{ name: '', message: '' }} onSubmit={handleSubmit}>
-                <Form>
-                    <Container style={modalStyle}>
-                        <h1>{t('SendEmail')}</h1>
-                        <Field as={TextField} name="name" label={t('nameOfTheSender')}fullWidth required />
-                        <Field as={TextField} name="message" label={t('Message')} fullWidth required />
-                        <Button type="submit">{t('SendEmail2')}</Button>
-                    </Container>
-                </Form>
-            </Formik>
+            <>
+                <Formik initialValues={{ name: '', message: '' }} onSubmit={handleSubmit}>
+                    <Form>
+                        <Container style={modalStyle}>
+                            <h1>{t('SendEmail')}</h1>
+                            <Field as={TextField} name="name" label={t('nameOfTheSender')} fullWidth required />
+                            <Field as={TextField} name="message" label={t('Message')} fullWidth required />
+                            <Button type="submit">{t('SendEmail2')}</Button>
+                        </Container>
+                    </Form>
+                </Formik>
+            </>
         </Modal>
     );
 };
