@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useValidations } from '../../components/validation/validation';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import ResetPassword from './ResetPass';
+import ResetPassword from './ResetPassword';
 
 
 const ForgotPassword = () => {
