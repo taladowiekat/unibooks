@@ -87,87 +87,89 @@ const ChangePassword = ({ open, handleClose }) => {
       aria-labelledby="change-password-modal"
       aria-describedby="change-password-form"
     >
-      <Formik
-        validationSchema={changePasswordValidationSchema}
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched, isSubmitting }) => (
-          <Form>
-            <Container sx={modalStyle}>
-              <Box display="flex" flexDirection="column" gap={2}>
-                <Field
-                  name="currentPassword"
-                  as={TextField}
-                  id="currentPassword"
-                  label={t("currentPassword")}
-                  variant="filled"
-                  type="password"
-                  fullWidth
+      <>
+        <Formik
+          validationSchema={changePasswordValidationSchema}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, isSubmitting }) => (
+            <Form>
+              <Container sx={modalStyle}>
+                <Box display="flex" flexDirection="column" gap={2}>
+                  <Field
+                    name="currentPassword"
+                    as={TextField}
+                    id="currentPassword"
+                    label={t("currentPassword")}
+                    variant="filled"
+                    type="password"
+                    fullWidth
 
-                  disabled={isSubmitting}
-                  error={
-                    touched.currentPassword && Boolean(errors.currentPassword)
-                  }
-                  helperText={
-                    touched.currentPassword ? errors.currentPassword : ""
-                  }
-                />
-                <Field
-                  name="newPassword"
-                  as={TextField}
-                  id="newPassword"
-                  label={t("newPassword")}
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={touched.newPassword && Boolean(errors.newPassword)}
-                  helperText={touched.newPassword ? errors.newPassword : ""}
-                />
-                <Field
-                  name="confirmPassword"
-                  as={TextField}
-                  id="confirmPassword"
-                  label={t("confirmPassword")}
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={
-                    touched.confirmPassword && Boolean(errors.confirmPassword)
-                  }
-                  helperText={
-                    touched.confirmPassword ? errors.confirmPassword : ""
-                  }
-                />
-                <Link href="#" underline="none">
-                  {t("forgotPassword")}
-                </Link>
-                <Box display="flex" justifyContent="space-between">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={handleClose}
-                  >
-                    {t("cancelbutton")}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
                     disabled={isSubmitting}
-                  >
-                    {t("confirmButton")}
-                  </Button>
+                    error={
+                      touched.currentPassword && Boolean(errors.currentPassword)
+                    }
+                    helperText={
+                      touched.currentPassword ? errors.currentPassword : ""
+                    }
+                  />
+                  <Field
+                    name="newPassword"
+                    as={TextField}
+                    id="newPassword"
+                    label={t("newPassword")}
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={touched.newPassword && Boolean(errors.newPassword)}
+                    helperText={touched.newPassword ? errors.newPassword : ""}
+                  />
+                  <Field
+                    name="confirmPassword"
+                    as={TextField}
+                    id="confirmPassword"
+                    label={t("confirmPassword")}
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={
+                      touched.confirmPassword && Boolean(errors.confirmPassword)
+                    }
+                    helperText={
+                      touched.confirmPassword ? errors.confirmPassword : ""
+                    }
+                  />
+                  <Link href="#" underline="none">
+                    {t("forgotPassword")}
+                  </Link>
+                  <Box display="flex" justifyContent="space-between">
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleClose}
+                    >
+                      {t("cancelbutton")}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      {t("confirmButton")}
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Container>
-          </Form>
-        )}
-      </Formik>
+              </Container>
+            </Form>
+          )}
+        </Formik>
+      </>
     </Modal>
   );
 };
