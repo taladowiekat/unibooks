@@ -14,10 +14,15 @@ import {
 } from '@mui/material';
 import CreatePostButton from '../../components/web/createPost/CreatePostButton.js';
 import PostCard from '../../components/shared/Cards.js';
+<<<<<<< HEAD
 import Chats from './Chat.js';
+=======
+import Chats from './Chat';
+>>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
 
 const Posts = () => {
     const [category, setCategory] = useState('');
+<<<<<<< HEAD
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedMessageId, setSelectedMessageId] = useState(null); // إضافة حالة لحفظ messageId المحدد
@@ -46,6 +51,12 @@ const Posts = () => {
         setSelectedMessageId(null);
     };
 
+=======
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    
+>>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
@@ -115,19 +126,31 @@ const Posts = () => {
                                     userAvatar={post.studentID?.avatar || 'defaultAvatar.jpg'} // تأكد من أن هذا الحقل موجود في بيانات المستخدم، وإلا استخدم صورة افتراضية
                                     userName={post.studentID ? `${post.studentID.firstname} ${post.studentID.lastname}` : 'Unknown'}
                                     bookName={post.bookName}
+<<<<<<< HEAD
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
                                     onChatClick={() => handleOpenChat(post._id)} // تمرير messageId هنا
                                     typeoperation={t(`typeoperation.${post.postType.toLowerCase()}`)}
+=======
+                                    bookType={post.type}
+                                    image={post.image}                                
+                                    onChatClick={handleOpen}
+                                    typeoperation={t(`typeoperation.${post.typeoperation}`)}
+
+>>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
                                 />
                             </div>
                         </Grid>
                     ))}
                 </Grid>
             </Container>
+<<<<<<< HEAD
             {selectedMessageId && (
                 <Chats messageId={selectedMessageId} open={open} handleClose={handleCloseChat} />
             )}
+=======
+            <Chats open={open} handleClose={handleClose}/>
+>>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
         </Box>
     );
 };

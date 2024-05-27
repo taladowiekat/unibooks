@@ -1,7 +1,6 @@
 import postModel from '../../../db/models/post.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
-
 //create a new post
 export const createPost = async (req, res) => {
     const { bookName, postType, exchangeBookName } = req.body;
@@ -86,4 +85,43 @@ export const getPostDetails = async (req, res) => {
     return res.status(200).json(post);
 };
 
+/* aisha
+mongosse query used :
+   (findById):
+      Finds a single document by its _id field.
+      findById(id) is almost* equivalent to findOne({ _id: id }).
+      If you want to query by a document's _id, use findById() instead of findOne()
+    (findByIdAndDelete):
+      Finds a matching document, removes it, and returns the found document (if any).
+*/
+//delete post for user *_*
+export const deletePost = async (req, res) => {
+    const { id: postID } = req.params;
+  
+        const post = await postModel.findById(postID);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+    
+        const userId = req.user._id;
+        if (post.studentID.toString() !== userId.toString()) {
+            return res.status(401).json({ message: 'User not authorized to delete this post' });
+        }
 
+        await postModel.findByIdAndDelete(postID);
+        res.status(200).send({ message: `Post with Id:${postID} has been deleted by student which  have id:${userId}` });
+    
+};
+//Delete Post For Admin *_*
+export const AdminDeletePost = async (req, res) => {
+    const { id: postID } = req.params;
+    const userId = req.user._id;
+    const post = await postModel.findById(postID);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        
+        await postModel.findByIdAndDelete(postID);
+        res.status(200).send({ message: `Hello Admin, the post with ID ${postID} belonging to user with ID ${userId} has been successfully deleted.  ` });
+
+};
