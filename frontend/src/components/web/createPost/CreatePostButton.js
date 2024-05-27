@@ -3,31 +3,37 @@ import { Button } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CreateListing from './CreatePost.js';
 import { useTranslation } from 'react-i18next';
-const CreatePostButton = () => {
+
+const CreatePostButton = ({ onPostCreated }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const {t}=useTranslation();
-    return (
+    const { t } = useTranslation();
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '85px'}}>
+    const handlePostCreated = () => {
+        onPostCreated();
+        handleClose();
+    };
+
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '85px' }}>
             <Button
                 variant="contained"
                 sx={{
                     backgroundColor: 'black',
                     color: 'white',
-                    fontSize: 'large', 
+                    fontSize: 'large',
                     padding: '10px 20px',
                     width: '350px'
                 }}
                 onClick={handleOpen}
             >
                 {t("createyourPost")}
-                <AddCircleOutlineIcon sx={{padding: '12px' }} />
+                <AddCircleOutlineIcon sx={{ padding: '12px' }} />
             </Button>
-            <CreateListing open={open} handleClose={handleClose}/>
+            <CreateListing open={open} handleClose={handleClose} onPostCreated={handlePostCreated} />
         </div>
     );
-}
+};
 
 export default CreatePostButton;
