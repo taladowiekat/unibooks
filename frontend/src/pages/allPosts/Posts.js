@@ -14,23 +14,18 @@ import {
 } from '@mui/material';
 import CreatePostButton from '../../components/web/createPost/CreatePostButton.js';
 import PostCard from '../../components/shared/Cards.js';
-<<<<<<< HEAD
 import Chats from './Chat.js';
-=======
-import Chats from './Chat';
->>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
 
 const Posts = () => {
     const [category, setCategory] = useState('');
-<<<<<<< HEAD
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [selectedMessageId, setSelectedMessageId] = useState(null); // إضافة حالة لحفظ messageId المحدد
+    const [selectedMessageId, setSelectedMessageId] = useState(null); 
     const { t } = useTranslation();
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/post/getAll'); // تأكد من أن المسار صحيح ويطابق إعدادات الجهة الخلفية
+            const response = await axios.get('http://localhost:5000/post/getAll');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -51,12 +46,6 @@ const Posts = () => {
         setSelectedMessageId(null);
     };
 
-=======
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    
->>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0 }
@@ -65,7 +54,7 @@ const Posts = () => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', flexDirection: 'column' }}>
             <Container>
-                <CreatePostButton onPostCreated={fetchPosts} /> {/* تمرير الدالة كخاصية */}
+                <CreatePostButton onPostCreated={fetchPosts} />
                 <Box sx={{ display: 'flex', gap: '1rem', width: '100%', mt: '10px' }}>
                     <TextField
                         placeholder={t("search2")}
@@ -123,34 +112,22 @@ const Posts = () => {
                             >
                                 <PostCard
                                     id={post._id}
-                                    userAvatar={post.studentID?.avatar || 'defaultAvatar.jpg'} // تأكد من أن هذا الحقل موجود في بيانات المستخدم، وإلا استخدم صورة افتراضية
-                                    userName={post.studentID ? `${post.studentID.firstname} ${post.studentID.lastname}` : 'Unknown'}
+                                    userAvatar={post.studentID?.profilePicture || 'defaultAvatar.jpg'}
+                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : 'Unknown'}
                                     bookName={post.bookName}
-<<<<<<< HEAD
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
-                                    onChatClick={() => handleOpenChat(post._id)} // تمرير messageId هنا
+                                    onChatClick={() => handleOpenChat(post._id)}
                                     typeoperation={t(`typeoperation.${post.postType.toLowerCase()}`)}
-=======
-                                    bookType={post.type}
-                                    image={post.image}                                
-                                    onChatClick={handleOpen}
-                                    typeoperation={t(`typeoperation.${post.typeoperation}`)}
-
->>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
                                 />
                             </div>
                         </Grid>
                     ))}
                 </Grid>
             </Container>
-<<<<<<< HEAD
             {selectedMessageId && (
                 <Chats messageId={selectedMessageId} open={open} handleClose={handleCloseChat} />
             )}
-=======
-            <Chats open={open} handleClose={handleClose}/>
->>>>>>> 6ac70ed091608d19efe9d4dbfd485e632dc9d185
         </Box>
     );
 };
