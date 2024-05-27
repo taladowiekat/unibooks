@@ -1,15 +1,16 @@
 
+import React from 'react';
 import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-
-
-function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperation, onChatClick }) {
-
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+function PostCard({ id,userAvatar, userName, bookName, bookType, image, typeoperation, onDelete ,onChatClick}) {
+    const { t } = useTranslation();
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: '1rem', flexDirection: 'column' }}>
             <Card sx={{ maxWidth: 360, borderRadius: '16px', boxShadow: 3 }}>
-           
-        <CardMedia
+            <Link to={`/post/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <CardMedia
                     component="img"
                     sx={{
                         height: 180,
@@ -18,6 +19,7 @@ function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperati
                     image={image}
                     alt={bookName}
                 />
+            </Link>
                 <CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Avatar
@@ -33,7 +35,7 @@ function PostCard({ userAvatar, userName, bookName, bookType, image, typeoperati
                         {bookName} / {bookType}
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }} >
-                        <IconButton color="primary" sx={{ mr: 1 }} onClick={onChatClick}>
+                    <IconButton color="primary" sx={{ mr: 1 }} onClick={onChatClick}>
                             <ChatIcon />
                         </IconButton>
                         <Button variant="contained" sx={{ backgroundColor: 'black' }}>
