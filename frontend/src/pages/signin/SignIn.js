@@ -22,7 +22,7 @@ const LogIn = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/auth/signin', {
+      const { data } = await axios.post('http://localhost:4000/auth/signin', {
         identifier: values.emailOrstudentID,
         password: values.password
       });
@@ -36,7 +36,6 @@ const LogIn = () => {
       localStorage.setItem("token", data.token);
       setToken(data.token);
 
-      // Fetch user data after login
       const userResponse = await axios.get('http://localhost:4000/user/getUserProfile', {
         headers: { Authorization: `Token__${data.token}` }
       });
