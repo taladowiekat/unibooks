@@ -101,6 +101,25 @@ export const updatePost = async (req, res) => {
 }
 
 
+// Get all posts
+export const getAllPosts = async (req, res) => {
+    try {
+        const posts = await postModel.find().populate('studentID', 'firstName lastName email');
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching posts', error });
+    }
+};
+
+// Get post details
+export const getPostDetails = async (req, res) => {
+    const { id } = req.params;
+    const post = await postModel.findById(id).populate('studentID', 'firstName lastName profilePicture');
+    if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    return res.status(200).json(post);
+};
 /* aisha
 mongosse query used :
    (findById):

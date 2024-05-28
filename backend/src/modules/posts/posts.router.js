@@ -16,6 +16,10 @@ router.put('/update/:id', auth('user'), fileUpload(fileType.image).fields([
     { name: 'subImages', maxCount: 4 }
 ]), asyncHandler(controller.updatePost));
 
+router.get('/getAll', controller.getAllPosts);
+
+router.get('/postdetails/:id', controller.getPostDetails);
+
 router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
 router.delete('/admin/remove/:id',auth('admin'),asyncHandler(controller.AdminDeletePost))
 export default router;
