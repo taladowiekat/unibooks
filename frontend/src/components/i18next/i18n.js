@@ -49,7 +49,7 @@ resources:{
             changePassword:" Change Password",
             saveButton:"Save",
             security:"Security",
-             /**RecoveryPopup */
+             /**ChangePassword */
              currentPassword:"Current Password",
              newPassword:"New Password",
              confirmPassword:"Confirm Password",
@@ -130,7 +130,14 @@ resources:{
              FacultyofScience: "Faculty of Science",
              FacultyofShariah: "Faculty of Shari'ah",
              EmailmustcontainthestudentID:"Email must contain the student ID",
-
+             postTypeRequired :"Post Type Required",
+             notesRequired :"Notes are required",
+             required:"Required",
+             maxSubImages :"Maximum number of sub-images",
+             SendEmail:" Send Email",
+             Message:"Message",
+             SendEmail2:" Send Email"
+    
                 }
     },
     
@@ -170,18 +177,18 @@ resources:{
           forgotPassword:"هل نسيت كلمة المرور؟",
          loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
  /**   Profile.js       */
-          general: "العامة",
-          college: "اسم الكلية",
-          email: "البريد الإلكتروني",
-          password: "كلمة المرور",
-          changePassword: "تغيير كلمة المرور",
-          saveButton: "حفظ",
-          security:"الحماية",
-            /**RecoveryPopup */
-          currentPassword:"كلمة المرور الحالية",
-          newPassword:"كلمة المرور الجديدة",
-          confirmPassword:"تأكيد كلمة المرور",
-          confirmButton:"تأكيد",
+             general: "العامة",
+            college: "اسم الكلية",
+            email: "البريد الإلكتروني",
+             password: "كلمة المرور",
+             changePassword: "تغيير كلمة المرور",
+            saveButton: "حفظ",
+            security:"الحماية",
+            /**ChangePassword */
+            currentPassword:"كلمة المرور الحالية",
+            newPassword:"كلمة المرور الجديدة",
+            confirmPassword:"تأكيد كلمة المرور",
+            confirmButton:"تأكيد",
             //Register
           universityId:"رقم التسجيل الجامعي",
           createAccount:"إنشاء حساب",
@@ -252,6 +259,12 @@ resources:{
          FacultyofHumanitiesandEducationalSciences: "كلية العلوم الإنسانية والتربوية",
          FacultyofScience: "كلية العلوم",
          FacultyofShariah: "كلية الشريعة",
-         EmailmustcontainthestudentID :" البريد الالكتروني يجب ان يحتوي على الرقم الجامعي الخاص بالطالب"
-       
+         EmailmustcontainthestudentID :" البريد الالكتروني يجب ان يحتوي على الرقم الجامعي الخاص بالطالب",
+         postTypeRequired :"نوع المنشور مطلوب",
+         notesRequired :"الملاحظات مطلوبة",
+         required :"مطلوب",
+         maxSubImages :"الحد الأقصى لعدد الصور الفرعية",
+         SendEmail:'إرسال البريد الإلكتروني',
+         Message      :"رسالة",
+         SendEmail2:"قم بارسال البريد الالكتروني"
         }},},},)

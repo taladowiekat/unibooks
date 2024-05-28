@@ -42,7 +42,6 @@ export const signup = async (req, res) => {
     if (!newUser) {
         return res.status(500).json({ message: "Error creating user" });
     }
-
     
         await newUser.save();
 
@@ -52,9 +51,7 @@ export const signup = async (req, res) => {
         await sendEmail(newUser.email, 'Confirm Your Email', `<p>Please confirm your email by clicking on this link: <a href="${confirmationUrl}">Confirm Email</a></p>`);
 
         return res.status(201).json({ message: "Registration successful! Please verify your email.", id: newUser._id });
-    
-        
-    
+
 };
 
 

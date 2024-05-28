@@ -2,7 +2,7 @@ import { TextField, Container, Modal, Button } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useTranslation } from 'react-i18next';
 const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -18,9 +18,9 @@ const modalStyle = {
 
 const Chats = ({ messageId, open, handleClose }) => {
     const [email, setEmail] = useState('');
-
+    const {t}=useTranslation();
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/message/${messageId}`)
+        axios.get(`http://localhost:4000/auth/message/${messageId}`)
             .then(response => setEmail(response.data.user.email))
             .catch(error => console.error('Failed to fetch message:', error));
     }, [messageId]);
@@ -35,10 +35,10 @@ const Chats = ({ messageId, open, handleClose }) => {
             <Formik initialValues={{ name: '', message: '' }} onSubmit={handleSubmit}>
                 <Form>
                     <Container style={modalStyle}>
-                        <h1>Send Email</h1>
-                        <Field as={TextField} name="name" label="Sender Name" fullWidth required />
-                        <Field as={TextField} name="message" label="Message" fullWidth required />
-                        <Button type="submit">Send Email</Button>
+                        <h1>{t('SendEmail')}</h1>
+                        <Field as={TextField} name="name" label={t('nameOfTheSender')}fullWidth required />
+                        <Field as={TextField} name="message" label={t('Message')} fullWidth required />
+                        <Button type="submit">{t('SendEmail2')}</Button>
                     </Container>
                 </Form>
             </Formik>
