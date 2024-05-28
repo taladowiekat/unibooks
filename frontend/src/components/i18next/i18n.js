@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next'
 
 i18n.use(LanguageDetector).use(initReactI18next).init({
 debug:true,
-lng:"arabic",
+lng:"english",
 resources:{
     english:{
 /**Edit Post */
@@ -49,7 +49,7 @@ resources:{
             changePassword:" Change Password",
             saveButton:"Save",
             security:"Security",
-             /**RecoveryPopup */
+             /**ChangePassword */
              currentPassword:"Current Password",
              newPassword:"New Password",
              confirmPassword:"Confirm Password",
@@ -67,8 +67,6 @@ resources:{
                home:"Home ",
                allPosts:" All Posts",
                contactus:" Contact Us",
-               signUp:"Sign Up ",
-               signIn:" Sign In",
                SELLEXCHANGEDONATE:"SELL ,EXCHANGE,DONATE",
                allCategories: "All Categories",
                slides: "Slides",
@@ -85,7 +83,7 @@ resources:{
               passwordTooShort: 'Password must be at least 6 characters long',
               passwordTooLong: 'Password must be at most 30 characters long',
               invalidUniversityIdFormat: 'Invalid university ID format',
-              invalidEmailFormat: 'Invalid email format',
+              invalidEmailFormat: 'Invalid Student email format',
               confirmPasswordMismatch: 'Passwords must match',
               enterName: 'Please Enter Name',
               invalidPhoneNumber: 'Invalid Phone Number',
@@ -96,7 +94,6 @@ resources:{
               emailIsRequired: 'Email is required',
               confirmPasswordRequired: 'Please confirm your password',
               phoneNumberIsRequired: 'Phone number is required',
-              invalidEmailFormat: 'Invalid email format',
               nameIsRequired: 'Name is required',
               search2:" Article name or keywords...",
               typeoperation: {
@@ -112,10 +109,36 @@ resources:{
               
                 
                 Arabic:" Arabic",
-              English :" English"
-             
-                }
+              English :" English",
+              firstnameRequired:"First Name Required",
+              lastnameRequired:"Last Name Required",
+
+              EmailOrstudentID :" Email Or StudentID",
+              firstname :"First Name ",
+              lastname :"Last Name",
+              gender :" Gender",
+              male: "Male",
+              female: "Female",
+              studentID :"student ID ",
+              FacultyofAgricultureandVeterinaryMedicine: "Faculty of Agriculture and Veterinary Medicine",
+              FacultyofBusinessandCommunication: "Faculty of Business and Communication",
+              FacultyofEngineeringandInformation: "Faculty of Engineering and Information",
+              FacultyofFineArts: "Faculty of Fine Arts",
+              FacultyofMedicineandHealthSciences: "Faculty of Medicine and Health Sciences",
+              FacultyofLawandPoliticalSciences: "Faculty of Law and Political Sciences",
+             FacultyofHumanitiesandEducationalSciences: "Faculty of Humanities and Educational Sciences",
+             FacultyofScience: "Faculty of Science",
+             FacultyofShariah: "Faculty of Shari'ah",
+             EmailmustcontainthestudentID:"Email must contain the student ID",
+             postTypeRequired :"Post Type Required",
+             notesRequired :"Notes are required",
+             required:"Required",
+             maxSubImages :"Maximum number of sub-images",
+             SendEmail:" Send Email",
+             Message:"Message",
+             SendEmail2:" Send Email"
     
+                }
     },
     
   arabic:{
@@ -154,20 +177,19 @@ resources:{
           forgotPassword:"هل نسيت كلمة المرور؟",
          loginSubTextOne:"ليس لديك حساب؟ قم بالتسجيل",
  /**   Profile.js       */
-          general: "العامة",
-          college: "اسم الكلية",
-          email: "البريد الإلكتروني",
-          password: "كلمة المرور",
-          changePassword: "تغيير كلمة المرور",
-          saveButton: "حفظ",
-          security:"الحماية",
-            /**RecoveryPopup */
-          currentPassword:"كلمة المرور الحالية",
-          newPassword:"كلمة المرور الجديدة",
-          confirmPassword:"تأكيد كلمة المرور",
-          confirmButton:"تأكيد",
+             general: "العامة",
+            college: "اسم الكلية",
+            email: "البريد الإلكتروني",
+             password: "كلمة المرور",
+             changePassword: "تغيير كلمة المرور",
+            saveButton: "حفظ",
+            security:"الحماية",
+            /**ChangePassword */
+            currentPassword:"كلمة المرور الحالية",
+            newPassword:"كلمة المرور الجديدة",
+            confirmPassword:"تأكيد كلمة المرور",
+            confirmButton:"تأكيد",
             //Register
-          signUp:"إنشاء حساب",
           universityId:"رقم التسجيل الجامعي",
           createAccount:"إنشاء حساب",
           signUpSubTextOne :"هل لديك حساب بالفعل؟ قم بتسجيل الدخول",
@@ -178,8 +200,7 @@ resources:{
           createyourPost: "أنشئ منشورك",
           home: "الصفحة الرئيسية",
           allPosts: "جميع المنشورات",
-          signUp: "سجل",
-          signIn: "تسجيل الدخول",
+          signUp: "انشئ حساب",
           SELLEXCHANGEDONATE:"بيع، استبدال، تبرع",
           Required: "مطلوب",
           allCategories: "جميع الفئات",
@@ -207,7 +228,6 @@ resources:{
           emailIsRequired: 'البريد الإلكتروني مطلوب',
           confirmPasswordRequired: 'يرجى تأكيد كلمة المرور',
           phoneNumberIsRequired: 'رقم الهاتف مطلوب',
-          invalidEmailFormat: 'صيغة البريد الإلكتروني غير صالحة',
           nameIsRequired: 'الاسم مطلوب',
           search2:" اسم المقال أو الكلمات الرئيسية...",
           typeoperation: {
@@ -219,7 +239,32 @@ resources:{
           deleteButton:" حذف",
           createPostTypography: "قدم تفاصيل منشورك",
           uploadImage:"قم بتحميل الصورة ",
-          invalidFileType: "نوع ملف غير صالح!",
-          fileSizeTooBig:  "حجم الملف كبير جداً!",
           Arabic:" اللغة العربية ",
-          English :" اللغة الانجليزية"}},},},)
+          English :" اللغة الانجليزية",
+          firstnameRequired:"الاسم الأول مطلوب",
+          lastnameRequired:" الاسم الاخير مطلوب ",
+          EmailOrstudentID: "البريد الإلكتروني أو رقم الطالب",
+          firstname :" الاسم الاول ",
+          lastname :" الاسم الاخير",
+          gender :"الجنس",
+          male: "ذكر",
+          female: "أنثى",
+          studentID :"الرقم الجامعي",
+          FacultyofAgricultureandVeterinaryMedicine:"كلية الزراعة والطب البيطري",
+          FacultyofBusinessandCommunication:  "كلية الأعمال والاتصال",
+          FacultyofEngineeringandInformation: "كلية الهندسة والمعلومات",
+          FacultyofFineArts:  "كلية الفنون الجميلة",
+          FacultyofMedicineandHealthSciences: "كلية الطب والعلوم الصحية",
+          FacultyofLawandPoliticalSciences:  "كلية القانون والعلوم السياسية",
+         FacultyofHumanitiesandEducationalSciences: "كلية العلوم الإنسانية والتربوية",
+         FacultyofScience: "كلية العلوم",
+         FacultyofShariah: "كلية الشريعة",
+         EmailmustcontainthestudentID :" البريد الالكتروني يجب ان يحتوي على الرقم الجامعي الخاص بالطالب",
+         postTypeRequired :"نوع المنشور مطلوب",
+         notesRequired :"الملاحظات مطلوبة",
+         required :"مطلوب",
+         maxSubImages :"الحد الأقصى لعدد الصور الفرعية",
+         SendEmail:'إرسال البريد الإلكتروني',
+         Message      :"رسالة",
+         SendEmail2:"قم بارسال البريد الالكتروني"
+        }},},},)

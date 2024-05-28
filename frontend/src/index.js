@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './components/i18next/i18n.js'
+import { UserProvider } from './components/context/UserContext.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <UserProvider>
     <App />
+    </UserProvider>
   </React.StrictMode>
 );
 

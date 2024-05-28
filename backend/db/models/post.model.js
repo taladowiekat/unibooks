@@ -7,19 +7,26 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    bookImage: {
-        type: Object,
-    },
     bookName: {
         type: String,
         required: true
     },
     notes: {
-        type: String,
+        type:String,
+        required: true
     },
+    mainImage: {
+        type:Object,
+        required: true
+    },
+    subImages: [{
+        type:Object,
+        required: true
+    }],
     postType: {
         type: String,
-        enum: ['Sell', 'Donate', 'Exchange']
+        enum: ['Sell', 'Donate', 'Exchange'],
+        required: true
     },
     exchangeBookName: {
         type: String,
@@ -27,15 +34,14 @@ const postSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'inactive']
+        enum: ['active', 'inactive'],
+        default: 'active'
     },
     slug: {
         type: String,
-        required:true
+        required: true
     },
-
 }, { timestamps: true });
-
 
 const postModel = model('Post', postSchema);
 
