@@ -20,7 +20,7 @@ const Chats = ({ messageId, open, handleClose }) => {
     const [email, setEmail] = useState('');
     const { t } = useTranslation();
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/message/${messageId}`)
+        axios.get(`http://localhost:4000/auth/message/${messageId}`)
             .then(response => setEmail(response.data.user.email))
             .catch(error => console.error('Failed to fetch message:', error));
     }, [messageId]);

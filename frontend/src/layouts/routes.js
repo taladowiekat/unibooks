@@ -8,6 +8,7 @@ import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import EditPost from '../pages/editPost/EditPost.js';
 import ForgotPassword from '../pages/forgotPassword/ForgotPassword.js';
+import Home from '../components/web/home/Home.js';
 
 
 
@@ -25,10 +26,10 @@ export const router = createBrowserRouter([
                 path: 'login',
                 element: <Login />
             },
-            // {
-            //     path: 'Home',
-            //     element: <Posts/>
-            // },
+             {
+                 path: '/',
+                 element: <Home/>
+             },
             {
                 path: 'allPosts',
                 element: <Posts />
