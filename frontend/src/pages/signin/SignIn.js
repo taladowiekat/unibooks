@@ -31,6 +31,7 @@ const LogIn = () => {
         icon: 'success',
         title: t('LoginSuccessful'),
         text: t('successfullyLogged'),
+        confirmButtonText: t('OKButton'),
       });
 
       localStorage.setItem("token", data.token);
@@ -50,12 +51,14 @@ const LogIn = () => {
             icon: 'error',
             title: t('UserNotFound'),
             text: t('emailOrIdNotExist'),
+            confirmButtonText: t('OKButton'),
           });
         } else if (error.response.status === 401) {
           Swal.fire({
             icon: 'error',
             title: t('InvalidCredentials'),
             text: t('passwordIncorrect'),
+            confirmButtonText: t('OKButton'),
           });
         }
       } else {
@@ -63,6 +66,7 @@ const LogIn = () => {
           icon: 'error',
           title: t('LoginFailed'),
           text: t('LoginErrorOccurrd'),
+          confirmButtonText: t('OKButton'),
         });
       }
     } finally {
