@@ -9,6 +9,7 @@ router.delete('/admin/removeUser/:id',auth('admin'),asyncHandler(controller.dele
 
 
 router.get('/getUserProfile', asyncHandler(controller.getUserProfile));
+router.get('/getAllUsers',asyncHandler(controller.getAllUsers));
 
 export default router;
 
