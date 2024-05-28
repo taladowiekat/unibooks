@@ -28,7 +28,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
     password: ''
   };
   const { t } = useTranslation();
-  const onSubmit = async (values, { setSubmitting },t) => {
+  const onSubmit = async (values, { setSubmitting }) => {
 
     await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email })
       .then((response) => {

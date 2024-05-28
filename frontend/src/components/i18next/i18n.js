@@ -84,7 +84,7 @@ i18n
           changePassword: " Change Password",
           saveButton: "Save",
           security: "Security",
-
+         
           //Register
           signUp: "Sign Up",
           universityId: "University ID",
@@ -99,6 +99,8 @@ i18n
           home: "Home ",
           allPosts: " All Posts",
           contactus: " Contact Us",
+          settings:"settings",
+          myPosts:"myPosts",
           // Footer
           SELLEXCHANGEDONATE: "SELL ,EXCHANGE,DONATE",
           //Change Languge Button
@@ -199,16 +201,14 @@ i18n
           SendEmail: " Send Email",
           Message: "Message",
           SendEmail2: " Send Email",
-          /**ChangePassword */
-          currentPassword: "Current Password",
-          newPassword: "New Password",
-          confirmPassword: "Confirm Password",
-          confirmButton: "Confirm",
-          PasswordIdenticalSubText:
-            "New Password is identical to Current Password.",
-          IncorrectPassword: "Incorrect Password",
-          IncorrectPasswordAleart:
-            "The current password provided is incorrect.",
+           /**ChangePassword */
+           currentPassword: "Current Password",
+           newPassword: "New Password",
+           confirmPassword: "Confirm Password",
+           confirmButton: "Confirm",
+           PasswordIdenticalSubText  :'New Password is identical to Current Password.',
+           IncorrectPassword:'Incorrect Password',
+           IncorrectPasswordAleart:'The current password provided is incorrect.',
           //   resetPassword
           success: "success",
           PasswordChanged: "Password Changed",
@@ -227,6 +227,7 @@ i18n
           notregistered: "The provided email is not registered.",
           unexpectedError:
             "An unexpected error occurred. Please try again later.",
+            uploadSubImages:"upload Sub Images",
         },
       },
 
@@ -307,10 +308,9 @@ i18n
           newPassword: "كلمة المرور الجديدة",
           confirmPassword: "تأكيد كلمة المرور",
           confirmButton: "تأكيد",
-          PasswordIdenticalSubText:
-            "كلمة المرور الجديدة متطابقة مع كلمة المرور الحالية.",
-          IncorrectPassword: "كلمة المرور غير صحيحة",
-          IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غير صحيحة.",
+          PasswordIdenticalSubText: "كلمة المرور الجديدة متطابقة مع كلمة المرور الحالية.",
+IncorrectPassword: "كلمة المرور غير صحيحة",
+IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غير صحيحة.",
           //Register
           universityId: "رقم التسجيل الجامعي",
           createAccount: "إنشاء حساب",
@@ -431,6 +431,10 @@ i18n
           empty: "لا يمكن أن يكون فارغًا",
           InvalidCollege: "الكلية غير صالحة",
           Unknown: "غير معروف",
+          settings:"الاعدادات",
+          myPosts:"منشوراتي",
+          signOut:"تسجيل الخروج",
+          uploadSubImages:"رفع الصور الفرعية",
         },
       },
     },

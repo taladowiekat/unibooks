@@ -285,9 +285,9 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
                     value={values.postType}
                     onChange={handleChange}
                   >
-                    <FormControlLabel value="Sell" control={<Radio />} label={t("Sell")} />
-                    <FormControlLabel value="Exchange" control={<Radio />} label={t("Exchange")} />
-                    <FormControlLabel value="Donate" control={<Radio />} label={t("Donate")} />
+                    <FormControlLabel value="Sell" control={<Radio />} label={t("sellType")} />
+                    <FormControlLabel value="Exchange" control={<Radio />} label={t("exchangeType")} />
+                    <FormControlLabel value="Donate" control={<Radio />} label={t("donateType")} />
                   </RadioGroup>
                   {errors.postType && touched.postType && (
                     <div style={{ marginTop: 10, color: 'red' }}>
