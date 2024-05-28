@@ -31,14 +31,14 @@ const ChangePassword = ({ open, handleClose }) => {
 
   const handleSubmit = async (user, { setSubmitting }) => {
 
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem("token");
 
     await axios.patch('http://localhost:4000/auth/changePassword', {
       currentPassword: user.currentPassword,
       newPassword: user.newPassword,
     }, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Token__${token}`
       }
     }).then((response) => {
       if (response.status === 200)
