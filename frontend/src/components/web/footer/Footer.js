@@ -16,7 +16,7 @@ const Footer = () => {
                 boxShadow: '0px -5px 7px -5px rgba(0, 0, 0, 0.5)',
                 flexGrow: 1,
                 display: 'flex',
-                mt:'20rem',
+                mt:'1rem',
             }}>
             <Grid container alignItems='center' justifyContent='space-between'>
                 <Grid item >
