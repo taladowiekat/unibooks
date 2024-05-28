@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import { Formik, Form } from 'formik';
-import { ButtonBase, Paper, Typography, Button, Box, Dialog, IconButton } from '@mui/material';
+import { ButtonBase, Paper, Typography, Button, Box, Dialog, IconButton, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { DeleteOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import InputsComponent from '../../shared/PostInfo';
-import FormData from 'form-data';
 import { useValidations } from '../../validation/validation.js';
 import { useTranslation } from 'react-i18next';
+import { UserContext } from '../../context/UserContext.js';
+
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -72,39 +74,70 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
-const CreateListing = ({ open, handleClose }) => {
+const CreateListing = ({ open, handleClose, onPostCreated }) => {
   const { createPostValidationSchema } = useValidations();
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
   const { t } = useTranslation();
+  const { token } = useContext(UserContext); // احصل على التوكن من الـ Context
+
+  const [mainImage, setMainImage] = useState(null);
+  const [mainPreview, setMainPreview] = useState(null);
+  const [subImages, setSubImages] = useState([]);
+  const [subPreviews, setSubPreviews] = useState([]);
 
   useEffect(() => {
-    if (!image) {
-      setPreview(null);
+    if (!mainImage) {
+      setMainPreview(null);
       return;
     }
-    const objectUrl = URL.createObjectURL(image);
-    setPreview(objectUrl);
+    const objectUrl = URL.createObjectURL(mainImage);
+    setMainPreview(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [image]);
+  }, [mainImage]);
 
-  const handleImageUpload = (e, setFieldValue) => {
+  useEffect(() => {
+    const newPreviews = subImages.map(image => URL.createObjectURL(image));
+    setSubPreviews(newPreviews);
+
+    return () => {
+      newPreviews.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [subImages]);
+
+  const handleMainImageUpload = (e, setFieldValue) => {
     const uploadedImage = e.currentTarget.files[0];
-    setImage(uploadedImage);
+    setMainImage(uploadedImage);
     setFieldValue('image', uploadedImage);
   };
 
-  const handleDeleteImage = (setFieldValue) => {
-    setImage(null);
+  const handleSubImagesUpload = (e, setFieldValue) => {
+    const uploadedImages = Array.from(e.currentTarget.files);
+    if (subImages.length + uploadedImages.length <= 4) {
+      const newSubImages = [...subImages, ...uploadedImages];
+      setSubImages(newSubImages);
+      setFieldValue('subImages', newSubImages);
+    } else {
+      alert('You can upload up to 4 sub-images only.');
+    }
+  };
+
+  const handleDeleteMainImage = (setFieldValue) => {
+    setMainImage(null);
     setFieldValue('image', '');
+  };
+
+  const handleDeleteSubImage = (index, setFieldValue) => {
+    const newSubImages = subImages.filter((_, i) => i !== index);
+    setSubImages(newSubImages);
+    setFieldValue('subImages', newSubImages);
   };
 
   const initialValues = {
     bookName: '',
     notes: '',
-    listingType: 'sell',
+    postType: 'sell',
     image: '',
+    subImages: [],
     exchangeBookName: ''
   };
 
@@ -112,21 +145,41 @@ const CreateListing = ({ open, handleClose }) => {
     const formData = new FormData();
     formData.append('bookName', values.bookName);
     formData.append('notes', values.notes);
-    formData.append('listingType', values.listingType);
-    formData.append('image', values.image);
+    formData.append('postType', values.postType);
+    formData.append('mainImage', values.image);
+    values.subImages.forEach((image, index) => {
+      formData.append('subImages', image);
+    });
     formData.append('exchangeBookName', values.exchangeBookName);
-    resetForm();
-    setImage(null);
+
+    try {
+      const response = await axios.post('http://localhost:4000/post/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Token__${token}`
+        }
+      });
+      console.log(response.data);
+      resetForm();
+      setMainImage(null);
+      setSubImages([]);
+      handleClose();
+      onPostCreated();
+    } catch (error) {
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+      } else {
+        console.error('Error message:', error.message);
+      }
+    }
   };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <Paper elevation={3} style={{ padding: 20 }}>
-
         <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
           {t("createPostTypography")}
         </Typography>
-
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -135,26 +188,23 @@ const CreateListing = ({ open, handleClose }) => {
           {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
             <Form>
               <Box mb={2} width="100%">
-                {!image && (
+                {!mainImage && (
                   <div>
                     <input
                       type="file"
                       accept="image/*"
-                      id="image-upload"
+                      id="main-image-upload"
                       name="image"
-                      onChange={(e) => handleImageUpload(e, setFieldValue)}
+                      onChange={(e) => handleMainImageUpload(e, setFieldValue)}
                       style={{ display: 'none' }}
                     />
-                    <label htmlFor="image-upload">
-
+                    <label htmlFor="main-image-upload">
                       <ImageButton
                         focusRipple
                         component="span"
-                        style={{
-                          width: '100%',
-                        }}
+                        style={{ width: '100%' }}
                       >
-                        <ImageSrc style={{ backgroundImage: `url(${preview || '/static/images/default.png'})` }} />
+                        <ImageSrc style={{ backgroundImage: `url(${mainPreview || '/static/images/default.png'})` }} />
                         <ImageBackdrop className="MuiImageBackdrop-root" />
                         <Image>
                           <Typography
@@ -173,9 +223,7 @@ const CreateListing = ({ open, handleClose }) => {
                           </Typography>
                         </Image>
                       </ImageButton>
-
                     </label>
-
                     {errors.image && touched.image && (
                       <div style={{ marginTop: 10, color: 'red' }}>
                         {errors.image}
@@ -183,18 +231,47 @@ const CreateListing = ({ open, handleClose }) => {
                     )}
                   </div>
                 )}
-
-                {preview && (
+                {mainPreview && (
                   <div style={{ position: 'relative' }}>
-                    <img src={preview} alt="Uploaded" style={{ width: '100%', height: 'auto', borderRadius: 10 }} />
+                    <img src={mainPreview} alt="Uploaded" style={{ width: '100%', height: 'auto', borderRadius: 10 }} />
                     <IconButton
                       style={{ position: 'absolute', top: 0, right: 0 }}
-                      onClick={() => handleDeleteImage(setFieldValue)}
+                      onClick={() => handleDeleteMainImage(setFieldValue)}
                     >
                       <DeleteOutlined />
                     </IconButton>
                   </div>
                 )}
+                <Box mt={2}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="sub-images-upload"
+                    name="subImages"
+                    onChange={(e) => handleSubImagesUpload(e, setFieldValue)}
+                    style={{ display: 'none' }}
+                    multiple
+                  />
+                  <label htmlFor="sub-images-upload">
+                    <Button variant="contained" component="span" disabled={subImages.length >= 4}>
+                      {t("uploadSubImages")}
+                    </Button>
+                  </label>
+                  <Box display="flex" flexWrap="wrap" mt={2}>
+                    {subPreviews.map((preview, index) => (
+                      <Box key={index} position="relative" m={1}>
+                        <img src={preview} alt={`Sub ${index}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
+                        <IconButton
+                          size="small"
+                          style={{ position: 'absolute', top: 0, right: 0 }}
+                          onClick={() => handleDeleteSubImage(index, setFieldValue)}
+                        >
+                          <DeleteOutlined />
+                        </IconButton>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
                 <InputsComponent
                   values={values}
                   handleChange={handleChange}
@@ -202,14 +279,27 @@ const CreateListing = ({ open, handleClose }) => {
                   errors={errors}
                   touched={touched}
                 />
+                <Box mt={2}>
+                  <RadioGroup
+                    name="postType"
+                    value={values.postType}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel value="Sell" control={<Radio />} label={t("Sell")} />
+                    <FormControlLabel value="Exchange" control={<Radio />} label={t("Exchange")} />
+                    <FormControlLabel value="Donate" control={<Radio />} label={t("Donate")} />
+                  </RadioGroup>
+                  {errors.postType && touched.postType && (
+                    <div style={{ marginTop: 10, color: 'red' }}>
+                      {errors.postType}
+                    </div>
+                  )}
+                </Box>
               </Box>
-
               <Box mt={2} display="flex" justifyContent="flex-end">
-
                 <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
                   {t("postbutton")}
                 </Button>
-
                 <Button
                   type="button"
                   variant="contained"
@@ -219,7 +309,6 @@ const CreateListing = ({ open, handleClose }) => {
                 >
                   {t("cancelbutton")}
                 </Button>
-
               </Box>
             </Form>
           )}
