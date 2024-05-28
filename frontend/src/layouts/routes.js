@@ -8,7 +8,6 @@ import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import EditPost from '../pages/editPost/EditPost.js';
 import ForgotPassword from '../pages/resetPassword/ForgotPassword.js';
-import ConfirmEmail from '../pages/confirmEmail/ConfirmEmail.js';
 
 
 
@@ -48,10 +47,7 @@ export const router = createBrowserRouter([
             }, {
                 path: 'allPosts/EditPost',
                 element: <EditPost />
-            }, {
-                path: '/confirmEmail/:token',
-                element: <ConfirmEmail/>
-            },
+            }, 
 
         ]
     }
