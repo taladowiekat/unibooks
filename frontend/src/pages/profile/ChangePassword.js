@@ -43,35 +43,35 @@ const ChangePassword = ({ open, handleClose }) => {
     }).then((response) => {
       if (response.status === 200)
         Swal.fire({
-          icon: t('success'),
+          icon: 'success',
           title:t ('PasswordChanged'),
           text: t('changeSuccsAlart'),
         });
     }, (error) => {
       if (error.response.status === 400)
         Swal.fire({
-          icon: t('Error'),
-          text: 'New Password is identical to Current Password.',
+          icon: 'error',
+          text:t('PasswordIdenticalSubText'),
         });
       else if (error.response.status === 401) {
         Swal.fire({
-          icon: t('Error'),
-          title: 'Token Expired',
-          text: 'Your Token has expired. Please log in again.',
+          icon: 'error',
+          title:t('TokenExpired'),
+          text:t('TokenExpiredAleart'),
         });
         navigate('/login');
       }
       else if (error.response.status === 405)
         Swal.fire({
           icon: 'error',
-          title: 'Incorrect Password',
-          text: 'The current password provided is incorrect.',
+          title:t('IncorrectPassword'),
+          text: t('IncorrectPasswordAleart'),
         });
       else
         Swal.fire({
           icon: 'error',
-          title: 'Oops',
-          text: 'An unexpected error occurred. Please try again later.',
+          title: t('Oops'),
+          text: t('unexpectedError'),
         });
     })
     setSubmitting(false);

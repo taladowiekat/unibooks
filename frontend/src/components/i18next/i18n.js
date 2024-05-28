@@ -10,8 +10,12 @@ i18n
     lng: "",
     resources: {
       english: {
-        /**Edit Post */ //15 word
         translation: {
+          //allPosts
+          Unknown: "Unknown",
+
+          /**Edit Post */ //15 word
+          loading: "loading",
           editImage: " Edit image",
           userName: "  User Name",
           bookName: " Book Name ",
@@ -64,6 +68,15 @@ i18n
           registrationError:
             "An error occurred during registration. Please try again.",
           /**   Profile.js       */
+          UpdateSuccessful: "Update Successful",
+          successfullyUpdated:
+            "You have successfully updated your information.",
+          UpdateFailed: "Update Failed",
+          profileInvalidToken: " Invalid token. Please log in again.",
+          NoChanges: "No Changes",
+          NoChangesSubText: "No changes detected.",
+          UpdateError:
+            "An error occurred while updating the profile. Please try again later.",
           general: "General",
           college: "College Name",
           email: "Email",
@@ -71,11 +84,7 @@ i18n
           changePassword: " Change Password",
           saveButton: "Save",
           security: "Security",
-          /**ChangePassword */
-          currentPassword: "Current Password",
-          newPassword: "New Password",
-          confirmPassword: "Confirm Password",
-          confirmButton: "Confirm",
+
           //Register
           signUp: "Sign Up",
           universityId: "University ID",
@@ -190,6 +199,16 @@ i18n
           SendEmail: " Send Email",
           Message: "Message",
           SendEmail2: " Send Email",
+          /**ChangePassword */
+          currentPassword: "Current Password",
+          newPassword: "New Password",
+          confirmPassword: "Confirm Password",
+          confirmButton: "Confirm",
+          PasswordIdenticalSubText:
+            "New Password is identical to Current Password.",
+          IncorrectPassword: "Incorrect Password",
+          IncorrectPasswordAleart:
+            "The current password provided is incorrect.",
           //   resetPassword
           success: "success",
           PasswordChanged: "Password Changed",
@@ -214,6 +233,7 @@ i18n
       arabic: {
         translation: {
           /**Edit Post */
+          loading: "جاري التحميل ",
           editImage: "تعديل الصورة ",
           userName: " اسم المستخدم ",
           bookName: "اسم الكتاب ",
@@ -267,6 +287,14 @@ i18n
           Useralreadyregistered: "المستخدم مسجل بالفعل. الرجاء تسجيل الدخول.",
           registrationError: "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.",
           /**   Profile.js       */
+          UpdateSuccessful: "تم التحديث بنجاح",
+          successfullyUpdated: "لقد قمت بتحديث معلوماتك بنجاح.",
+          UpdateFailed: "فشل التحديث",
+          profileInvalidToken: "رمز غير صالح. يرجى تسجيل الدخول مرة أخرى.",
+          NoChanges: "لا تغييرات",
+          NoChangesSubText: "لم يتم اكتشاف أي تغييرات.",
+          UpdateError:
+            "حدث خطأ أثناء تحديث الملف الشخصي. يرجى المحاولة مرة أخرى لاحقًا.",
           general: "العامة",
           college: "اسم الكلية",
           email: "البريد الإلكتروني",
@@ -279,6 +307,10 @@ i18n
           newPassword: "كلمة المرور الجديدة",
           confirmPassword: "تأكيد كلمة المرور",
           confirmButton: "تأكيد",
+          PasswordIdenticalSubText:
+            "كلمة المرور الجديدة متطابقة مع كلمة المرور الحالية.",
+          IncorrectPassword: "كلمة المرور غير صحيحة",
+          IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غير صحيحة.",
           //Register
           universityId: "رقم التسجيل الجامعي",
           createAccount: "إنشاء حساب",
@@ -318,7 +350,6 @@ i18n
           enterMessage: "الرجاء إدخال الرسالة",
           universityIdRequired: "رقم التسجيل الجامعي مطلوب",
           emailIsRequired: "البريد الإلكتروني مطلوب",
-          confirmPasswordRequired: "يرجى تأكيد كلمة المرور",
           phoneNumberIsRequired: "رقم الهاتف مطلوب",
           nameIsRequired: "الاسم مطلوب",
           search2: " اسم المقال أو الكلمات الرئيسية...",
@@ -399,6 +430,7 @@ i18n
           codeDigit: "يجب أن يتكون من 4 أرقام بالضبط",
           empty: "لا يمكن أن يكون فارغًا",
           InvalidCollege: "الكلية غير صالحة",
+          Unknown: "غير معروف",
         },
       },
     },

@@ -73,8 +73,8 @@ const ProfileForm = () => {
             });
             Swal.fire({
                 icon: 'success',
-                title: 'Update Successful',
-                text: 'You have successfully updated your information.',
+                title: t('UpdateSuccessful'),
+                text:t('successfullyUpdated'),
             });
             fetchUserData();
         } catch (error) {
@@ -82,21 +82,21 @@ const ProfileForm = () => {
                 if (error.response.status === 401) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Update Failed',
-                        text: 'Invalid token. Please log in again.',
+                        title: t('UpdateFailed'),
+                        text:t('profileInvalidToken'),
                     });
                 } else if (error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'No Changes',
-                        text: 'No changes detected.',
+                        title: t('NoChanges'),
+                        text: t('NoChangesSubText'),
                     });
                 }
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Update Failed',
-                    text: 'An error occurred while updating the profile. Please try again later.',
+                    title: t('UpdateFailed'),
+                    text: t('UpdateError'),
                 });
             }
         }
@@ -229,15 +229,15 @@ const ProfileForm = () => {
                                     helperText={touched.college && errors.college}
                                 >
                                     <option value=""></option>
-                                    <option value="Faculty of Agriculture and Veterinary Medicine">{t("Faculty of Agriculture and Veterinary Medicine")}</option>
-                                    <option value="Faculty of Business and Communication">{t("Faculty of Business and Communication")}</option>
-                                    <option value="Faculty of Engineering and Information">{t("Faculty of Engineering and Information")}</option>
-                                    <option value="Faculty of Fine Arts">{t("Faculty of Fine Arts")}</option>
-                                    <option value="Faculty of Medicine and Health Sciences">{t("Faculty of Medicine and Health Sciences")}</option>
-                                    <option value="Faculty of Law and Political Sciences">{t("Faculty of Law and Political Sciences")}</option>
-                                    <option value="Faculty of Humanities and Educational Sciences">{t("Faculty of Humanities and Educational Sciences")}</option>
-                                    <option value="Faculty of Science">{t("Faculty of Science")}</option>
-                                    <option value="Faculty of Shari'ah">{t("Faculty of Shari'ah")}</option>
+                                    <option value="Faculty of Agriculture and Veterinary Medicine">{t("FacultyofAgricultureandVeterinaryMedicine")}</option>
+                                    <option value="Faculty of Business and Communication">{t("FacultyofBusinessandCommunication")}</option>
+                                    <option value="Faculty of Engineering and Information">{t("FacultyofEngineeringandInformation")}</option>
+                                    <option value="Faculty of Fine Arts">{t("FacultyofFineArts")}</option>
+                                    <option value="Faculty of Medicine and Health Sciences">{t("FacultyofMedicineandHealthSciences")}</option>
+                                    <option value="Faculty of Law and Political Sciences">{t("FacultyofLawandPoliticalSciences")}</option>
+                                    <option value="Faculty of Humanities and Educational Sciences">{t("FacultyofHumanitiesandEducationalSciences")}</option>
+                                    <option value="Faculty of Science">{t("FacultyofScience")}</option>
+                                    <option value="Faculty of Shari'ah">{t("FacultyofShariah")}</option>
                                 </Field>
 
                                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', marginTop: '1rem' }}>
