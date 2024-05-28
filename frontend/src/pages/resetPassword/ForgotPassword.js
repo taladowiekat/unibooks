@@ -13,7 +13,7 @@ import ResetPassword from './ResetPass';
 const ForgotPassword = () => {
   const { forgotPasswordValidationSchema } = useValidations();
   const [userEmail, setUserEmail] = useState('');
-
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -35,21 +35,21 @@ const ForgotPassword = () => {
           if (error.response.status === 404)
             Swal.fire({
               icon: 'error',
-              title: 'User Not Found',
-              text: 'The provided email is not registered.',
+              title: t('UserNotFound'),
+              text: t('notregistered'),
             });
           else
             Swal.fire({
               icon: 'error',
-              title: "Oops",
-              text: 'An unexpected error occurred. Please try again later.',
+              title: t('Oops'),
+              text: t('unexpectedError'),
             });
         }
       })
     setSubmitting(false);
   };
 
-  const { t } = useTranslation();
+ 
   return (
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>

@@ -43,19 +43,19 @@ const ChangePassword = ({ open, handleClose }) => {
     }).then((response) => {
       if (response.status === 200)
         Swal.fire({
-          icon: 'success',
-          title: 'Password Changed',
-          text: 'Your password has been changed successfully.',
+          icon: t('success'),
+          title:t ('PasswordChanged'),
+          text: t('changeSuccsAlart'),
         });
     }, (error) => {
       if (error.response.status === 400)
         Swal.fire({
-          icon: 'error',
+          icon: t('Error'),
           text: 'New Password is identical to Current Password.',
         });
       else if (error.response.status === 401) {
         Swal.fire({
-          icon: 'error',
+          icon: t('Error'),
           title: 'Token Expired',
           text: 'Your Token has expired. Please log in again.',
         });

@@ -4,7 +4,7 @@ import { useValidations } from "../../components/validation/validation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { useTranslation } from 'react-i18next';
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -27,16 +27,16 @@ const ResetPassword = ({ open, handleClose, email }) => {
     code: '',
     password: ''
   };
-
-  const onSubmit = async (values, { setSubmitting }) => {
+  const { t } = useTranslation();
+  const onSubmit = async (values, { setSubmitting },t) => {
 
     await axios.patch(`http://localhost:4000/auth/resetPassword`, { ...values, email })
       .then((response) => {
         if (response.status === 200) {
           Swal.fire({
             icon: 'success',
-            title: 'Password Changed',
-            text: 'Your password has been changed successfully.',
+            title: t('PasswordChanged'),
+            text: t('changeSuccsAlart'),
           });
           navigate('/login');
         }
@@ -44,19 +44,19 @@ const ResetPassword = ({ open, handleClose, email }) => {
         if (error.response.status === 400)
           Swal.fire({
             icon: 'error',
-            text: 'New Password cannot be the same as the old password.',
+            text: t('SamePassAlart'),
           });
         else if (error.response.status === 401)
           Swal.fire({
-            icon: 'error',
-            title: 'Invalid Code',
-            text: 'The provided code is incorrect.',
+            icon:'error',
+            title: t('InvalidCode'),
+            text: t('codeIncorrect'),
           });
         else
           Swal.fire({
             icon: 'error',
-            title: 'Oops',
-            text: 'An unexpected error occurred. Please try again later.',
+            title: t('Oops'),
+            text: t('unexpectedError'),
           });
       })
       setSubmitting(false);
@@ -80,13 +80,13 @@ const ResetPassword = ({ open, handleClose, email }) => {
             <Container sx={modalStyle}>
               <Box display="flex" flexDirection="column" gap={2}>
                 <Typography gutterBottom sx={{ alignItems: 'center', fontSize: '1.2rem' }}>
-                  Please check your email for a message with your code.
+              {t('checkCode')}
                 </Typography>
                 <Field
                   name="code"
                   as={TextField}
                   id="code"
-                  label="Reset Code"
+                  label={t('resetCode')}
                   variant="outlined"
                   type="text"
                   sx={{ width: '4cm' }}
@@ -101,7 +101,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
                   name="password"
                   as={TextField}
                   id="password"
-                  label="New Password"
+                  label={t('newPassword')}
                   variant="outlined"
                   type="password"
                   fullWidth
@@ -114,7 +114,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
                   name="confirmPassword"
                   as={TextField}
                   id="confirmPassword"
-                  label="Confirm Password"
+                  label={t("confirmPassword")}
                   variant="outlined"
                   type="password"
                   fullWidth
@@ -129,7 +129,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
                     color="secondary"
                     onClick={handleClose}
                   >
-                    Cancel
+                   {t('cancelbutton')}
                   </Button>
                   <Button
                     variant="contained"
@@ -137,7 +137,7 @@ const ResetPassword = ({ open, handleClose, email }) => {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    Confirm
+                 {t('confirmButton')}
                   </Button>
                 </Box>
               </Box>
