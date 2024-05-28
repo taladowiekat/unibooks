@@ -1,4 +1,3 @@
-
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
@@ -43,9 +42,15 @@ export const signup = async (req, res) => {
     if (!newUser) {
         return res.status(500).json({ message: "Error creating user" });
     }
+    
+        await newUser.save();
 
-    res.status(201).json(newUser);
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });
 
+        const confirmationUrl = `http://localhost:4000/auth/confirmEmail/${token}`;
+        await sendEmail(newUser.email, 'Confirm Your Email', `<p>Please confirm your email by clicking on this link: <a href="${confirmationUrl}">Confirm Email</a></p>`);
+
+        return res.status(201).json({ message: "Registration successful! Please verify your email.", id: newUser._id });
 
 };
 
@@ -88,7 +93,7 @@ export const confirmEmail = async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
         const user = await userModel.findOneAndUpdate(
-            { email: decoded.email },
+            { _id: decoded.id },
             { confirmEmail: true },
             { new: true }
         );

@@ -22,7 +22,7 @@ const LogIn = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/auth/signin', {
+      const { data } = await axios.post('http://localhost:4000/auth/signin', {
         identifier: values.emailOrstudentID,
         password: values.password
       });
