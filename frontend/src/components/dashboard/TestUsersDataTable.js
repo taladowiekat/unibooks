@@ -11,7 +11,6 @@ const TestUsersDataTable = () => {
             try {
                 const response = await axios.get('http://localhost:4000/user/getAllUsers');
                 setUsers(response.data);
-                console.log(users)
             } catch (error) {
                 console.error(error);
             }

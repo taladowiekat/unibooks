@@ -11,7 +11,6 @@ const TestPostsDataTable = () => {
             try {
                 const response = await axios.get('http://localhost:4000/post/getAllPosts');
                 setPosts(response.data);
-                console.log(posts)
             } catch (error) {
                 console.error(error);
             }
