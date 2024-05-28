@@ -228,6 +228,7 @@ i18n
           unexpectedError:
             "An unexpected error occurred. Please try again later.",
             uploadSubImages:"upload Sub Images",
+            signOut:"sign Out",
         },
       },
 
