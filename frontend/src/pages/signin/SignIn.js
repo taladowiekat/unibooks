@@ -36,7 +36,6 @@ const LogIn = () => {
       localStorage.setItem("token", data.token);
       setToken(data.token);
 
-      // Fetch user data after login
       const userResponse = await axios.get('http://localhost:4000/user/getUserProfile', {
         headers: { Authorization: `Token__${data.token}` }
       });
