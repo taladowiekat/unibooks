@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
   const fetchUser = async () => {
     if (token) {
       try {
-        const { data } = await axios.get('http://localhost:5000/user/getUserProfile', {
+        const { data } = await axios.get('http://localhost:4000/user/getUserProfile', {
           headers: { Authorization: `Token__${token}` }
         });
         setUser(data); // Set user data
