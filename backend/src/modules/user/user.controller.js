@@ -4,8 +4,18 @@ import jwt from 'jsonwebtoken';
 //Delete Users And Their Posts For Admin *_*
 
 export const deleteUserWithPosts = async (req, res) => {
-    const userId = req.user._id;
+    const userId = req.params.id;
     const user = await userModel.findById(userId);
+     const token = req.headers.authorization.split(' ')[1];
+    if (!token) {
+        return res.status(401).send({ message: "Access token is missing" });
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    if (!decodedToken) {
+        return res.status(401).send({ message: "Invalid token" });
+    }
+
     if (!user) {
         return res.status(404).json({ message: 'User  Not Found' });
     }
@@ -22,10 +32,10 @@ export const deleteUserWithPosts = async (req, res) => {
         const numPostsDeleted = deletedPosts.deletedCount;
         await userModel.findByIdAndDelete(userId);
 
-        res.status(200).send({ message: `Hello Admin, the user with ID ${userId} and ${numPostsDeleted} posts have been successfully deleted.` });
+        res.status(200).send({ message: `Hello Admin, the user with ID  and ${numPostsDeleted} posts have been successfully deleted.` });
     } else {
         await userModel.findByIdAndDelete(userId);
-        res.status(200).send({ message: `Hello Admin, the user with ID ${userId} has been successfully deleted. No posts were associated with this user.` });
+        res.status(200).send({ message: `Hello Admin, the user with ID  has been successfully deleted. No posts were associated with this user.` });
     }
 };
 

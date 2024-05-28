@@ -1,6 +1,7 @@
 import postModel from '../../../db/models/post.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
+import jwt from 'jsonwebtoken';
 //create a new post
 export const createPost = async (req, res) => {
     const { bookName, postType, exchangeBookName } = req.body;
@@ -100,7 +101,6 @@ export const updatePost = async (req, res) => {
     return res.status(200).json({ message: "Success", userName, post });
 }
 
-
 /* aisha
 mongosse query used :
    (findById):
@@ -113,31 +113,37 @@ mongosse query used :
 //delete post for user *_*
 export const deletePost = async (req, res) => {
     const { id: postID } = req.params;
-  
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY
+    );
+    if (!decodedToken)
+        return res.status(401).json({ message: "Invalid token" });
         const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-    
-        const userId = req.user._id;
-        if (post.studentID.toString() !== userId.toString()) {
+        if (post.studentID!== decodedToken._id) {
             return res.status(401).json({ message: 'User not authorized to delete this post' });
         }
-
         await postModel.findByIdAndDelete(postID);
-        res.status(200).send({ message: `Post with Id:${postID} has been deleted by student which  have id:${userId}` });
-    
+        res.status(200).send({ message: "post deleted"});
 };
 //Delete Post For Admin *_*
 export const AdminDeletePost = async (req, res) => {
     const { id: postID } = req.params;
-    const userId = req.user._id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY
+    );
+    if (!decodedToken)
+        return res.status(401).json({ message: "Invalid token" });
     const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        
         await postModel.findByIdAndDelete(postID);
-        res.status(200).send({ message: `Hello Admin, the post with ID ${postID} belonging to user with ID ${userId} has been successfully deleted.  ` });
-
+        res.status(200).send({ message: "post deleted by Admin" });
 };
