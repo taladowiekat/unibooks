@@ -229,6 +229,9 @@ i18n
             "An unexpected error occurred. Please try again later.",
             uploadSubImages:"upload Sub Images",
             signOut:"sign Out",
+            easyForYou: "We Made It Easy For You",
+      explorePosts: "Here, you can explore all existing posts",
+      encouragingMessage:"encouraging Message",
         },
       },
 
@@ -408,12 +411,12 @@ IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غ
           codeIncorrect: "الرمز المقدم غير صحيح.",
           Oops: "عذرًا",
           checkCode:
-            " يرجى التحقق من بريدك الإلكتروني للرسالة التي تحتوي على الرمز الخاص بك.",
+            " .يرجى التحقق من بريدك الإلكتروني للرسالة التي تحتوي على الرمز الخاص بك",
           resetCode: "إعادة تعيين الرمز",
           //ForgetPass
           UserNotFound: "المستخدم غير موجود",
-          notregistered: "البريد الإلكتروني المُقدم غير مسجل.",
-          unexpectedError: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقًا.",
+          notregistered: ".البريد الإلكتروني المُقدم غير مسجل",
+          unexpectedError: ".حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقًا",
           //validation
           exchangeBookNameRequired: "اسم الكتاب المراد تبادله مطلوب",
           studentIdDigits: "يجب أن يتكون رقم الطالب من 8 أرقام",
@@ -436,6 +439,9 @@ IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غ
           myPosts:"منشوراتي",
           signOut:"تسجيل الخروج",
           uploadSubImages:"رفع الصور الفرعية",
+          easyForYou: "لقد جعلناها سهلة لك",
+          explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
+          encouragingMessage:"رسسالة تشجيعية"
         },
       },
     },
