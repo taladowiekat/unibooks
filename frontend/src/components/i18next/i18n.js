@@ -44,24 +44,25 @@ i18n
           loginButton: " Login",
           forgotPassword: "Forgot Password ?",
           loginSubTextOne: "  Don't have an account? Sign Up",
-          LoginSuccessful       :'Login Successful',
-          successfullyLogged            :'You have successfully logged in.',
-          UserNotFound    :'User not found',
-         emailOrIdNotExist :'The provided email or student ID does not exist.',
-         InvalidCredentials  :'Invalid credentials',
-         passwordIncorrect:'The provided password is incorrect.',
-         LoginFailed:'Login failed',
-         LoginErrorOccurrd:'An error occurred during login. Please try again later.',
+          LoginSuccessful: "Login Successful",
+          successfullyLogged: "You have successfully logged in.",
+          emailOrIdNotExist: "The provided email or student ID does not exist.",
+          InvalidCredentials: "Invalid credentials",
+          passwordIncorrect: "The provided password is incorrect.",
+          LoginFailed: "Login failed",
+          LoginErrorOccurrd:
+            "An error occurred during login. Please try again later.",
 
           //LogIn&Sign Up
-          OKButton:"OK",
+          OKButton: "OK",
           //signUp
-          signUpSuccess:"signUp Success",
-          partOfTheUnibooks        :'You are now part of the unibooks community',
-          tapToSignin:'tap to signin',
-          signUpError:'signUp Error',
-          Useralreadyregistered     :'User already registered. Please log in.',
-          registrationError          :'An error occurred during registration. Please try again.',
+          signUpSuccess: "signUp Success",
+          partOfTheUnibooks: "You are now part of the unibooks community",
+          tapToSignin: "tap to signin",
+          signUpError: "signUp Error",
+          Useralreadyregistered: "User already registered. Please log in.",
+          registrationError:
+            "An error occurred during registration. Please try again.",
           /**   Profile.js       */
           general: "General",
           college: "College Name",
@@ -247,6 +248,15 @@ i18n
           loginButton: "تسجيل الدخول",
           forgotPassword: "هل نسيت كلمة المرور؟",
           loginSubTextOne: "ليس لديك حساب؟ قم بالتسجيل",
+          LoginSuccessful: "تم تسجيل الدخول بنجاح",
+          successfullyLogged: "لقد تم تسجيل الدخول بنجاح.",
+          emailOrIdNotExist:
+            "البريد الإلكتروني أو رقم الطالب المقدم غير موجود.",
+          InvalidCredentials: "بيانات اعتماد غير صحيحة",
+          passwordIncorrect: "كلمة المرور المقدمة غير صحيحة.",
+          LoginFailed: "فشل تسجيل الدخول",
+          LoginErrorOccurrd:
+            "حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى لاحقًا.",
           /**LogIn Sign Up */
           OKButton: "موافق",
           //signUp
