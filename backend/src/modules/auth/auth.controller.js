@@ -153,7 +153,7 @@ export const resetPassword = async (req, res) => {
 export const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
 
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split('Token__')[1];
 
     const decodedToken = jwt.verify(
         token,
