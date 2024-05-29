@@ -122,51 +122,26 @@ export const getPostDetails = async (req, res) => {
     return res.status(200).json(post);
 };
 
-/* aisha
-mongosse query used :
-   (findById):
-      Finds a single document by its _id field.
-      findById(id) is almost* equivalent to findOne({ _id: id }).
-      If you want to query by a document's _id, use findById() instead of findOne()
-    (findByIdAndDelete):
-      Finds a matching document, removes it, and returns the found document (if any).
-*/
 //delete post for user *_*
 export const deletePost = async (req, res) => {
     const { id: postID } = req.params;
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(
-        token,
-        process.env.JWT_SECRET_KEY
-    );
-    if (!decodedToken)
-        return res.status(401).json({ message: "Invalid token" });
         const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
-        }
-        if (toString(post.studentID)!== toString(decodedToken._id) ){
-            return res.status(401).json({ message: 'User not authorized to delete this post' });
-        }
-        const   imgageID= await post.mainImage.public_id;
-        await cloudinary.uploader.destroy(imgageID);
+        } 
+        const   imageID= await post.mainImage.public_id;
+        await cloudinary.uploader.destroy(imageID);
 
         for (let subImage of post.subImages) {
             await cloudinary.uploader.destroy(subImage.public_id);
         }
         await postModel.findByIdAndDelete(postID);
-        res.status(200).send({ message: "post deleted"});
+        res.status(200).send({ message: "Post deleted by its owner"});
 };
 //Delete Post For Admin *_*
 export const AdminDeletePost = async (req, res) => {
     const { id: postID } = req.params;
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(
-        token,
-        process.env.JWT_SECRET_KEY
-    );
-    if (!decodedToken)
-        return res.status(401).json({ message: "Invalid token" });
+   
     const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
@@ -180,3 +155,4 @@ export const AdminDeletePost = async (req, res) => {
         await postModel.findByIdAndDelete(postID);
         res.status(200).send({ message: "post deleted by Admin" });
 };
+
