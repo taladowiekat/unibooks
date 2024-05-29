@@ -53,7 +53,7 @@ const ForgotPassword = () => {
   return (
     <Container maxWidth='sm' sx={{ justifyContent: 'center' }}>
       <Box sx={{ marginTop: 8, flexDirection: 'column', textAlign: 'center' }}>
-        <Box sx={{ height: '100px' }} />
+        <Box sx={{ height: '120px' }} />
         <Paper elevation={3} style={{ padding: 20 }}>
 
           <Typography gutterBottom variant="h6" sx={{ alignItems: 'center', fontWeight: 'bold', fontSize: '2rem' }}>
@@ -105,6 +105,8 @@ const ForgotPassword = () => {
             )}
           </Formik>
         </Paper>
+        <Box sx={{ height: '180px' }} />
+
       </Box>
     </Container>
   );
