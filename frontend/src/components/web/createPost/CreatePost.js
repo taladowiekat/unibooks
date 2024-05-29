@@ -117,7 +117,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       setSubImages(newSubImages);
       setFieldValue('subImages', newSubImages);
     } else {
-      alert('You can upload up to 4 sub-images only.');
+      alert(t('maximgeUploded'));
     }
   };
 

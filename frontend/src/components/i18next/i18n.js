@@ -232,6 +232,7 @@ i18n
             easyForYou: "We Made It Easy For You",
       explorePosts: "Here, you can explore all existing posts",
       encouragingMessage:"encouraging Message",
+     maximgeUploded      :"You can upload up to 4 sub-images only."
         },
       },
 
@@ -441,7 +442,8 @@ IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غ
           uploadSubImages:"رفع الصور الفرعية",
           easyForYou:"لقد سهلنا الامر عليك",
           explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
-          encouragingMessage:"رسسالة تشجيعية"
+          encouragingMessage:"رسسالة تشجيعية",
+          maximgeUploded:"يمكنك تحميل 4 صور فرعية فقط"
         },
       },
     },
