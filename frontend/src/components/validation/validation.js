@@ -26,7 +26,7 @@ export function useValidations() {
   const createPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
     postType: yup.string().required(t('postTypeRequired')),
-    notes: yup.string().required(t('notesRequired')),
+    
     image: yup
       .mixed()
       .required(t('required'))
@@ -40,19 +40,9 @@ export function useValidations() {
         t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
-    subImages: yup
-      .array()
-      .of(
-        yup.mixed().test(
-          'FILE_TYPE',
-          t('invalidFileType'),
-          value => value && ['image/png', 'image/jpeg'].includes(value.type)
-        ).test(
-          'FILE_SIZE',
-          t('fileSizeTooBig'),
-          value => value && value.size < 10 * mb
-        )
-      )
+      subImages: yup.array()
+      .of(yup.mixed().test('FILE_TYPE', t('invalidFileType'), value => !value || ['image/png', 'image/jpeg'].includes(value?.type))
+        .test('FILE_SIZE', t('fileSizeTooBig'), value => !value || value.size < 10 * mb))
       .max(4, t('maxSubImages')),
     exchangeBookName: yup.string().when('postType', {
       is: 'Exchange',
