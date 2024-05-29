@@ -439,7 +439,7 @@ IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غ
           myPosts:"منشوراتي",
           signOut:"تسجيل الخروج",
           uploadSubImages:"رفع الصور الفرعية",
-          easyForYou: "لقد جعلناها سهلة لك",
+          easyForYou:"لقد سهلنا الامر عليك",
           explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
           encouragingMessage:"رسسالة تشجيعية"
         },
