@@ -17,7 +17,6 @@ router.put('/update/:id', auth('user'), fileUpload(fileType.image).fields([
 ]), asyncHandler(controller.updatePost));
 
 router.get('/getAllPosts', controller.getAllPosts);
-
 router.get('/postdetails/:id', controller.getPostDetails);
 
 router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
