@@ -145,8 +145,14 @@ export const deletePost = async (req, res) => {
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        if (post.studentID!== decodedToken._id) {
+        if (toString(post.studentID)!== toString(decodedToken._id) ){
             return res.status(401).json({ message: 'User not authorized to delete this post' });
+        }
+        const   imgageID= await post.mainImage.public_id;
+        await cloudinary.uploader.destroy(imgageID);
+
+        for (let subImage of post.subImages) {
+            await cloudinary.uploader.destroy(subImage.public_id);
         }
         await postModel.findByIdAndDelete(postID);
         res.status(200).send({ message: "post deleted"});
@@ -164,6 +170,12 @@ export const AdminDeletePost = async (req, res) => {
     const post = await postModel.findById(postID);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
+        }
+        const   imgageID= await post.mainImage.public_id;
+        await cloudinary.uploader.destroy(imgageID);
+
+        for (let  subImage of post.subImages) {
+            await cloudinary.uploader.destroy(subImage.public_id);
         }
         await postModel.findByIdAndDelete(postID);
         res.status(200).send({ message: "post deleted by Admin" });

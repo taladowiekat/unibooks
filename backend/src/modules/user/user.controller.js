@@ -1,11 +1,10 @@
-import userModel from '../../../db/models/user.model.js'
-import postModel from '../../../db/models/post.model.js';
-import jwt from 'jsonwebtoken';
+import userModel from "../../../db/models/user.model.js";
+import postModel from "../../../db/models/post.model.js";
+import jwt from "jsonwebtoken";
+import cloudinary from "../../utils/cloudinary.js";
 //Delete Users And Their Posts For Admin *_*
-
 export const deleteUserWithPosts = async (req, res) => {
     const userId = req.params.id;
-    const user = await userModel.findById(userId);
      const token = req.headers.authorization.split(' ')[1];
     if (!token) {
         return res.status(401).send({ message: "Access token is missing" });
@@ -15,25 +14,33 @@ export const deleteUserWithPosts = async (req, res) => {
     if (!decodedToken) {
         return res.status(401).send({ message: "Invalid token" });
     }
-
+    const user = await userModel.findById(userId);
     if (!user) {
         return res.status(404).json({ message: 'User  Not Found' });
     }
-
+  
     const userPostsCount = await postModel.countDocuments({ studentID: userId });
-    let numPostsDeleted = 0;
 
-    if (userPostsCount > 0) {
-        const deletedPosts = await postModel.deleteMany({ studentID: userId });
-        numPostsDeleted = deletedPosts.deletedCount;
+    const userPosts = await postModel.find({ studentID: userId });
+    if (userPosts.length > 0) {
+        // Delete  main images associated with each post
+        for (let  post of userPosts) {
+            // Delete main image
+            await cloudinary.uploader.destroy(post.mainImage.public_id);
+
+            // Delete sub-images 
+            for (let  subImage of post.subImages) {
+                await cloudinary.uploader.destroy(subImage.public_id);
+            }
+
+        
+        }
+         await postModel.deleteMany({ studentID: userId });
+         await userModel.findByIdAndDelete(userId);
+
+         res.status(200).send({ message: `Hello Admin, the user with ID  and ${userPostsCount}  posts have been successfully deleted.` });
     }
-    if (userPostsCount > 0) {
-        const deletedPosts = await postModel.deleteMany({ studentID: userId });
-        const numPostsDeleted = deletedPosts.deletedCount;
-        await userModel.findByIdAndDelete(userId);
-
-        res.status(200).send({ message: `Hello Admin, the user with ID  and ${numPostsDeleted} posts have been successfully deleted.` });
-    } else {
+    else {
         await userModel.findByIdAndDelete(userId);
         res.status(200).send({ message: `Hello Admin, the user with ID  has been successfully deleted. No posts were associated with this user.` });
     }
@@ -68,33 +75,30 @@ or confirms that no posts were associated if there were none.
 
 */
 
-
 export const getUserProfile = async (req, res) => {
+  const token = req.headers.authorization.split("Token__")[1];
+  if (!token) {
+    return res.status(401).send({ message: "Access token is missing" });
+  }
 
-    const token = req.headers.authorization.split('Token__')[1];
-    if (!token) {
-        return res.status(401).send({ message: "Access token is missing" });
-    }
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  if (!decodedToken) {
+    return res.status(401).send({ message: "Invalid token" });
+  }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    if (!decodedToken) {
-        return res.status(401).send({ message: "Invalid token" });
-    }
+  const user = await userModel.findById(decodedToken.id);
+  if (!user) {
+    return res.status(404).send({ message: "User not found" });
+  }
 
-    const user = await userModel.findById(decodedToken.id);
-    if (!user) {
-        return res.status(404).send({ message: "User not found" });
-    }
+  const userData = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    college: user.college,
+    email: user.email,
+    studentID: user.studentID,
+    profilePicture: user.profilePicture,
+  };
 
-    const userData = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        college: user.college,
-        email: user.email,
-        studentID: user.studentID,
-        profilePicture: user.profilePicture
-    };
-
-    return res.status(200).json(userData);
-
+  return res.status(200).json(userData);
 };
