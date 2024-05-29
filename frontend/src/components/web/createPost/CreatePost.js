@@ -8,7 +8,7 @@ import InputsComponent from '../../shared/PostInfo';
 import { useValidations } from '../../validation/validation.js';
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../context/UserContext.js';
-
+import Swal from 'sweetalert2';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -77,7 +77,7 @@ const ImageMarked = styled('span')(({ theme }) => ({
 const CreateListing = ({ open, handleClose, onPostCreated }) => {
   const { createPostValidationSchema } = useValidations();
   const { t } = useTranslation();
-  const { token } = useContext(UserContext); // احصل على التوكن من الـ Context
+  const { token } = useContext(UserContext);
 
   const [mainImage, setMainImage] = useState(null);
   const [mainPreview, setMainPreview] = useState(null);
@@ -117,7 +117,11 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       setSubImages(newSubImages);
       setFieldValue('subImages', newSubImages);
     } else {
-      alert('You can upload up to 4 sub-images only.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You can upload up to 4 sub-images only.',
+      });
     }
   };
 
@@ -165,11 +169,26 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       setSubImages([]);
       handleClose();
       onPostCreated();
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Your post has been created successfully!',
+      });
     } catch (error) {
       if (error.response) {
         console.error('Error response:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response.data.message || 'Something went wrong!',
+        });
       } else {
         console.error('Error message:', error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong!',
+        });
       }
     }
   };
