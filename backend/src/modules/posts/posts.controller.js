@@ -1,104 +1,96 @@
 import postModel from '../../../db/models/post.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
-//create a new post
+
+//create a new post 
 export const createPost = async (req, res) => {
-    const { bookName, postType, exchangeBookName } = req.body;
+        const { bookName, postType, exchangeBookName } = req.body;
 
-    if (postType === 'Exchange' && !exchangeBookName) {
-        return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
-    }
+        if (postType === 'Exchange' && !exchangeBookName) {
+            return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
+        }
 
-    req.body.slug = slugify(bookName);
+        req.body.slug = slugify(bookName);
 
-    const studentID = req.user._id;
+        const studentID = req.user._id;
+        const folderPath = `unibooks/${studentID}/${slugify(bookName)}`;
 
-    const folderPath = `unibooks/${studentID}/${slugify(bookName)}`;
+        //upload main image
+        const { secure_url: mainSecureUrl, public_id: mainPublicId } = await cloudinary.uploader.upload(req.files.mainImage[0].path, 
+            { folder: `${folderPath}/main` }
+        );
+        req.body.mainImage = { secure_url: mainSecureUrl, public_id: mainPublicId };
 
-    const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path,
-        { folder: `${folderPath}/main` }
-    )
+        req.body.subImages = [];
+        req.body.studentID = studentID;
+        const userName = `${req.user.firstname} ${req.user.lastname}`;
 
-    req.body.mainImage = { secure_url, public_id }
+        //upload sub images if provided --> not required
+        if (req.files.subImages) {
+            for (const file of req.files.subImages) {
+                const { secure_url, public_id } = await cloudinary.uploader.upload(file.path,
+                    { folder: `${folderPath}/subimages` }
+                );
+                req.body.subImages.push({ secure_url, public_id });
+            }
+        }
 
-    req.body.subImages = [];
-
-    req.body.studentID = studentID;
-
-    const userName = `${req.user.firstname} ${req.user.lastname}`
-
-    for (const file of req.files.subImages) {
-        const { secure_url, public_id } = await cloudinary.uploader.upload(file.path,
-            { folder: `${folderPath}/subimages` }
-        )
-        req.body.subImages.push({ secure_url, public_id })
-    }
-
-    req.body.exchangeBookName = postType === 'Exchange' ? exchangeBookName : null;
-
-    const post = await postModel.create(req.body);
-
-    return res.status(200).json({ message: "Success", userName, post })
-
-
+        req.body.exchangeBookName = postType === 'Exchange' ? exchangeBookName : null;
+        const post = await postModel.create(req.body);
+        return res.status(200).json({ message: "Success", userName, post });
 };
 
 //update post
 export const updatePost = async (req, res) => {
-    const { id } = req.params;
-    const { bookName, postType, notes, exchangeBookName } = req.body;
 
-    if (postType === 'Exchange' && !exchangeBookName) {
-        return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
-    }
+        const { id } = req.params;
+        const { bookName, postType, notes, exchangeBookName } = req.body;
 
-    const post = await postModel.findById(id);
-
-    if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
-    }
-
-    //ensure the user is the owner of the post
-    if (post.studentID.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ message: 'You are not authorized to update this post' });
-    }
-
-    const studentID = req.user._id;
-    const userName = `${req.user.firstname} ${req.user.lastname}`;
-    const folderPath = `unibooks/${studentID}/${slugify(bookName || post.bookName)}`;
-
-    //update the post fields
-    if (bookName) {
-        post.bookName = bookName;
-        post.slug = slugify(bookName);
-    }
-    post.postType = postType || post.postType;
-    post.notes = notes || post.notes;
-    post.exchangeBookName = postType === 'Exchange' ? exchangeBookName : post.exchangeBookName;
-
-    //handle main image update if provided
-    if (req.files && req.files.mainImage) {
-        const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, {
-            folder: `${folderPath}/main`
-        });
-        post.mainImage = { secure_url, public_id };
-    }
-
-    //handle sub images update if provided
-    if (req.files && req.files.subImages) {
-        post.subImages = [];
-        for (const file of req.files.subImages) {
-            const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
-                folder: `${folderPath}/subimages`
-            });
-            post.subImages.push({ secure_url, public_id });
+        if (postType === 'Exchange' && !exchangeBookName) {
+            return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
         }
-    }
 
-    await post.save();
+        const post = await postModel.findById(id);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
-    return res.status(200).json({ message: "Success", userName, post });
-}
+        //to ensure the user is the owner of the post
+        if (post.studentID.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'You are not authorized to update this post' });
+        }
+
+        const studentID = req.user._id;
+        const userName = `${req.user.firstName} ${req.user.lastName}`;
+        const folderPath = `unibooks/${studentID}/${slugify(bookName || post.bookName)}`;
+
+        //update post fields
+        if (bookName) {
+            post.bookName = bookName;
+            post.slug = slugify(bookName);
+        }
+        post.postType = postType || post.postType;
+        post.notes = notes || post.notes;
+        post.exchangeBookName = postType === 'Exchange' ? exchangeBookName : post.exchangeBookName;
+
+        //handle main image
+        if (req.files && req.files.mainImage) {
+            const { secure_url: mainSecureUrl, public_id: mainPublicId } = await cloudinary.uploader.upload(req.files.mainImage[0].path, { folder: `${folderPath}/main` });
+            post.mainImage = { secure_url: mainSecureUrl, public_id: mainPublicId };
+        }
+
+        //handle sub images
+        if (req.files && req.files.subImages) {
+            post.subImages = [];
+            for (const file of req.files.subImages) {
+                const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, { folder: `${folderPath}/subimages` });
+                post.subImages.push({ secure_url, public_id });
+            }
+        }
+
+        await post.save();
+        return res.status(200).json({ message: "Success", userName, post });
+};
 
 
 // Get all posts
