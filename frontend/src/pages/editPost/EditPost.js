@@ -158,8 +158,8 @@ const PostDetails = () => {
   return (
     <Box sx={{ padding: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 , mt:'3rem'}}>
-        <Avatar src={post.studentID?.avatar || 'defaultAvatar.jpg'} alt={post.studentID?.firstname} sx={{ width: 70, height: 70 }} />
-        <Typography variant="h6">{`${post.studentID.firstname} ${post.studentID.lastname}`}</Typography>
+        <Avatar src={post.studentID?.profilePicture} alt={post.studentID?.firstname} sx={{ width: 70, height: 70 }} />
+        <Typography variant="h6">{`${post.studentID.firstName} ${post.studentID.lastName}`}</Typography>
       </Box>
       <Card sx={{ marginTop: 3 }}>
         <CardMedia
@@ -172,11 +172,10 @@ const PostDetails = () => {
           <Typography variant="h5" component="div">{post.bookName}</Typography>
           <Typography variant="body2" color="text.secondary">{post.notes}</Typography>
           <Box sx={{ marginTop: 2 }}>
-            <Typography variant="subtitle1">{t('subImages')}:</Typography>
             <Grid container spacing={2}>
-              {post.subImages.map((image, index) => (
-                <Grid item key={index} xs={6} sm={4} md={3}>
-                  <img src={image.secure_url} alt={`subimage-${index}`} style={{ width: '100%' }} />
+              {post.subImages.map((image, id) => (
+                <Grid item key={id} xs={6} sm={4} md={3}>
+                  <img src={image.secure_url} alt={`subimage-${id}`} style={{ width: '100%' }} />
                 </Grid>
               ))}
             </Grid>
