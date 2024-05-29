@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, AppBar, Toolbar, Button, MenuItem, Avatar, Typography, Drawer, Divider, Menu, IconButton } from '@mui/material';
+import { Box, AppBar, Toolbar, Button, MenuItem, Typography, Drawer, Divider, Menu, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom';
 import ChangeLanguageButton from '../../i18next/changeLangugeButton';

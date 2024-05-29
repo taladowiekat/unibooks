@@ -12,7 +12,7 @@ function App() {
     if (token) {
       setUser(token);
     }
-  }, []);
+  }, [setUser]);
 
   return <RouterProvider router={router} />;
 }
