@@ -112,7 +112,7 @@ const Posts = () => {
                             >
                                 <PostCard
                                     id={post._id}
-                                    userAvatar={post.studentID?.profilePicture || 'defaultAvatar.jpg'}
+                                    userAvatar={post.studentID?.profilePicture}
                                     userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : 'Unknown'}
                                     bookName={post.bookName}
                                     bookType={post.postType}
