@@ -38,11 +38,6 @@ function Navbar() {
     navigate('/settings');
   };
 
-  const goToUserPosts = () => {
-    handleClose();
-    navigate('/userPosts');
-  };
-
   return (
     <>
       <AppBar position='fixed' color='default'>
@@ -80,7 +75,6 @@ function Navbar() {
                   onClose={handleClose}
                 >
                   <MenuItem component={Link} to='/profile'>{t("settings")}</MenuItem>
-                  <MenuItem onClick={goToUserPosts}>{t("myPosts")}</MenuItem>
                   <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
                 </Menu>
                 <Typography variant='body' color='text.primary'>{user.firstname} {user.lastname}</Typography>
@@ -115,7 +109,6 @@ function Navbar() {
                       <Typography variant='body' color='text.primary'>{user.firstname} {user.lastname}</Typography>
                       </MenuItem>
                       <MenuItem onClick={goToSettings}>{t("settings")}</MenuItem>
-                      <MenuItem onClick={goToUserPosts}>{t("myPosts")}</MenuItem>
                       <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
                     </>
                   ) : (
