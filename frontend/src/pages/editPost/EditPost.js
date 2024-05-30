@@ -156,7 +156,7 @@ const PostDetails = () => {
   }
 
   return (
-    <Box sx={{ padding: 3 }}>
+    <Box sx={{ padding: 3, zIndex: 1050 }} /* SweetAlert Z-Index is 1060. this is needed for alert to be on top */>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 , mt:'3rem'}}>
         <Avatar src={post.studentID?.avatar || 'defaultAvatar.jpg'} alt={post.studentID?.firstname} sx={{ width: 70, height: 70 }} />
         <Typography variant="h6">{`${post.studentID.firstname} ${post.studentID.lastname}`}</Typography>
