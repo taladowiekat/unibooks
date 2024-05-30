@@ -8,7 +8,7 @@ import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import ForgotPassword from '../pages/forgotPassword/ForgotPassword.js';
 import Home from '../components/web/home/Home.js';
-import PostDetails from '../pages/editPost/EditPost.js';
+import PostDetails from '../pages/editPost/Details.js';
 import ProtectedRouter from '../components/protectedRouter/ProtectedRouter.js';
 
 
@@ -44,7 +44,10 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'profile',
-                element: <ProfileForm />
+                element:
+                <ProtectedRouter>
+                 <ProfileForm />
+                </ProtectedRouter>
             },
             {
                 path: 'contactUs',
@@ -52,7 +55,11 @@ export const router = createBrowserRouter([
             }, {
                 
                     path:'post/:id',
-                    element: <PostDetails/>
+                    element: 
+                    <ProtectedRouter>
+                    <PostDetails/>    
+                    </ProtectedRouter>
+                    
                 
             },
         ]

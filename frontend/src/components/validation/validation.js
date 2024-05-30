@@ -26,7 +26,6 @@ export function useValidations() {
   const createPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
     postType: yup.string().required(t('postTypeRequired')),
-    
     image: yup
       .mixed()
       .required(t('required'))
@@ -40,8 +39,9 @@ export function useValidations() {
         t('fileSizeTooBig'),
         value => value && value.size < 10 * mb
       ),
-      subImages: yup.array()
-      .of(yup.mixed().test('FILE_TYPE', t('invalidFileType'), value => !value || ['image/png', 'image/jpeg'].includes(value?.type))
+    subImages: yup.array()
+      .of(yup.mixed()
+        .test('FILE_TYPE', t('invalidFileType'), value => !value || ['image/png', 'image/jpeg'].includes(value?.type))
         .test('FILE_SIZE', t('fileSizeTooBig'), value => !value || value.size < 10 * mb))
       .max(4, t('maxSubImages')),
     exchangeBookName: yup.string().when('postType', {
@@ -57,21 +57,27 @@ export function useValidations() {
     postType: yup.string().required(t('postTypeRequired')),
     image: yup
       .mixed()
-      .required(t('required'))
+      .notRequired()
       .test(
         'FILE_TYPE',
         t('invalidFileType'),
-        value => value && ['image/png', 'image/jpeg'].includes(value.type)
+        value => !value || ['image/png', 'image/jpeg'].includes(value?.type)
       )
       .test(
         'FILE_SIZE',
         t('fileSizeTooBig'),
-        value => value && value.size < 10 * mb
+        value => !value || value.size < 10 * mb
       ),
+    subImages: yup.array()
+      .of(yup.mixed()
+        .test('FILE_TYPE', t('invalidFileType'), value => !value || ['image/png', 'image/jpeg'].includes(value?.type))
+        .test('FILE_SIZE', t('fileSizeTooBig'), value => !value || value.size < 10 * mb))
+      .max(4, t('maxSubImages')),
     exchangeBookName: yup.string().when('postType', {
       is: 'Exchange',
       then: schema => schema.required(t('exchangeBookNameRequired')),
-      otherwise: schema => schema.notRequired(), })
+      otherwise: schema => schema.notRequired(),
+    }),
   });
 
   // Validation schema for signing in
@@ -110,8 +116,8 @@ export function useValidations() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('password'), null], t('confirmPasswordMismatch'))
       .required(t('confirmPasswordRequired')),
-      college: yup.string()
-      .required(t('CollegeRequired')),
+    college: yup.string()
+      .required('College is required'),
     gender: yup.string()
       .required(t('GenderRequired')).oneOf(allowedGender, t('InvalidGender'))
   });
@@ -144,20 +150,19 @@ export function useValidations() {
 
   // Validation schema for forgot password form
   const resetPasswordValidationSchema = yup.object().shape({
-    code: yup.string(t("EnterTheCode")).min(4, t("codeDigit")).required(t("empty")),
-    password: yup.string(t("newPassEnter")).required(t("newPassEnter")).min(6, t("passwordTooShort")).max(30, t("passwordTooLong")),
-    confirmPassword: yup.string(t("ConfirmPassword")).oneOf([yup.ref("password"), null], t("confirmPasswordMismatch")).required(t("confirmPasswordRequired")),
-  })
+    code: yup.string("Enter the code").min(4, "Must be exactly 4 digits").required("Cannot be empty"),
+    password: yup.string("Enter a new password").required("Enter a new password").min(6, "Password must be at least 6 characters long").max(30, "Password must be at most 30 characters long"),
+    confirmPassword: yup.string("Confirm password").oneOf([yup.ref("password"), null], "Passwords must match").required("Please confirm your password"),
+  });
 
   // Validation schema for profile page
   const profileValidationSchema = yup.object({
     firstName: yup.string().required(t('firstnameRequired')),
     lastName: yup.string().required(t('lastnameRequired')),
     college: yup.string()
-      .oneOf(allowedColleges,t('InvalidCollege'))
-      .required(t('CollegeRequired'))
-  })
-
+      .oneOf(allowedColleges, 'Invalid college')
+      .required('College is required')
+  });
 
   return {
     createPostValidationSchema,
