@@ -155,14 +155,8 @@ export const AdminDeletePost = async (req, res) => {
 
 
 export const getAllPosts =async(req,res)=> {
-try{
-    const posts =await postModel.find();
+    const posts =await postModel.find().populate('studentID', 'firstName lastName profilePicture');
     return res.status(200).json(posts);
-}
-catch(err){
-    console.log('No data founded');
-    return res.status(204);
-}
 };
 
 
