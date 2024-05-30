@@ -6,7 +6,6 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { useValidations } from '../../components/validation/validation';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
-import InputsComponent from '../../components/shared/PostInfo.js';
 import Swal from 'sweetalert2';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
 
