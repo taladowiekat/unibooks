@@ -144,7 +144,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
     exchangeBookName: ''
   };
 
-  const onSubmit = async (values, { resetForm }) => {
+  const onSubmit = async (values, { resetForm }, setSubmitting) => {
     const formData = new FormData();
     formData.append('bookName', values.bookName);
     formData.append('notes', values.notes);
@@ -203,7 +203,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
           onSubmit={onSubmit}
           validationSchema={createPostValidationSchema}
         >
-          {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
+          {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur, isSubmitting }) => (
             <Form>
               <Box mb={2} width="100%">
                 {!mainImage && (
@@ -331,7 +331,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
                   />
                 )}
                 <Box mt={2} display="flex" justifyContent="flex-end">
-                  <Button type="submit" variant="contained" color="primary" >
+                  <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
                     {t("postbutton")}
                   </Button>
                   <Button
