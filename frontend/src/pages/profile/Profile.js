@@ -142,7 +142,7 @@ const ProfileForm = () => {
             validationSchema={profileValidationSchema}
             onSubmit={handleSubmit}
         >
-            {({ setFieldValue, errors, touched, values }) => (
+            {({ setFieldValue, errors, touched, values, isSubmitting }) => (
                 <Form>
                     <Container maxWidth="sm">
                         <Paper elevation={3} sx={{ p: 2 }}>
@@ -278,6 +278,7 @@ const ProfileForm = () => {
                                         variant="contained"
                                         color="primary"
                                         sx={{ mr: 1 }}
+                                        disabled={isSubmitting}
                                     >
                                         {t("saveButton")}
                                     </Button>
