@@ -17,10 +17,11 @@ import PostCard from '../../components/shared/Cards.js';
 import Chats from './Chat.js';
 
 const Posts = () => {
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [category, setCategory] = useState('');
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [activePost, setActivePost] = useState(null); 
+    const [activePost, setActivePost] = useState(null);
     const { t } = useTranslation();
 
     const fetchPosts = async () => {
@@ -40,6 +41,15 @@ const Posts = () => {
         setActivePost(post);
         setOpen(true);
     };
+    const handleSearchChange = (event) => {
+        setSearchKeyword(event.target.value.toLowerCase());
+    };
+
+    const filteredPosts = posts.filter(post => {
+        return (post.postType.toLowerCase().includes(searchKeyword) || post.bookName.toLowerCase().includes(searchKeyword)) &&
+            (category === '' || post.postType === category );
+    });
+
 
     const handleCloseChat = () => {
         setOpen(false);
@@ -58,6 +68,7 @@ const Posts = () => {
                     <TextField
                         placeholder={t("search2")}
                         variant="outlined"
+                        onChange={handleSearchChange}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -101,7 +112,8 @@ const Posts = () => {
                     </Button>
                 </Box>
                 <Grid container spacing={2} justifyContent="center">
-                    {posts.map((post, index) => (
+
+                    {filteredPosts.map((post, index) => (
                         <Grid item key={post._id} xs={12} sm={6} md={4} lg={3}>
                             <div
                                 variants={itemAnimation}
@@ -124,8 +136,8 @@ const Posts = () => {
                     ))}
                 </Grid>
             </Container>
-            {activePost   && (
-                <Chats  open={open} handleClose={handleCloseChat} email={activePost.studentID.email} postId={activePost._id} />
+            {activePost && (
+                <Chats open={open} handleClose={handleCloseChat} email={activePost.studentID.email} postId={activePost._id} />
             )}
         </Box>
     );
