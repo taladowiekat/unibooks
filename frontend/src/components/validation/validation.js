@@ -65,6 +65,23 @@ export function useValidations() {
   const editPostValidationSchema = yup.object({
     bookName: yup.string().required(t('bookNameRequired')),
     postType: yup.string().required(t('postTypeRequired')),
+    image: yup
+      .mixed()
+      .required(t('required'))
+      .test(
+        'FILE_TYPE',
+        t('invalidFileType'),
+        value => value && ['image/png', 'image/jpeg'].includes(value.type)
+      )
+      .test(
+        'FILE_SIZE',
+        t('fileSizeTooBig'),
+        value => value && value.size < 10 * mb
+      ),
+    exchangeBookName: yup.string().when('postType', {
+      is: 'Exchange',
+      then: schema => schema.required(t('exchangeBookNameRequired')),
+      otherwise: schema => schema.notRequired(), })
   });
 
   // Validation schema for signing in
