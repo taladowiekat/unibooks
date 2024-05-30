@@ -44,7 +44,10 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'profile',
-                element: <ProfileForm />
+                element:
+                <ProtectedRouter>
+                 <ProfileForm />
+                </ProtectedRouter>
             },
             {
                 path: 'contactUs',
@@ -52,7 +55,11 @@ export const router = createBrowserRouter([
             }, {
                 
                     path:'post/:id',
-                    element: <PostDetails/>
+                    element: 
+                    <ProtectedRouter>
+                    <PostDetails/>    
+                    </ProtectedRouter>
+                    
                 
             },
         ]
