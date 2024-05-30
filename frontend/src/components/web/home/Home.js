@@ -27,7 +27,7 @@ const Home = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/post/getAll');
+            const response = await axios.get('http://localhost:4000/post/getAllPosts');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
