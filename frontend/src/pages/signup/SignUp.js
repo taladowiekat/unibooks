@@ -258,6 +258,8 @@ const Register = () => {
             )}
           </Formik>
         </Paper>
+        <Box sx={{ height: '30px' }} />
+
       </Box>
     </Container>
   );

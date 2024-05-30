@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Container, Typography, Box, Button, TextField } from '@mui/material';
+import { Container,Paper, Typography, Box, Button, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import { useValidations } from '../../components/validation/validation';
 import emailjs from '@emailjs/browser';
@@ -33,7 +33,11 @@ const initialValues = {
 
 return (
     <Container maxWidth="sm">
+                <Box sx={{ height: '40px' }} />
+
     <Box sx={{ marginTop: 8, flexDirection: 'column' }}>
+    <Paper elevation={3} sx={{ p: 2 }}>
+
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', fontSize: '2rem' }}>
 {t("contactUs")}
         </Typography>
@@ -97,7 +101,11 @@ return (
             </Form>
         )}
         </Formik>
+        </Paper>
     </Box>
+    
+    <Box sx={{ height: '40px' }} />
+
     </Container>
 );
 };

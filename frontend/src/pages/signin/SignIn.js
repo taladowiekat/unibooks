@@ -145,6 +145,7 @@ const LogIn = () => {
             )}
           </Formik>
         </Paper>
+        <Box sx={{ height: '100px' }} />
       </Box>
     </Container>
   );
