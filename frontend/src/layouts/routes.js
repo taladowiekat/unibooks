@@ -8,7 +8,7 @@ import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
 import ForgotPassword from '../pages/resetPassword/ForgotPassword.js';
 import Home from '../components/web/home/Home.js';
-import PostDetails from '../pages/editPost/EditPost.js';
+import PostDetails from '../pages/editPost/Details.js';
 import ProtectedRouter from '../components/protectedRouter/ProtectedRouter.js';
 
 
