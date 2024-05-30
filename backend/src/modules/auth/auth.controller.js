@@ -156,7 +156,7 @@ export const resetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-// TODO remove all token-related code
+    
     const token = req.headers.authorization.split(' ')[1];
 
     const decodedToken = jwt.verify(
