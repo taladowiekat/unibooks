@@ -62,3 +62,14 @@ export const getUserProfile = async (req, res) => {
 
   return res.status(200).json(userData);
 };
+
+export const getAllUsers =async(req,res)=> {
+    try{
+        const users =await userModel.find();
+        return res.status(200).json(users);
+    }
+    catch(err){
+        console.log('No data founded');
+        return res.status(204);
+    }
+    };
