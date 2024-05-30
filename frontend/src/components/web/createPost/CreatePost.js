@@ -326,10 +326,12 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
                     label={t("exchangeBookName")}
                     fullWidth
                     margin="normal"
+                    error={touched.exchangeBookName && Boolean(errors.exchangeBookName)}
+                  helperText={touched.exchangeBookName && errors.exchangeBookName}
                   />
                 )}
                 <Box mt={2} display="flex" justifyContent="flex-end">
-                  <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
+                  <Button type="submit" variant="contained" color="primary" >
                     {t("postbutton")}
                   </Button>
                   <Button

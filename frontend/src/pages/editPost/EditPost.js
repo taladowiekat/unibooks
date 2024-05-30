@@ -236,6 +236,12 @@ const PostDetails = () => {
                       </label>
                     </Box>
                   </ImageButton>
+                  {errors.image && touched.image && (
+                      <div style={{ marginTop: 10, color: 'red' }}>
+                        {errors.image}
+                      </div>
+                    )}
+
                 </Box>
 
                 <CardContent>
