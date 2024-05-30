@@ -89,6 +89,35 @@ export const getUserProfile = async (req, res) => {
 
 };
 
+// code is not complete and didnt connected with frontend 
+
+export const getUserPosts = async (req, res) => {
+
+    const token = req.headers.authorization.split('Token__')[1];
+    if (!token) {
+        return res.status(401).send({ message: "Access token is missing" });
+    }
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    if (!decodedToken) {
+        return res.status(401).send({ message: "Invalid token" });
+    }
+
+    const user = await userModel.findById(decodedToken.id);
+    if (!user) {
+        return res.status(404).send({ message: "Posts not found" });
+    }
+
+    try {
+        const studentId = req.params.userId;
+        const posts = await postModel.find({ studentID: studentId });
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
 export const getAllUsers =async(req,res)=> {
     try{
         const users =await userModel.find().populate('studentID', 'firstName lastName email'); 

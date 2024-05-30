@@ -17,6 +17,7 @@ import PostCard from '../../components/shared/Cards.js';
 import Chats from './Chat.js';
 
 const Posts = () => {
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [category, setCategory] = useState('');
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
@@ -35,6 +36,15 @@ const Posts = () => {
     useEffect(() => {
         fetchPosts();
     }, []);
+
+    const handleSearchChange = (event) => {
+        setSearchKeyword(event.target.value.toLowerCase());
+    };
+
+    const filteredPosts = posts.filter(post => {
+        return (post.postType.toLowerCase().includes(searchKeyword) || post.bookName.toLowerCase().includes(searchKeyword)) &&
+            (category === '' || post.postType === category );
+    });
 
     const handleOpenChat = (messageId) => {
         setSelectedMessageId(messageId);
@@ -59,6 +69,7 @@ const Posts = () => {
                     <TextField
                         placeholder={t("search2")}
                         variant="outlined"
+                        onChange={handleSearchChange}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -102,7 +113,8 @@ const Posts = () => {
                     </Button>
                 </Box>
                 <Grid container spacing={2} justifyContent="center">
-                    {posts.map((post, index) => (
+                    
+                        {filteredPosts.map((post, index) =>  (
                         <Grid item key={post._id} xs={12} sm={6} md={4} lg={3}>
                             <div
                                 variants={itemAnimation}

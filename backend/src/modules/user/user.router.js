@@ -7,6 +7,7 @@ const router = Router();
 
 router.delete('/admin/removeUser/:id',auth('admin'),asyncHandler(controller.deleteUserWithPosts))
 router.get('/getUserProfile', asyncHandler(controller.getUserProfile));
+router.get('/getUserPosts/:userId', asyncHandler(controller.getUserPosts));
 router.get('/getAllUsers',asyncHandler(controller.getAllUsers));
 
 export default router;
