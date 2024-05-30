@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Avatar, Typography, Grid, CardMedia } from '@mui/material';
+import { Box, Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Avatar, Typography, Grid, CardMedia, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import EditIcon from '@mui/icons-material/Edit';
@@ -9,7 +9,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useValidations } from '../../components/validation/validation';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
-import InputsComponent from '../../components/shared/PostInfo.js';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -112,7 +111,7 @@ const PostDetails = () => {
     const formData = new FormData();
     formData.append('bookName', values.bookName);
     formData.append('notes', values.notes);
-    formData.append('listingType', values.listingType);
+    formData.append('postType', values.postType);
     formData.append('status', values.status);
     if (values.selectedFile) {
       formData.append('mainImage', values.selectedFile);
@@ -158,8 +157,8 @@ const PostDetails = () => {
   return (
     <Box sx={{ padding: 3, zIndex: 1050 }} /* SweetAlert Z-Index is 1060. this is needed for alert to be on top */>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 , mt:'3rem'}}>
-        <Avatar src={post.studentID?.avatar || 'defaultAvatar.jpg'} alt={post.studentID?.firstname} sx={{ width: 70, height: 70 }} />
-        <Typography variant="h6">{`${post.studentID.firstname} ${post.studentID.lastname}`}</Typography>
+        <Avatar src={post.studentID?.profilePicture} alt={post.studentID?.firstname} sx={{ width: 70, height: 70 }} />
+        <Typography variant="h6">{`${post.studentID.firstName} ${post.studentID.lastName}`}</Typography>
       </Box>
       <Card sx={{ marginTop: 3 }}>
         <CardMedia
@@ -172,11 +171,10 @@ const PostDetails = () => {
           <Typography variant="h5" component="div">{post.bookName}</Typography>
           <Typography variant="body2" color="text.secondary">{post.notes}</Typography>
           <Box sx={{ marginTop: 2 }}>
-            <Typography variant="subtitle1">{t('subImages')}:</Typography>
             <Grid container spacing={2}>
-              {post.subImages.map((image, index) => (
-                <Grid item key={index} xs={6} sm={4} md={3}>
-                  <img src={image.secure_url} alt={`subimage-${index}`} style={{ width: '100%' }} />
+              {post.subImages.map((image, id) => (
+                <Grid item key={id} xs={6} sm={4} md={3}>
+                  <img src={image.secure_url} alt={`subimage-${id}`} style={{ width: '100%' }} />
                 </Grid>
               ))}
             </Grid>
@@ -198,7 +196,7 @@ const PostDetails = () => {
             initialValues={{
               bookName: post.bookName,
               notes: post.notes,
-              listingType: post.postType,
+              postType: post.postType,
               exchangeBookName: post.exchangeBookName,
               status: post.status,
               selectedFile: null
@@ -238,17 +236,57 @@ const PostDetails = () => {
                       </label>
                     </Box>
                   </ImageButton>
+                  {errors.image && touched.image && (
+                      <div style={{ marginTop: 10, color: 'red' }}>
+                        {errors.image}
+                      </div>
+                    )}
+
                 </Box>
 
                 <CardContent>
-                  <Box display="flex" flexDirection="column">
-                    <InputsComponent
-                      values={values}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      touched={touched}
+                  <Box display="flex" flexDirection="column" gap={2}>
+                    <TextField
+                      fullWidth
+                      id="bookName"
+                      name="bookName"
+                      label={t("bookName")}
+                      value={values.bookName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.bookName && Boolean(errors.bookName)}
+                      helperText={touched.bookName && errors.bookName}
                     />
+                    <TextField
+                      fullWidth
+                      id="notes"
+                      name="notes"
+                      label={t("notes")}
+                      value={values.notes}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.notes && Boolean(errors.notes)}
+                      helperText={touched.notes && errors.notes}
+                    />
+                    <RadioGroup row name="postType" value={values.postType} onChange={handleChange}>
+                      <FormControlLabel value="Sell" control={<Radio />} label={t("sellType")} />
+                      <FormControlLabel value="Donate" control={<Radio />} label={t("donateType")} />
+                      <FormControlLabel value="Exchange" control={<Radio />} label={t("exchange")} />
+                    </RadioGroup>
+
+                    {values.postType === "Exchange" && (
+                      <TextField
+                      fullWidth
+                      id="exchangeBookName"
+                      name="exchangeBookName"
+                      label={t("exchangeBookName")}
+                      value={values.exchangeBookName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.exchangeBookName && Boolean(errors.exchangeBookName)}
+                      helperText={touched.exchangeBookName && errors.exchangeBookName}
+                    />
+                    )}
                     <FormControl sx={{ marginTop: 2 }}>
                       <FormLabel>{t("status")}</FormLabel>
                       <RadioGroup row name="status" value={values.status} onChange={handleChange}>

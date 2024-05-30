@@ -23,7 +23,7 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Actions: <>
@@ -46,31 +46,7 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
-    Notes: "lalalallalal",
-    Status: "done",
-    Exchange_Book_Name: "nnnnnnn",
-    Actions: <>
-      <Button
-        sx={{ marginBottom: '2%', marginRight: '2%', color: "white", background: "lightgreen" }}
-        variant="outlined"
-        component="span"
-        startIcon={<EditIcon sx={{ color: "black" }} />}
-      ></Button>
-      <Button
-        sx={{ marginBottom: '2%', marginLeft: 0, color: "white", background: "rgb(173, 216, 230)" }}
-        variant="outlined"
-        component="span"
-        startIcon={<DeleteIcon sx={{ color: "black" }} />}
-      ></Button>
-    </>
-  },
-  { 
-    Listing_ID: 1,
-    User_ID: 12217171,
-    Book_Name: "dddd",
-    Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Exchange_Book_Name: "nnnnnnn",
@@ -94,7 +70,7 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Exchange_Book_Name: "nnnnnnn",
@@ -118,7 +94,7 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Exchange_Book_Name: "nnnnnnn",
@@ -142,7 +118,7 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Exchange_Book_Name: "nnnnnnn",
@@ -166,7 +142,31 @@ const data = [
     User_ID: 12217171,
     Book_Name: "dddd",
     Listing_Picture: "eee",
-    Listing_Type: "sell",
+    Listing_Type: "Sell",
+    Notes: "lalalallalal",
+    Status: "done",
+    Exchange_Book_Name: "nnnnnnn",
+    Actions: <>
+      <Button
+        sx={{ marginBottom: '2%', marginRight: '2%', color: "white", background: "lightgreen" }}
+        variant="outlined"
+        component="span"
+        startIcon={<EditIcon sx={{ color: "black" }} />}
+      ></Button>
+      <Button
+        sx={{ marginBottom: '2%', marginLeft: 0, color: "white", background: "rgb(173, 216, 230)" }}
+        variant="outlined"
+        component="span"
+        startIcon={<DeleteIcon sx={{ color: "black" }} />}
+      ></Button>
+    </>
+  },
+  { 
+    Listing_ID: 1,
+    User_ID: 12217171,
+    Book_Name: "dddd",
+    Listing_Picture: "eee",
+    Listing_Type: "Sell",
     Notes: "lalalallalal",
     Status: "done",
     Exchange_Book_Name: "nnnnnnn",

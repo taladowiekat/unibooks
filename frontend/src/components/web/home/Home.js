@@ -27,7 +27,7 @@ const Home = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/post/getAll');
+            const response = await axios.get('http://localhost:4000/post/getAllPosts');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -86,14 +86,14 @@ const Home = () => {
                         />
                         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'black', textShadow: '2px 2px 2px rgba(255, 255, 255, 0.7)' }}>
                             <Typography variant="h4" align="right">
-                                {t('We Made It Easy For You')}
+                                {t('easyForYou')}
                             </Typography>
                         </Box>
                     </Card>
                 </Box>
                 <Box sx={{ backgroundColor: '#c8dee1', padding: '1rem', textAlign: 'center' }}>
                     <Typography variant="h3" align="center" >
-                        Here, you can explore all existing posts
+                      { t('explorePosts')}
                     </Typography>
                     <Grid container spacing={2} justifyContent="center" sx={{ margin: 0, width: '100%' }}>
                         {posts.map((post, index) => (

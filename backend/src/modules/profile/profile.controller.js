@@ -5,7 +5,7 @@ import {v2 as cloudinary} from 'cloudinary';
 export const updateProfile = async (req, res) => {
     const { firstName, lastName, college, deleteImage } = req.body;
 
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split('Token__')[1];
     if (!token) {
         return res.status(401).send({ message: "Access token is missing" });
     }

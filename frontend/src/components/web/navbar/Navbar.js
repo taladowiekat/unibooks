@@ -4,12 +4,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom';
 import ChangeLanguageButton from '../../i18next/changeLangugeButton';
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../../context/UserContext'; 
+import { UserContext } from '../../context/UserContext';
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const { user, setToken, setUser } = useContext(UserContext);
+  const { user, token, setUser, setToken, loading } = useContext(UserContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -38,100 +38,112 @@ function Navbar() {
     navigate('/profile');
   };
 
+  const goToUserPosts = () => {
+    handleClose();
+    navigate('/userPosts');
+  };
+  
+  if (loading) {
+    return null; // Or a loading spinner
+  }
+
   return (
-    <>
-      <AppBar position='fixed' color='default'>
-        <Toolbar>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-            <img src='Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO' style={{ maxHeight: '45px' }} />
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', flexGrow: 1 }}>
-              <MenuItem sx={{ py: '6px', px: '12px', ml: "33%" }} component={Link} to='/'>
-                <Typography variant='body' color='text.primary'>{t("home")}</Typography>
-              </MenuItem>
-              <MenuItem sx={{ py: '6px', px: '12px' }} component={Link} to='/allPosts'>
-                <Typography variant='body' color='text.primary'>{t("allPosts")}</Typography>
-              </MenuItem>
-              <MenuItem sx={{ py: '6px', px: '12px' }} component={Link} to='/contactUs'>
-                <Typography variant='body' color='text.primary'>{t("contactUs")}</Typography>
-              </MenuItem>
-              <MenuItem sx={{ py: '6px', px: '12px', ml: "30%" }}>
-                <Button variant="text" color="primary" onClick={toggleDrawer(false)}>
-                  <ChangeLanguageButton />
-                </Button>
-              </MenuItem>
-            </Box>
+    <AppBar position='fixed' color='default'>
+      <Toolbar>
+        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+          <img src='Small_Unibooks_Logo__Name.png' alt='UNIBOOKS LOGO' style={{ maxHeight: '45px' }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', flexGrow: 1 }}>
+            <MenuItem sx={{ py: '6px', px: '12px', ml: "33%" }} component={Link} to='/'>
+              <Typography variant='body' color='text.primary'>{t("home")}</Typography>
+            </MenuItem>
+            <MenuItem sx={{ py: '6px', px: '12px' }} component={Link} to='/allPosts'>
+              <Typography variant='body' color='text.primary'>{t("allPosts")}</Typography>
+            </MenuItem>
+            <MenuItem sx={{ py: '6px', px: '12px' }} component={Link} to='/contactUs'>
+              <Typography variant='body' color='text.primary'>{t("contactUs")}</Typography>
+            </MenuItem>
+            <MenuItem sx={{ py: '6px', px: '12px', ml: "30%" }}>
+              <ChangeLanguageButton />
+            </MenuItem>
           </Box>
+        </Box>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, alignItems: 'center' }}>
-            {user ? (
-              <>
-                <IconButton onClick={handleMenu}>
-                
-                <Typography variant='body' color='text.primary'>{user.firstname} {user.lastname}</Typography>
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem component={Link} to='/profile'>{t("settings")}</MenuItem>
-                  <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
-                </Menu>
-                <Typography variant='body' color='text.primary'>{user.firstname} {user.lastname}</Typography>
-              </>
-            ) : (
-              <>
-                <Button color='primary' variant='outlined' component={Link} to='/login'>
-                  {t("signIn")}
-                </Button>
-                <Button color='primary' variant='outlined' component={Link} to='/register'>
-                  {t("signUp")}
-                </Button>
-              </>
-            )}
-          </Box>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, alignItems: 'center' }}>
+          {token ? (
+            <>
+              <Button onClick={handleMenu} color='inherit'>
+                <Typography variant='body' sx={{ color: 'black' }}>
+                  {user ? `${user.firstName} ${user.lastName}` : ''}
+                </Typography>
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem component={Link} to='/profile'>{t("settings")}</MenuItem>
+                <MenuItem onClick={goToUserPosts}>{t("myPosts")}</MenuItem>
+                <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <Button color='primary' variant='outlined' component={Link} to='/login'>
+                {t("signIn")}
+              </Button>
+              <Button color='primary' variant='outlined' component={Link} to='/register'>
+                {t("signUp")}
+              </Button>
+            </>
+          )}
+        </Box>
 
-          <Box sx={{ display: { md: 'none' } }}>
-            <Button variant='text' color='primary' aria-label='menu' onClick={toggleDrawer(true)} sx={{ minWidth: '30px', p: '4px' }}>
-              <MenuIcon sx={{ color: 'black' }} />
-            </Button>
-            <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
-              <Box sx={{ minWidth: '35vw ', p: 2, backgroundColor: 'background.paper', flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', flexGrow: 1 }}>
-                  <MenuItem component={Link} to='/'>{t("home")}</MenuItem>
-                  <MenuItem component={Link} to='/allPosts'>{t("allPosts")}</MenuItem>
-                  <MenuItem component={Link} to='/contactUs'>{t("contactUs")}</MenuItem>
-                  <Divider />
-                  {user ? (
-                    <>
-                      <MenuItem>
-                      
-                      <Typography variant='body' color='text.primary'>{user.firstname} {user.lastname}</Typography>
-                      </MenuItem>
-                      <MenuItem onClick={goToSettings}>{t("settings")}</MenuItem>
-                      <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
-                    </>
-                  ) : (
-                    <>
-                      <MenuItem>
-                        <Button color='primary' variant='outlined' component={Link} to='/register'>
-                          {t("signUp")}
-                        </Button>
-                      </MenuItem>
-                      <MenuItem>
-                        <Button color='primary' variant='outlined' component={Link} to='/login'>
-                          {t("signIn")}
-                        </Button>
-                      </MenuItem>
-                    </>
-                  )}
-                </Box>
+        <Box sx={{ display: { md: 'none' } }}>
+          <IconButton variant='text' color='primary' aria-label='menu' onClick={toggleDrawer(true)} sx={{ minWidth: '30px', p: '4px' }}>
+            <MenuIcon sx={{ color: 'black' }} />
+          </IconButton>
+          <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
+            <Box sx={{ minWidth: '35vw', p: 2, backgroundColor: 'background.paper', flexGrow: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', flexGrow: 1 }}>
+                <MenuItem component={Link} to='/'>{t("home")}</MenuItem>
+                {token && <MenuItem component={Link} to='/allPosts'>{t("allPosts")}</MenuItem>}
+                <MenuItem component={Link} to='/contactUs'>{t("contactUs")}</MenuItem>
+                <Divider />
+                {token ? (
+                  <>
+                    <MenuItem>
+                      <Typography variant='body' color='text.primary'>{user ? `${user.firstName} ${user.lastName}` : ''}</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={goToSettings}>{t("settings")}</MenuItem>
+                    <MenuItem onClick={goToUserPosts}>{t("myPosts")}</MenuItem>
+                    <MenuItem onClick={logout}>{t("signOut")}</MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem>
+                      <Button color='primary' variant='outlined' component={Link} to='/register'>
+                        {t("signUp")}
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button color='primary' variant='outlined' component={Link} to='/login'>
+                        {t("signIn")}
+                      </Button>
+                    </MenuItem>
+                    <MenuItem sx={{ py: '6px', px: '12px', ml: "30%" }}>
+
+                      <ChangeLanguageButton />
+
+                    </MenuItem>
+
+                  </>
+                )}
               </Box>
-            </Drawer>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </>
+            </Box>
+          </Drawer>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
 

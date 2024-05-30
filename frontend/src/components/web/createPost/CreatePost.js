@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Formik, Form } from 'formik';
-import { ButtonBase, Paper, Typography, Button, Box, Dialog, IconButton, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
+import { ButtonBase, Paper, Typography, Button, Box, Dialog, IconButton, RadioGroup, FormControlLabel, Radio, TextField, FormControl, FormLabel } from '@mui/material';
 import { DeleteOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import InputsComponent from '../../shared/PostInfo';
 import { useValidations } from '../../validation/validation.js';
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../context/UserContext.js';
-
+import Swal from 'sweetalert2';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -77,7 +76,7 @@ const ImageMarked = styled('span')(({ theme }) => ({
 const CreateListing = ({ open, handleClose, onPostCreated }) => {
   const { createPostValidationSchema } = useValidations();
   const { t } = useTranslation();
-  const { token } = useContext(UserContext); // احصل على التوكن من الـ Context
+  const { token } = useContext(UserContext);
 
   const [mainImage, setMainImage] = useState(null);
   const [mainPreview, setMainPreview] = useState(null);
@@ -117,7 +116,11 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       setSubImages(newSubImages);
       setFieldValue('subImages', newSubImages);
     } else {
-      alert('You can upload up to 4 sub-images only.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You can upload up to 4 sub-images only.',
+      });
     }
   };
 
@@ -135,13 +138,13 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
   const initialValues = {
     bookName: '',
     notes: '',
-    postType: 'sell',
+    postType: 'Sell',
     image: '',
     subImages: [],
     exchangeBookName: ''
   };
 
-  const onSubmit = async (values, { resetForm }) => {
+  const onSubmit = async (values, { resetForm }, setSubmitting) => {
     const formData = new FormData();
     formData.append('bookName', values.bookName);
     formData.append('notes', values.notes);
@@ -165,11 +168,26 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       setSubImages([]);
       handleClose();
       onPostCreated();
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Your post has been created successfully!',
+      });
     } catch (error) {
       if (error.response) {
         console.error('Error response:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response.data.message || 'Something went wrong!',
+        });
       } else {
         console.error('Error message:', error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong!',
+        });
       }
     }
   };
@@ -185,7 +203,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
           onSubmit={onSubmit}
           validationSchema={createPostValidationSchema}
         >
-          {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur }) => (
+          {({ setFieldValue, errors, touched, values, isValid, handleChange, handleBlur, isSubmitting }) => (
             <Form>
               <Box mb={2} width="100%">
                 {!mainImage && (
@@ -272,43 +290,60 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
                     ))}
                   </Box>
                 </Box>
-                <InputsComponent
-                  values={values}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                  errors={errors}
-                  touched={touched}
+                <Field
+                  name="bookName"
+                  as={TextField}
+                  label={t("bookName")}
+                  fullWidth
+                  margin="normal"
+                  error={touched.bookName && Boolean(errors.bookName)}
+                  helperText={touched.bookName && errors.bookName}
                 />
-                <Box mt={2}>
-                  <RadioGroup
-                    name="postType"
-                    value={values.postType}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel value="Sell" control={<Radio />} label={t("Sell")} />
-                    <FormControlLabel value="Exchange" control={<Radio />} label={t("Exchange")} />
-                    <FormControlLabel value="Donate" control={<Radio />} label={t("Donate")} />
+
+                <Field
+                  name="notes"
+                  as={TextField}
+                  label={t("notes")}
+                  fullWidth
+                  margin="normal"
+                  multiline
+                  rows={6}
+                />
+
+                <FormControl component="fieldset" style={{ marginTop: 20 }}>
+                  <FormLabel component="legend">{t("postType")}</FormLabel>
+                  <RadioGroup row name="postType" value={values.postType} onChange={handleChange}>
+                    <FormControlLabel value="Sell" control={<Radio />} label={t("sellType")} />
+                    <FormControlLabel value="Donate" control={<Radio />} label={t("donateType")} />
+                    <FormControlLabel value="Exchange" control={<Radio />} label={t("exchangeType")} />
                   </RadioGroup>
-                  {errors.postType && touched.postType && (
-                    <div style={{ marginTop: 10, color: 'red' }}>
-                      {errors.postType}
-                    </div>
-                  )}
+                </FormControl>
+
+                {values.postType === 'Exchange' && (
+                  <Field
+                    name="exchangeBookName"
+                    as={TextField}
+                    label={t("exchangeBookName")}
+                    fullWidth
+                    margin="normal"
+                    error={touched.exchangeBookName && Boolean(errors.exchangeBookName)}
+                  helperText={touched.exchangeBookName && errors.exchangeBookName}
+                  />
+                )}
+                <Box mt={2} display="flex" justifyContent="flex-end">
+                  <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+                    {t("postbutton")}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    color="error"
+                    style={{ marginLeft: 10 }}
+                    onClick={handleClose}
+                  >
+                    {t("cancelbutton")}
+                  </Button>
                 </Box>
-              </Box>
-              <Box mt={2} display="flex" justifyContent="flex-end">
-                <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
-                  {t("postbutton")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="error"
-                  style={{ marginLeft: 10 }}
-                  onClick={handleClose}
-                >
-                  {t("cancelbutton")}
-                </Button>
               </Box>
             </Form>
           )}

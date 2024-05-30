@@ -25,7 +25,7 @@ const Posts = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/post/getAll');
+            const response = await axios.get('http://localhost:4000/post/getAllPosts');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -112,8 +112,8 @@ const Posts = () => {
                             >
                                 <PostCard
                                     id={post._id}
-                                    userAvatar={post.studentID?.profilePicture || 'defaultAvatar.jpg'}
-                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : 'Unknown'}
+                                    userAvatar={post.studentID?.profilePicture}
+                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : t('Unknown')}
                                     bookName={post.bookName}
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
