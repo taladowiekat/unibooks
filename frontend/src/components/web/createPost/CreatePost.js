@@ -170,7 +170,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       onPostCreated();
       Swal.fire({
         icon: 'success',
-        title: t('Success'),
+        title: t('success'),
         text: t('CreatedSucssesfuly'),
         confirmButtonText: t('OKButton'),
       });
