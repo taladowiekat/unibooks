@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography, Dialog, DialogContent, DialogActions, DialogTitle, CardContent, IconButton, TextField } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography, Dialog, DialogContent, DialogActions, DialogTitle, CardContent, TextField, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import { useValidations } from '../../components/validation/validation';
@@ -233,12 +233,27 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
 
               <CardContent>
                 <Box display="flex" flexDirection="column">
-                  <InputsComponent
-                    values={values}
-                    handleChange={handleChange}
-                    handleBlur={handleBlur}
-                    errors={errors}
-                    touched={touched}
+                  <TextField
+                    label={t("bookName")}
+                    name="bookName"
+                    value={values.bookName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.bookName && Boolean(errors.bookName)}
+                    helperText={touched.bookName && errors.bookName}
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label={t("notes")}
+                    name="notes"
+                    value={values.notes}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.notes && Boolean(errors.notes)}
+                    helperText={touched.notes && errors.notes}
+                    fullWidth
+                    margin="normal"
                   />
                   <FormControl sx={{ marginTop: 2 }}>
                     <FormLabel>{t("postType")}</FormLabel>
