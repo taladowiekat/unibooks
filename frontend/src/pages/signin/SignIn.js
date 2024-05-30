@@ -41,7 +41,7 @@ const LogIn = () => {
       });
 
       setUser(userResponse.data.user);
-      navigate('/allPosts');
+      navigate('/');
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
