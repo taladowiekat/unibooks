@@ -193,7 +193,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth sx={{ zIndex: 1050 }} /* SweetAlert Z-Index is 1060. this is needed for alert to be on top */ >
       <Paper elevation={3} style={{ padding: 20 }}>
         <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
           {t("createPostTypography")}

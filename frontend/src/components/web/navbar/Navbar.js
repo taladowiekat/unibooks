@@ -35,14 +35,14 @@ function Navbar() {
 
   const goToSettings = () => {
     handleClose();
-    navigate('/settings');
+    navigate('/profile');
   };
 
   const goToUserPosts = () => {
     handleClose();
     navigate('/userPosts');
   };
-
+  
   if (loading) {
     return null; // Or a loading spinner
   }
