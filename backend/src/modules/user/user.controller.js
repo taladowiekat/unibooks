@@ -65,7 +65,9 @@ export const getUserProfile = async (req, res) => {
 
 export const getAllUsers =async(req,res)=> {
     try{
-        const users =await userModel.find();
+        const users =await userModel.find().populate('studentID', 'firstName lastName email'); 
+
+        ;
         return res.status(200).json(users);
     }
     catch(err){
