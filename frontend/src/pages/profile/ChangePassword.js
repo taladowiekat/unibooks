@@ -44,34 +44,34 @@ const ChangePassword = ({ open, handleClose }) => {
       if (response.status === 200)
         Swal.fire({
           icon: 'success',
-          title: 'Password Changed',
-          text: 'Your password has been changed successfully.',
+          title:t ('PasswordChanged'),
+          text: t('changeSuccsAlart'),
         });
     }, (error) => {
       if (error.response.status === 400)
         Swal.fire({
           icon: 'error',
-          text: 'New Password is identical to Current Password.',
+          text:t('PasswordIdenticalSubText'),
         });
       else if (error.response.status === 401) {
         Swal.fire({
           icon: 'error',
-          title: 'Token Expired',
-          text: 'Your Token has expired. Please log in again.',
+          title:t('TokenExpired'),
+          text:t('TokenExpiredAleart'),
         });
         navigate('/login');
       }
       else if (error.response.status === 405)
         Swal.fire({
           icon: 'error',
-          title: 'Incorrect Password',
-          text: 'The current password provided is incorrect.',
+          title:t('IncorrectPassword'),
+          text: t('IncorrectPasswordAleart'),
         });
       else
         Swal.fire({
           icon: 'error',
-          title: 'Oops',
-          text: 'An unexpected error occurred. Please try again later.',
+          title: t('Oops'),
+          text: t('unexpectedError'),
         });
     })
     setSubmitting(false);
@@ -87,87 +87,89 @@ const ChangePassword = ({ open, handleClose }) => {
       aria-labelledby="change-password-modal"
       aria-describedby="change-password-form"
     >
-      <Formik
-        validationSchema={changePasswordValidationSchema}
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched, isSubmitting }) => (
-          <Form>
-            <Container sx={modalStyle}>
-              <Box display="flex" flexDirection="column" gap={2}>
-                <Field
-                  name="currentPassword"
-                  as={TextField}
-                  id="currentPassword"
-                  label={t("currentPassword")}
-                  variant="filled"
-                  type="password"
-                  fullWidth
+      <>
+        <Formik
+          validationSchema={changePasswordValidationSchema}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, isSubmitting }) => (
+            <Form>
+              <Container sx={modalStyle}>
+                <Box display="flex" flexDirection="column" gap={2}>
+                  <Field
+                    name="currentPassword"
+                    as={TextField}
+                    id="currentPassword"
+                    label={t("currentPassword")}
+                    variant="filled"
+                    type="password"
+                    fullWidth
 
-                  disabled={isSubmitting}
-                  error={
-                    touched.currentPassword && Boolean(errors.currentPassword)
-                  }
-                  helperText={
-                    touched.currentPassword ? errors.currentPassword : ""
-                  }
-                />
-                <Field
-                  name="newPassword"
-                  as={TextField}
-                  id="newPassword"
-                  label={t("newPassword")}
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={touched.newPassword && Boolean(errors.newPassword)}
-                  helperText={touched.newPassword ? errors.newPassword : ""}
-                />
-                <Field
-                  name="confirmPassword"
-                  as={TextField}
-                  id="confirmPassword"
-                  label={t("confirmPassword")}
-                  variant="outlined"
-                  type="password"
-                  fullWidth
-
-                  disabled={isSubmitting}
-                  error={
-                    touched.confirmPassword && Boolean(errors.confirmPassword)
-                  }
-                  helperText={
-                    touched.confirmPassword ? errors.confirmPassword : ""
-                  }
-                />
-                <Link href="#" underline="none">
-                  {t("forgotPassword")}
-                </Link>
-                <Box display="flex" justifyContent="space-between">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={handleClose}
-                  >
-                    {t("cancelbutton")}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
                     disabled={isSubmitting}
-                  >
-                    {t("confirmButton")}
-                  </Button>
+                    error={
+                      touched.currentPassword && Boolean(errors.currentPassword)
+                    }
+                    helperText={
+                      touched.currentPassword ? errors.currentPassword : ""
+                    }
+                  />
+                  <Field
+                    name="newPassword"
+                    as={TextField}
+                    id="newPassword"
+                    label={t("newPassword")}
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={touched.newPassword && Boolean(errors.newPassword)}
+                    helperText={touched.newPassword ? errors.newPassword : ""}
+                  />
+                  <Field
+                    name="confirmPassword"
+                    as={TextField}
+                    id="confirmPassword"
+                    label={t("confirmPassword")}
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+
+                    disabled={isSubmitting}
+                    error={
+                      touched.confirmPassword && Boolean(errors.confirmPassword)
+                    }
+                    helperText={
+                      touched.confirmPassword ? errors.confirmPassword : ""
+                    }
+                  />
+                  <Link href="/forgotPassword" underline="none">
+                    {t("forgotPassword")}
+                  </Link>
+                  <Box display="flex" justifyContent="space-between">
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleClose}
+                    >
+                      {t("cancelbutton")}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      {t("confirmButton")}
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Container>
-          </Form>
-        )}
-      </Formik>
+              </Container>
+            </Form>
+          )}
+        </Formik>
+      </>
     </Modal>
   );
 };

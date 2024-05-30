@@ -3,9 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 function PostCard({ id,userAvatar, userName, bookName, bookType, image, typeoperation, onDelete ,onChatClick}) {
-    const { t } = useTranslation();
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: '1rem', flexDirection: 'column' }}>
             <Card sx={{ maxWidth: 360, borderRadius: '16px', boxShadow: 3 }}>

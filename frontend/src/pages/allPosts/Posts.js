@@ -17,10 +17,11 @@ import PostCard from '../../components/shared/Cards.js';
 import Chats from './Chat.js';
 
 const Posts = () => {
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [category, setCategory] = useState('');
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [selectedMessageId, setSelectedMessageId] = useState(null); 
+    const [activePost, setActivePost] = useState(null);
     const { t } = useTranslation();
 
     const fetchPosts = async () => {
@@ -36,14 +37,22 @@ const Posts = () => {
         fetchPosts();
     }, []);
 
-    const handleOpenChat = (messageId) => {
-        setSelectedMessageId(messageId);
+    const handleOpenChat = (post) => {
+        setActivePost(post);
         setOpen(true);
     };
+    const handleSearchChange = (event) => {
+        setSearchKeyword(event.target.value.toLowerCase());
+    };
+
+    const filteredPosts = posts.filter(post => {
+        return (post.postType.toLowerCase().includes(searchKeyword) || post.bookName.toLowerCase().includes(searchKeyword)) &&
+            (category === '' || post.postType === category );
+    });
+
 
     const handleCloseChat = () => {
         setOpen(false);
-        setSelectedMessageId(null);
     };
 
     const itemAnimation = {
@@ -59,6 +68,7 @@ const Posts = () => {
                     <TextField
                         placeholder={t("search2")}
                         variant="outlined"
+                        onChange={handleSearchChange}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -102,7 +112,8 @@ const Posts = () => {
                     </Button>
                 </Box>
                 <Grid container spacing={2} justifyContent="center">
-                    {posts.map((post, index) => (
+
+                    {filteredPosts.map((post, index) => (
                         <Grid item key={post._id} xs={12} sm={6} md={4} lg={3}>
                             <div
                                 variants={itemAnimation}
@@ -112,12 +123,12 @@ const Posts = () => {
                             >
                                 <PostCard
                                     id={post._id}
-                                    userAvatar={post.studentID?.profilePicture || 'defaultAvatar.jpg'}
-                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : 'Unknown'}
+                                    userAvatar={post.studentID?.profilePicture}
+                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : t('Unknown')}
                                     bookName={post.bookName}
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
-                                    onChatClick={() => handleOpenChat(post._id)}
+                                    onChatClick={() => handleOpenChat(post)}
                                     typeoperation={t(`typeoperation.${post.postType.toLowerCase()}`)}
                                 />
                             </div>
@@ -125,8 +136,8 @@ const Posts = () => {
                     ))}
                 </Grid>
             </Container>
-            {selectedMessageId && (
-                <Chats messageId={selectedMessageId} open={open} handleClose={handleCloseChat} />
+            {activePost && (
+                <Chats open={open} handleClose={handleCloseChat} email={activePost.studentID.email} postId={activePost._id} />
             )}
         </Box>
     );

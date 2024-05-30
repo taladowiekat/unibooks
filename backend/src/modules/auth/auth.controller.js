@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
-import { sendEmail } from "../../utls/email.js";
+import { sendEmail } from '../../utils/email.js';
 import userModel from '../../../db/models/user.model.js';
 
 
@@ -42,15 +42,15 @@ export const signup = async (req, res) => {
     if (!newUser) {
         return res.status(500).json({ message: "Error creating user" });
     }
-    
-        await newUser.save();
 
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });
+    await newUser.save();
 
-        const confirmationUrl = `http://localhost:4000/auth/confirmEmail/${token}`;
-        await sendEmail(newUser.email, 'Confirm Your Email', `<p>Please confirm your email by clicking on this link: <a href="${confirmationUrl}">Confirm Email</a></p>`);
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE_TIME });
 
-        return res.status(201).json({ message: "Registration successful! Please verify your email.", id: newUser._id });
+    const confirmationUrl = `http://localhost:4000/auth/confirmEmail/${token}`;
+    await sendEmail(newUser.email, 'Confirm Your Email', `<p>Please confirm your email by clicking on this link: <a href="${confirmationUrl}">Confirm Email</a></p>`);
+
+    return res.status(201).json({ message: "Registration successful! Please verify your email.", id: newUser._id });
 
 };
 
@@ -90,26 +90,26 @@ export const signin = async (req, res) => {
 export const confirmEmail = async (req, res) => {
     const { token } = req.params;
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        const user = await userModel.findOneAndUpdate(
-            { _id: decoded.id },
-            { confirmEmail: true },
-            { new: true }
-        );
+    const user = await userModel.findOneAndUpdate(
+        { _id: decoded.id },
+        { confirmEmail: true },
+        { new: true }
+    );
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
 
-        if (user.confirmEmail) {
-            return res.json({ message: "Email is confirmed", user });
-        } else {
-            return res.status(500).json({ message: "Failed to confirm email" });
-        }
-}; 
+    if (user.confirmEmail) {
+        return res.json({ message: "Email is confirmed", user });
+    } else {
+        return res.status(500).json({ message: "Failed to confirm email" });
+    }
+};
 
-    
+
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
@@ -127,8 +127,7 @@ export const forgotPassword = async (req, res) => {
         return res.status(404).json({ message: "user not found" });
 
     await sendEmail(email, 'Reset Password', `<h2>${code}</h2>`);
-    // TODO remove code from response message
-    return res.status(200).json({ message: "success", code });
+    return res.status(200).json({ message: "success" });
 };
 
 
@@ -157,7 +156,7 @@ export const resetPassword = async (req, res) => {
 
 export const changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
-
+    
     const token = req.headers.authorization.split(' ')[1];
 
     const decodedToken = jwt.verify(

@@ -6,9 +6,10 @@ import Register from '../pages/signup/SignUp.js';
 import Posts from '../pages/allPosts/Posts.js';
 import ProfileForm from '../pages/profile/Profile.js';
 import ContactUs from '../pages/contactUs/ContactUs.js';
-import EditPost from '../pages/editPost/EditPost.js';
-import ForgotPassword from '../pages/resetPassword/ForgotPassword.js';
+import ForgotPassword from '../pages/forgotPassword/ForgotPassword.js';
 import Home from '../components/web/home/Home.js';
+import PostDetails from '../pages/editPost/Details.js';
+import ProtectedRouter from '../components/protectedRouter/ProtectedRouter.js';
 
 
 
@@ -26,13 +27,16 @@ export const router = createBrowserRouter([
                 path: 'login',
                 element: <Login />
             },
-             {
-                 path: '/',
-                 element: <Home/>
-             },
+            {
+                path: '/',
+                element: <Home />
+            },
             {
                 path: 'allPosts',
-                element: <Posts />
+                element: 
+                <ProtectedRouter>
+                    <Posts />
+                </ProtectedRouter>
             },
             {
                 path: 'forgotPassword',
@@ -40,16 +44,24 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'profile',
-                element: <ProfileForm />
+                element:
+                <ProtectedRouter>
+                 <ProfileForm />
+                </ProtectedRouter>
             },
             {
                 path: 'contactUs',
                 element: <ContactUs />
             }, {
-                path: 'allPosts/EditPost',
-                element: <EditPost />
+                
+                    path:'post/:id',
+                    element: 
+                    <ProtectedRouter>
+                    <PostDetails/>    
+                    </ProtectedRouter>
+                    
+                
             },
-
         ]
     }
 ]);

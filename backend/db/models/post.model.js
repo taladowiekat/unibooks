@@ -7,13 +7,16 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    email: { 
+        type: String,
+        required: true
+    },
     bookName: {
         type: String,
         required: true
     },
     notes: {
         type:String,
-        required: true
     },
     mainImage: {
         type:Object,
@@ -21,7 +24,6 @@ const postSchema = new Schema({
     },
     subImages: [{
         type:Object,
-        required: true
     }],
     postType: {
         type: String,

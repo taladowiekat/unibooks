@@ -21,4 +21,5 @@ router.get('/postdetails/:id', controller.getPostDetails);
 
 router.delete('/remove/:id' ,auth('user'),asyncHandler(controller.deletePost));
 router.delete('/admin/remove/:id',auth('admin'),asyncHandler(controller.AdminDeletePost))
+
 export default router;
