@@ -1,4 +1,5 @@
 import postModel from '../../../db/models/post.model.js';
+import userModel from '../../../db/models/user.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
 //create a new post
@@ -8,10 +9,15 @@ export const createPost = async (req, res) => {
     if (postType === 'Exchange' && !exchangeBookName) {
         return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
     }
+    const studentID = req.user._id;
+    const user = await userModel.findById(studentID);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
 
     req.body.slug = slugify(bookName);
+    req.body.email = user.email;
 
-    const studentID = req.user._id;
 
     const folderPath = `unibooks/${studentID}/${slugify(bookName)}`;
 
@@ -120,6 +126,8 @@ export const getPostDetails = async (req, res) => {
     }
     return res.status(200).json(post);
 };
+
+
 /* aisha
 mongosse query used :
    (findById):

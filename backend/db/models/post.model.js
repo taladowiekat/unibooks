@@ -7,6 +7,10 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    email: { 
+        type: String,
+        required: true
+    },
     bookName: {
         type: String,
         required: true
