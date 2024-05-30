@@ -20,7 +20,7 @@ const Posts = () => {
     const [category, setCategory] = useState('');
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [selectedMessageId, setSelectedMessageId] = useState(null); 
+    const [activePost, setActivePost] = useState(null); 
     const { t } = useTranslation();
 
     const fetchPosts = async () => {
@@ -36,14 +36,13 @@ const Posts = () => {
         fetchPosts();
     }, []);
 
-    const handleOpenChat = (messageId) => {
-        setSelectedMessageId(messageId);
+    const handleOpenChat = (post) => {
+        setActivePost(post);
         setOpen(true);
     };
 
     const handleCloseChat = () => {
         setOpen(false);
-        setSelectedMessageId(null);
     };
 
     const itemAnimation = {
@@ -117,7 +116,7 @@ const Posts = () => {
                                     bookName={post.bookName}
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
-                                    onChatClick={() => handleOpenChat(post._id)}
+                                    onChatClick={() => handleOpenChat(post)}
                                     typeoperation={t(`typeoperation.${post.postType.toLowerCase()}`)}
                                 />
                             </div>
@@ -125,8 +124,8 @@ const Posts = () => {
                     ))}
                 </Grid>
             </Container>
-            {selectedMessageId && (
-                <Chats messageId={selectedMessageId} open={open} handleClose={handleCloseChat} />
+            {activePost   && (
+                <Chats  open={open} handleClose={handleCloseChat} email={activePost.studentID.email} postId={activePost._id} />
             )}
         </Box>
     );

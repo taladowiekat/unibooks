@@ -1,4 +1,5 @@
 import postModel from '../../../db/models/post.model.js';
+import userModel from '../../../db/models/user.model.js';
 import cloudinary from '../../utils/cloudinary.js';
 import slugify from 'slugify';
 
@@ -6,14 +7,18 @@ import slugify from 'slugify';
 export const createPost = async (req, res) => {
         const { bookName, postType, exchangeBookName } = req.body;
 
-        if (postType === 'Exchange' && !exchangeBookName) {
-            return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
-        }
+    if (postType === 'Exchange' && !exchangeBookName) {
+        return res.status(400).json({ message: 'Exchange book name is required for exchange posts' });
+    }
+    const studentID = req.user._id;
+    const user = await userModel.findById(studentID);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
 
-        req.body.slug = slugify(bookName);
+    req.body.slug = slugify(bookName);
+    req.body.email = user.email;
 
-        const studentID = req.user._id;
-        const folderPath = `unibooks/${studentID}/${slugify(bookName)}`;
 
         //upload main image
         const { secure_url: mainSecureUrl, public_id: mainPublicId } = await cloudinary.uploader.upload(req.files.mainImage[0].path, 
@@ -103,6 +108,16 @@ export const getPostDetails = async (req, res) => {
     return res.status(200).json(post);
 };
 
+
+/* aisha
+mongosse query used :
+   (findById):
+      Finds a single document by its _id field.
+      findById(id) is almost* equivalent to findOne({ _id: id }).
+      If you want to query by a document's _id, use findById() instead of findOne()
+    (findByIdAndDelete):
+      Finds a matching document, removes it, and returns the found document (if any).
+*/
 //delete post for user *_*
 export const deletePost = async (req, res) => {
     const { id: postID } = req.params;
