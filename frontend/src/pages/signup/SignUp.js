@@ -63,7 +63,6 @@ const Register = () => {
           confirmButtonText: t('OK'),
         });
       } else {
-        console.log(error)
         Swal.fire({
           title: t('signUp Error'),
           text: t('An error occurred during registration. Please try again.'),
