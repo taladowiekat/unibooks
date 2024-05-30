@@ -8,6 +8,7 @@ import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
+import { jwtDecode } from 'jwt-decode';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -178,6 +179,14 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
     return null;
   }
 
+  const isOwner = () => {
+    const decodedToken = jwtDecode(token);
+    const userID = decodedToken.id; // Make sure the token structure has an 'id' field
+    console.log(userID);
+    console.log(post.studentID);
+    return userID === post.studentID._id; // Check if the IDs match
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>{t("editPost")}</DialogTitle>
@@ -315,11 +324,12 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                   </Box>
                 </Box>
               </CardContent>
-
-              <DialogActions>
-                <Button type="button" variant="contained" color="error" onClick={handleClose}>{t("cancelButton")}</Button>
-                <Button type="submit" variant="contained" color="primary" disabled={!isValid || !dirty}>{t("saveButton")}</Button>
-              </DialogActions>
+              {isOwner() && (
+                <DialogActions>
+                  <Button type="button" variant="contained" color="error" onClick={handleClose}>{t("cancelButton")}</Button>
+                  <Button type="submit" variant="contained" color="primary" disabled={!isValid || !dirty}>{t("saveButton")}</Button>
+                </DialogActions>
+              )}
             </Form>
           )}
         </Formik>
