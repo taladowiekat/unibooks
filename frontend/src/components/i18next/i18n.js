@@ -92,7 +92,6 @@ i18n
           //reset Password
           resetPassword: " Reset Password",
           backToLogin: "  Back to login",
-          resetYourPassword: "Reset your password",
           createyourPost: " Create your Post",
           //Navbar
           home: "Home ",
@@ -231,7 +230,6 @@ i18n
           easyForYou: "We Made It Easy For You",
           explorePosts: "Here, you can explore all existing posts",
           encouragingMessage: "encouraging Message",
-          maximgeUploded: "You can upload up to 4 sub-images only."
         },
       },
 
@@ -324,7 +322,6 @@ i18n
           //reset Password
           resetPassword: "إعادة تعيين كلمة المرور",
           backToLogin: "العودة لتسجيل الدخول",
-          resetYourPassword: "إعادة تعيين كلمة المرور الخاصة بك",
           createyourPost: "أنشئ منشورك",
           home: "الصفحة الرئيسية",
           allPosts: "جميع المنشورات",
@@ -444,7 +441,6 @@ i18n
           easyForYou: "لقد سهلنا الامر عليك",
           explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
           encouragingMessage: "رسسالة تشجيعية",
-          maximgeUploded: "يمكنك تحميل 4 صور فرعية فقط"
         },
       },
     },
