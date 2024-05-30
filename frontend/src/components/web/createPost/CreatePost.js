@@ -170,23 +170,26 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
       onPostCreated();
       Swal.fire({
         icon: 'success',
-        title: 'Success',
-        text: 'Your post has been created successfully!',
+        title: t('Success'),
+        text: t('CreatedSucssesfuly'),
+        confirmButtonText: t('OKButton'),
       });
     } catch (error) {
       if (error.response) {
         console.error('Error response:', error.response.data);
         Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: error.response.data.message || 'Something went wrong!',
+          title:t('Error'),
+          text: error.response.data.message || t('wentWrong'),
+          confirmButtonText: t('OKButton'),
         });
       } else {
         console.error('Error message:', error.message);
         Swal.fire({
           icon: 'error',
-          title: 'Error',
-          text: 'Something went wrong!',
+          title: t('Error'),
+          text: t('wentWrong'),
+          confirmButtonText: t('OKButton'),
         });
       }
     }

@@ -230,11 +230,15 @@ i18n
           easyForYou: "We Made It Easy For You",
           explorePosts: "Here, you can explore all existing posts",
           encouragingMessage: "encouraging Message",
+          CreatedSucssesfuly: "Your post has been created successfully!",
+          wentWrong: "Something went wrong",
         },
       },
 
       arabic: {
         translation: {
+          CreatedSucssesfuly: "تم إنشاء منشورك بنجاح!",
+          wentWrong: "حدث خطأ ما",
           /**Edit Post */
           loading: "جاري التحميل ",
           editImage: "تعديل الصورة ",
