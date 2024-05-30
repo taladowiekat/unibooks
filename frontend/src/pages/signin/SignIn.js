@@ -29,8 +29,9 @@ const LogIn = () => {
 
       Swal.fire({
         icon: 'success',
-        title: 'Login Successful',
-        text: 'You have successfully logged in.',
+        title: t('LoginSuccessful'),
+        text: t('successfullyLogged'),
+        confirmButtonText: t('OKButton'),
       });
 
       localStorage.setItem("token", data.token);
@@ -47,21 +48,24 @@ const LogIn = () => {
         if (error.response.status === 404) {
           Swal.fire({
             icon: 'error',
-            title: 'User not found',
-            text: 'The provided email or student ID does not exist.',
+            title: t('UserNotFound'),
+            text: t('emailOrIdNotExist'),
+            confirmButtonText: t('OKButton'),
           });
         } else if (error.response.status === 401) {
           Swal.fire({
             icon: 'error',
-            title: 'Invalid credentials',
-            text: 'The provided password is incorrect.',
+            title: t('InvalidCredentials'),
+            text: t('passwordIncorrect'),
+            confirmButtonText: t('OKButton'),
           });
         }
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Login failed',
-          text: 'An error occurred during login. Please try again later.',
+          title: t('LoginFailed'),
+          text: t('LoginErrorOccurrd'),
+          confirmButtonText: t('OKButton'),
         });
       }
     } finally {

@@ -113,7 +113,7 @@ const Posts = () => {
                                 <PostCard
                                     id={post._id}
                                     userAvatar={post.studentID?.profilePicture}
-                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : 'Unknown'}
+                                    userName={post.studentID ? `${post.studentID.firstName} ${post.studentID.lastName}` : t('Unknown')}
                                     bookName={post.bookName}
                                     bookType={post.postType}
                                     image={post.mainImage.secure_url}
