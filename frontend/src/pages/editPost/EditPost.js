@@ -180,6 +180,7 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
   }
 
   const isOwner = () => {
+    if (!token) return false;
     const decodedToken = jwtDecode(token);
     const userID = decodedToken.id; // Make sure the token structure has an 'id' field
     console.log(userID);
