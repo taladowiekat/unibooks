@@ -35,7 +35,7 @@ function Navbar() {
 
   const goToSettings = () => {
     handleClose();
-    navigate('/settings');
+    navigate('/profile');
   };
 
   return (
