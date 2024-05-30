@@ -11,7 +11,8 @@ i18n
         translation: {
           //allPosts
           Unknown: "Unknown",
-
+          resetYourPassword: "Forgot Your Password?",
+          maximgeUploded: "You can upload up to 4 sub-images only.",
           /**Edit Post */ //15 word
           loading: "loading",
           editImage: " Edit image",
@@ -82,7 +83,7 @@ i18n
           changePassword: " Change Password",
           saveButton: "Save",
           security: "Security",
-         
+
           //Register
           signUp: "Sign Up",
           universityId: "University ID",
@@ -97,8 +98,8 @@ i18n
           home: "Home ",
           allPosts: " All Posts",
           contactus: " Contact Us",
-          settings:"settings",
-          myPosts:"myPosts",
+          settings: "settings",
+          myPosts: "myPosts",
           // Footer
           SELLEXCHANGEDONATE: "SELL ,EXCHANGE,DONATE",
           //Change Languge Button
@@ -199,14 +200,14 @@ i18n
           SendEmail: " Send Email",
           Message: "Message",
           SendEmail2: " Send Email",
-           /**ChangePassword */
-           currentPassword: "Current Password",
-           newPassword: "New Password",
-           confirmPassword: "Confirm Password",
-           confirmButton: "Confirm",
-           PasswordIdenticalSubText  :'New Password is identical to Current Password.',
-           IncorrectPassword:'Incorrect Password',
-           IncorrectPasswordAleart:'The current password provided is incorrect.',
+          /**ChangePassword */
+          currentPassword: "Current Password",
+          newPassword: "New Password",
+          confirmPassword: "Confirm Password",
+          confirmButton: "Confirm",
+          PasswordIdenticalSubText: 'New Password is identical to Current Password.',
+          IncorrectPassword: 'Incorrect Password',
+          IncorrectPasswordAleart: 'The current password provided is incorrect.',
           //   resetPassword
           success: "success",
           PasswordChanged: "Password Changed",
@@ -225,12 +226,12 @@ i18n
           notregistered: "The provided email is not registered.",
           unexpectedError:
             "An unexpected error occurred. Please try again later.",
-            uploadSubImages:"upload Sub Images",
-            signOut:"sign Out",
-            easyForYou: "We Made It Easy For You",
-      explorePosts: "Here, you can explore all existing posts",
-      encouragingMessage:"encouraging Message",
-     maximgeUploded      :"You can upload up to 4 sub-images only."
+          uploadSubImages: "upload Sub Images",
+          signOut: "sign Out",
+          easyForYou: "We Made It Easy For You",
+          explorePosts: "Here, you can explore all existing posts",
+          encouragingMessage: "encouraging Message",
+          maximgeUploded: "You can upload up to 4 sub-images only."
         },
       },
 
@@ -253,6 +254,8 @@ i18n
           exchangeBookName: "اسم الكتاب للتبادل ",
           cancelbutton: " الغاء",
           postbutton: " نشر ",
+          resetYourPassword: "هل نسيت كلمة المرور؟",
+          maximgeUploded: "يمكنك تحميل 4 صور فرعية فقط",
           /** contactUs */
           contactUs: " تواصل معنا",
           contactUsTypography:
@@ -312,8 +315,8 @@ i18n
           confirmPassword: "تأكيد كلمة المرور",
           confirmButton: "تأكيد",
           PasswordIdenticalSubText: "كلمة المرور الجديدة متطابقة مع كلمة المرور الحالية.",
-IncorrectPassword: "كلمة المرور غير صحيحة",
-IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غير صحيحة.",
+          IncorrectPassword: "كلمة المرور غير صحيحة",
+          IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غير صحيحة.",
           //Register
           universityId: "رقم التسجيل الجامعي",
           createAccount: "إنشاء حساب",
@@ -434,14 +437,14 @@ IncorrectPasswordAleart: "كلمة المرور الحالية المقدمة غ
           empty: "لا يمكن أن يكون فارغًا",
           InvalidCollege: "الكلية غير صالحة",
           Unknown: "غير معروف",
-          settings:"الاعدادات",
-          myPosts:"منشوراتي",
-          signOut:"تسجيل الخروج",
-          uploadSubImages:"رفع الصور الفرعية",
-          easyForYou:"لقد سهلنا الامر عليك",
+          settings: "الاعدادات",
+          myPosts: "منشوراتي",
+          signOut: "تسجيل الخروج",
+          uploadSubImages: "رفع الصور الفرعية",
+          easyForYou: "لقد سهلنا الامر عليك",
           explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
-          encouragingMessage:"رسسالة تشجيعية",
-          maximgeUploded:"يمكنك تحميل 4 صور فرعية فقط"
+          encouragingMessage: "رسسالة تشجيعية",
+          maximgeUploded: "يمكنك تحميل 4 صور فرعية فقط"
         },
       },
     },
