@@ -144,7 +144,7 @@ const ChangePassword = ({ open, handleClose }) => {
                       touched.confirmPassword ? errors.confirmPassword : ""
                     }
                   />
-                  <Link href="#" underline="none">
+                  <Link href="/forgotPassword" underline="none">
                     {t("forgotPassword")}
                   </Link>
                   <Box display="flex" justifyContent="space-between">
