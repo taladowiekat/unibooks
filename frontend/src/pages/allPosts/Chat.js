@@ -1,7 +1,8 @@
-import { TextField, Container, Modal, Button } from "@mui/material";
-import { Formik, Form, Field } from "formik";
 import React from 'react';
+import { Modal, TextField, Button, Container } from "@mui/material";
+import { Formik, Form, Field } from "formik";
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 const modalStyle = {
     position: "absolute",
@@ -16,30 +17,40 @@ const modalStyle = {
     backgroundColor: "#f0f0f0",
 };
 
-const Chats = ({ open, handleClose, email}) => {
+const Chats = ({ open, handleClose, email, studentID }) => {
     const { t } = useTranslation();
 
-    
+    const handleSubmit = async (values) => {
+        try {
+            await axios.post('http://localhost:4000/message/save-message', {
+                senderName: values.senderName,
+                message: values.message,
+                email: values.email,
+                recevieEmail: email,
+                studentID
+            });
 
-    const handleSubmit = (values) => {
-        const subject = encodeURIComponent(values.senderName);
-        const body = encodeURIComponent(values.message);
-        window.open(`mailto:${email}?subject=${subject}&body=${body}`);
-        handleClose();
+            const subject = encodeURIComponent(values.senderName);
+            const body = encodeURIComponent(values.message);
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+            handleClose();
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
     };
 
     return (
         <Modal open={open} onClose={handleClose}>
-            <Formik initialValues={{ senderName: '', message: '' }} onSubmit={handleSubmit}>
-                <Form>
-                    <Container style={modalStyle}>
+            <Container style={modalStyle}>
+                <Formik initialValues={{ senderName: '', message: '' }} onSubmit={handleSubmit}>
+                    <Form>
                         <h1>{t('SendEmail')}</h1>
                         <Field as={TextField} name="senderName" label={t('senderName')} fullWidth required />
                         <Field as={TextField} name="message" label={t('Message')} fullWidth required />
                         <Button type="submit">{t('SendEmail2')}</Button>
-                    </Container>
-                </Form>
-            </Formik>
+                    </Form>
+                </Formik>
+            </Container>
         </Modal>
     );
 };

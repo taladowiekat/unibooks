@@ -17,6 +17,7 @@ const postSchema = new Schema({
     },
     notes: {
         type:String,
+        required: true
     },
     mainImage: {
         type:Object,
@@ -24,6 +25,7 @@ const postSchema = new Schema({
     },
     subImages: [{
         type:Object,
+        required: true
     }],
     postType: {
         type: String,

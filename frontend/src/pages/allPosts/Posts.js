@@ -137,7 +137,7 @@ const Posts = () => {
                 </Grid>
             </Container>
             {activePost && (
-                <Chats open={open} handleClose={handleCloseChat} email={activePost.studentID.email} postId={activePost._id} />
+                <Chats open={open} handleClose={handleCloseChat} email={activePost.email}   />
             )}
         </Box>
     );
