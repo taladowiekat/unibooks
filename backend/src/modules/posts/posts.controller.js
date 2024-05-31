@@ -108,6 +108,21 @@ export const getPostDetails = async (req, res) => {
     return res.status(200).json(post);
 };
 
+export const deleteSubImage = async (req, res) => {
+    const { postId, imageId } = req.body;
+        const post = await postModel.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        await cloudinary.uploader.destroy(imageId);
+
+        post.subImages = post.subImages.filter(image => image.public_id !== imageId);
+        await post.save();
+
+        res.status(200).send({ message: 'Sub image deleted successfully' });
+};
+
 
 /* aisha
 mongosse query used :
