@@ -8,7 +8,7 @@ import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -59,49 +59,47 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
-const EditPostDialog = ({ open, handleClose, post, setPost }) => {
+const EditPost = ({ open, handleClose, post, setPost }) => {
   const { t } = useTranslation();
   const { editPostValidationSchema } = useValidations();
   const token = localStorage.getItem('token');
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [mainImage, setMainImage] = useState();
+  const [mainImagePreview, setMainImagePreview] = useState();
   const [subImages, setSubImages] = useState([]);
-  const [subPreviews, setSubPreviews] = useState([]);
+  const [subImagePreviews, setSubImagePreviews] = useState([]);
 
   useEffect(() => {
     if (post && post.mainImage) {
-      setImage(post.mainImage.secure_url);
+      setMainImage(post.mainImage.secure_url);
       setSubImages(post.subImages || []);
     }
   }, [post]);
 
   useEffect(() => {
-    if (!image || typeof image === 'string') {
-      setPreview(image);
+    if (!mainImage || typeof mainImage === 'string') {
+      setMainImagePreview(mainImage);
       return;
     }
-    const objectUrl = URL.createObjectURL(image);
-    setPreview(objectUrl);
+    const objectUrl = URL.createObjectURL(mainImage);
+    setMainImagePreview(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [image]);
+  }, [mainImage]);
 
   useEffect(() => {
     const newPreviews = subImages.map(image => {
-      if (typeof image === 'string') {
-        return image;
-      } else if (image.secure_url) {
+      if (image.secure_url) {
         return image.secure_url;
       } else if (image instanceof File) {
         return URL.createObjectURL(image);
       }
       return null;
-    }).filter(Boolean);
-    setSubPreviews(newPreviews);
+    }).filter(image => image !== null);
+    setSubImagePreviews(newPreviews);
 
     return () => {
       newPreviews.forEach(url => {
-        if (typeof url !== 'string') URL.revokeObjectURL(url);
+        if (url instanceof File) URL.revokeObjectURL(url);
       });
     };
   }, [subImages]);
@@ -109,7 +107,7 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
   const handleUploadClick = (e, setFieldValue) => {
     const file = e.currentTarget.files[0];
     if (file) {
-      setImage(file);
+      setMainImage(file);
       setFieldValue('selectedFile', file);
     }
   };
@@ -125,10 +123,29 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
     }
   };
 
-  const handleDeleteSubImage = (index, setFieldValue) => {
-    const newSubImages = subImages.filter((_, i) => i !== index);
-    setSubImages(newSubImages);
-    setFieldValue('subImages', newSubImages);
+  const handleDeleteSubImage = async (index, setFieldValue) => {
+    const imageToDelete = subImages[index];
+    try {
+      await axios.post(`http://localhost:4000/post/deleteSubImage`, {
+        postId: post._id,
+        imageId: imageToDelete.public_id,
+      }, {
+        headers: {
+          'Authorization': `Token__${token}`
+        }
+      });
+      const newSubImages = subImages.filter((_, i) => i !== index);
+      setSubImages(newSubImages);
+      setFieldValue('subImages', newSubImages);
+      setSubImagePreviews(newSubImages.map(image => (image.secure_url ? image.secure_url : URL.createObjectURL(image))));
+    } catch (error) {
+      console.error('Error deleting sub image:', error);
+      Swal.fire({
+        icon: 'error',
+        title: t('deleteError'),
+        text: t('errorDeletingSubImage')
+      });
+    }
   };
 
   const onSubmit = async (values, { resetForm }) => {
@@ -137,7 +154,7 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
     formData.append('notes', values.notes);
     formData.append('postType', values.postType);
     formData.append('status', values.status);
-    formData.append('studentID', post.studentID); // إضافة studentID هنا
+    formData.append('studentID', post.studentID);
     if (values.selectedFile) {
       formData.append('mainImage', values.selectedFile);
     }
@@ -182,10 +199,8 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
   const isOwner = () => {
     if (!token) return false;
     const decodedToken = jwtDecode(token);
-    const userID = decodedToken.id; // Make sure the token structure has an 'id' field
-    console.log(userID);
-    console.log(post.studentID);
-    return userID === post.studentID._id; // Check if the IDs match
+    const userID = decodedToken.id; 
+    return userID === post.studentID._id;
   };
 
   return (
@@ -200,17 +215,16 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
             exchangeBookName: post.exchangeBookName || '',
             status: post.status,
             subImages: post.subImages,
-            selectedFile: null
           }}
           enableReinitialize
           onSubmit={onSubmit}
           validationSchema={editPostValidationSchema}
         >
-          {({ setFieldValue, errors, touched, values, isValid, dirty, handleChange, handleBlur }) => (
+          {({ setFieldValue, errors, touched, values, handleChange, handleBlur }) => (
             <Form>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <ImageButton focusRipple style={{ width: '100%' }}>
-                  <ImageSrc style={{ backgroundImage: `url(${preview})` }} />
+                  <ImageSrc style={{ backgroundImage: `url(${mainImagePreview})` }} />
                   <ImageBackdrop className="MuiImageBackdrop-root" />
                   <Box>
                     <input
@@ -246,7 +260,10 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                     label={t("bookName")}
                     name="bookName"
                     value={values.bookName}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      setFieldValue('bookName', e.target.value);
+                    }}
                     onBlur={handleBlur}
                     error={touched.bookName && Boolean(errors.bookName)}
                     helperText={touched.bookName && errors.bookName}
@@ -257,7 +274,10 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                     label={t("notes")}
                     name="notes"
                     value={values.notes}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      setFieldValue('notes', e.target.value);
+                    }}
                     onBlur={handleBlur}
                     error={touched.notes && Boolean(errors.notes)}
                     helperText={touched.notes && errors.notes}
@@ -266,7 +286,9 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                   />
                   <FormControl sx={{ marginTop: 2 }}>
                     <FormLabel>{t("postType")}</FormLabel>
-                    <RadioGroup row name="postType" value={values.postType} onChange={(e) => setFieldValue('postType', e.target.value)}>
+                    <RadioGroup row name="postType" value={values.postType} onChange={(e) => {
+                      setFieldValue('postType', e.target.value);
+                    }}>
                       <FormControlLabel value="Sell" control={<Radio />} label={t("Sell")} />
                       <FormControlLabel value="Exchange" control={<Radio />} label={t("Exchange")} />
                       <FormControlLabel value="Donate" control={<Radio />} label={t("Donate")} />
@@ -277,7 +299,10 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                       label={t("exchangeBookName")}
                       name="exchangeBookName"
                       value={values.exchangeBookName}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e);
+                        setFieldValue('exchangeBookName', e.target.value);
+                      }}
                       onBlur={handleBlur}
                       error={touched.exchangeBookName && Boolean(errors.exchangeBookName)}
                       helperText={touched.exchangeBookName && errors.exchangeBookName}
@@ -287,7 +312,9 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                   )}
                   <FormControl sx={{ marginTop: 2 }}>
                     <FormLabel>{t("status")}</FormLabel>
-                    <RadioGroup row name="status" value={values.status} onChange={(e) => setFieldValue('status', e.target.value)}>
+                    <RadioGroup row name="status" value={values.status} onChange={(e) => {
+                      setFieldValue('status', e.target.value);
+                    }}>
                       <FormControlLabel value="active" control={<Radio />} label={t("active")} />
                       <FormControlLabel value="inactive" control={<Radio />} label={t("inactive")} />
                     </RadioGroup>
@@ -309,7 +336,7 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
                       </Button>
                     </label>
                     <Box display="flex" flexWrap="wrap" mt={2}>
-                      {subPreviews.map((preview, index) => (
+                      {subImagePreviews.map((preview, index) => (
                         <Box key={index} position="relative" m={1}>
                           <img src={preview} alt={`Sub ${index}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
                           <IconButton
@@ -328,7 +355,7 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
               {isOwner() && (
                 <DialogActions>
                   <Button type="button" variant="contained" color="error" onClick={handleClose}>{t("cancelButton")}</Button>
-                  <Button type="submit" variant="contained" color="primary" disabled={!isValid || !dirty}>{t("saveButton")}</Button>
+                  <Button type="submit" variant="contained" color="primary">{t("saveButton")}</Button>
                 </DialogActions>
               )}
             </Form>
@@ -339,4 +366,4 @@ const EditPostDialog = ({ open, handleClose, post, setPost }) => {
   );
 };
 
-export default EditPostDialog;
+export default EditPost;

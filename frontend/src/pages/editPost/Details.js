@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, Card, CardContent , Avatar, Typography,  Grid, CardMedia } from '@mui/material';
+import { Box, Button, Card, CardContent, Avatar, Typography, Grid, CardMedia, Link } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import EditPostDialog from './EditPost.js';
+import {jwtDecode} from 'jwt-decode';
 
 const PostDetails = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -20,13 +22,20 @@ const PostDetails = () => {
       try {
         const response = await axios.get(`http://localhost:4000/post/postdetails/${id}`);
         setPost(response.data);
+
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          if (response.data.studentID._id === decodedToken.id) {
+            setIsOwner(true);
+          }
+        }
       } catch (error) {
         console.error('Error fetching post details:', error);
       }
     };
 
     fetchPostDetails();
-  }, [id]);
+  }, [id, token]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -67,6 +76,13 @@ const PostDetails = () => {
           <Typography variant="h6">{`${post.studentID.firstName} ${post.studentID.lastName}`}</Typography>
         )}
       </Box>
+      {post.studentID && (
+        <Box sx={{ marginTop: 1 }}>
+          <Link href={`mailto:${post.studentID.email}`} variant="body2" color="primary">
+            {post.studentID.email}
+          </Link>
+        </Box>
+      )}
       <Card sx={{ marginTop: 3 }}>
         {post.mainImage && (
           <CardMedia
@@ -79,6 +95,11 @@ const PostDetails = () => {
         <CardContent>
           <Typography variant="h5" component="div">{post.bookName}</Typography>
           <Typography variant="body2" color="text.secondary">{post.notes}</Typography>
+          {post.postType === 'Exchange' && (
+            <Typography variant="body2" color="text.secondary">
+              {t('exchangeBookName')}: {post.exchangeBookName}
+            </Typography>
+          )}
           <Box sx={{ marginTop: 2 }}>
             <Grid container spacing={2}>
               {post.subImages && post.subImages.map((image, id) => (
@@ -88,7 +109,7 @@ const PostDetails = () => {
               ))}
             </Grid>
           </Box>
-          {token && (
+          {isOwner && (
             <Box sx={{ marginTop: 2 }}>
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={handleEditClick}>{t('editButton')}</Button>
