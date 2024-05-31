@@ -78,8 +78,8 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
   const { t } = useTranslation();
   const { token } = useContext(UserContext);
 
-  const [mainImage, setMainImage] = useState(null);
-  const [mainPreview, setMainPreview] = useState(null);
+  const [mainImage, setMainImage] = useState();
+  const [mainPreview, setMainPreview] = useState();
   const [subImages, setSubImages] = useState([]);
   const [subPreviews, setSubPreviews] = useState([]);
 
@@ -196,7 +196,7 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth sx={{ zIndex: 1050 }} /* SweetAlert Z-Index is 1060. this is needed for alert to be on top */ >
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth sx={{ zIndex: 1050 }}>
       <Paper elevation={3} style={{ padding: 20 }}>
         <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
           {t("createPostTypography")}
@@ -279,13 +279,13 @@ const CreateListing = ({ open, handleClose, onPostCreated }) => {
                     </Button>
                   </label>
                   <Box display="flex" flexWrap="wrap" mt={2}>
-                    {subPreviews.map((preview, index) => (
-                      <Box key={index} position="relative" m={1}>
-                        <img src={preview} alt={`Sub ${index}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
+                    {subPreviews.map((preview, _id) => (
+                      <Box key={_id} position="relative" m={1}>
+                        <img src={preview} alt={`Sub ${_id}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
                         <IconButton
                           size="small"
                           style={{ position: 'absolute', top: 0, right: 0 }}
-                          onClick={() => handleDeleteSubImage(index, setFieldValue)}
+                          onClick={() => handleDeleteSubImage(_id, setFieldValue)}
                         >
                           <DeleteOutlined />
                         </IconButton>

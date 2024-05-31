@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Card, CardContent, CardMedia, Avatar, Typography, Button, Box, IconButton } from '@mui/material';
+import { Card, CardContent, CardMedia, Avatar, Typography, Box, IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from 'react-router-dom';
 function PostCard({ id,userAvatar, userName, bookName, bookType, image, typeoperation, onDelete ,onChatClick}) {
@@ -36,9 +35,6 @@ function PostCard({ id,userAvatar, userName, bookName, bookType, image, typeoper
                     <IconButton color="primary" sx={{ mr: 1 }} onClick={onChatClick}>
                             <ChatIcon />
                         </IconButton>
-                        <Button variant="contained" sx={{ backgroundColor: 'black' }}>
-                            {typeoperation}
-                        </Button>
                     </Box>
                 </CardContent>
             </Card>

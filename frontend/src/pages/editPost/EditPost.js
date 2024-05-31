@@ -204,7 +204,7 @@ const EditPost = ({ open, handleClose, post, setPost }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth sx={{ zIndex: 1050 }}>
       <DialogTitle>{t("editPost")}</DialogTitle>
       <DialogContent>
         <Formik
@@ -336,13 +336,13 @@ const EditPost = ({ open, handleClose, post, setPost }) => {
                       </Button>
                     </label>
                     <Box display="flex" flexWrap="wrap" mt={2}>
-                      {subImagePreviews.map((preview, index) => (
-                        <Box key={index} position="relative" m={1}>
-                          <img src={preview} alt={`Sub ${index}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
+                      {subImagePreviews.map((preview, _id) => (
+                        <Box key={_id} position="relative" m={1}>
+                          <img src={preview} alt={`Sub ${_id}`} style={{ width: 100, height: 100, borderRadius: 10 }} />
                           <IconButton
                             size="small"
                             style={{ position: 'absolute', top: 0, right: 0 }}
-                            onClick={() => handleDeleteSubImage(index, setFieldValue)}
+                            onClick={() => handleDeleteSubImage(_id, setFieldValue)}
                           >
                             <DeleteOutlined />
                           </IconButton>

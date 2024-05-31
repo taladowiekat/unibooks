@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, Card, CardContent, Avatar, Typography, Grid, CardMedia, Link } from '@mui/material';
+import { Box, Button, Card, CardContent, Avatar, Typography, Grid, CardMedia } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
@@ -76,13 +76,6 @@ const PostDetails = () => {
           <Typography variant="h6">{`${post.studentID.firstName} ${post.studentID.lastName}`}</Typography>
         )}
       </Box>
-      {post.studentID && (
-        <Box sx={{ marginTop: 1 }}>
-          <Link href={`mailto:${post.studentID.email}`} variant="body2" color="primary">
-            {post.studentID.email}
-          </Link>
-        </Box>
-      )}
       <Card sx={{ marginTop: 3 }}>
         {post.mainImage && (
           <CardMedia
@@ -95,9 +88,20 @@ const PostDetails = () => {
         <CardContent>
           <Typography variant="h5" component="div">{post.bookName}</Typography>
           <Typography variant="body2" color="text.secondary">{post.notes}</Typography>
+          <Typography variant="body2" color="text.secondary">{post.status}</Typography>
           {post.postType === 'Exchange' && (
             <Typography variant="body2" color="text.secondary">
               {t('exchangeBookName')}: {post.exchangeBookName}
+            </Typography>
+          )}
+          {post.postType === 'Donate' && (
+            <Typography variant="body2" color="text.secondary">
+              {t('donate')}
+            </Typography>
+          )}
+          {post.postType === 'Sell' && (
+            <Typography variant="body2" color="text.secondary">
+              {t('sell')}
             </Typography>
           )}
           <Box sx={{ marginTop: 2 }}>
@@ -126,5 +130,6 @@ const PostDetails = () => {
     </Box>
   );
 };
+
 
 export default PostDetails;
