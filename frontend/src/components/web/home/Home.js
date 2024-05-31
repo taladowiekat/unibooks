@@ -18,10 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const navigate = useNavigate();
-
     const [posts, setPosts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [selectedMessageId, setSelectedMessageId] = useState(null);
+    const [activePost, setActivePost] = useState(null);
     const { t } = useTranslation();
     const token = localStorage.getItem('token');
 
@@ -38,7 +37,8 @@ const Home = () => {
         fetchPosts();
     }, []);
 
-    const handleOpenChat = (messageId) => {
+    const handleOpenChat = (post) => {
+        
         if (!token) {
             Swal.fire({
                 title: t('loginRequired'),
@@ -54,15 +54,13 @@ const Home = () => {
             });
             return;
         }
-        
-        setSelectedMessageId(messageId);
+        setActivePost(post);
         setOpen(true);
     };
 
-    const handleCloseChat = () => {
-        setOpen(false);
-        setSelectedMessageId(null);
-    };
+        const handleCloseChat = () => {
+            setOpen(false);
+        };
 
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
@@ -111,7 +109,7 @@ const Home = () => {
                                         bookName={post.bookName}
                                         bookType={post.postType}
                                         image={post.mainImage.secure_url}
-                                        onChatClick={() => handleOpenChat(post._id)}
+                                        onChatClick={() => handleOpenChat(post)}
                                         typeoperation={t(`typeoperation.${post.postType.toLowerCase()}`)}
                                     />
                                 </div>
@@ -120,8 +118,8 @@ const Home = () => {
                     </Grid>
                 </Box>
             </Container>
-            {selectedMessageId && (
-                <Chats messageId={selectedMessageId} open={open} handleClose={handleCloseChat} />
+            {open  && (
+                <Chats open={open} handleClose={handleCloseChat} email={activePost.email}   />
             )}
         </Box>
     );
