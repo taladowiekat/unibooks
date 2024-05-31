@@ -4,7 +4,7 @@ import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
-router.post('/message', asyncHandler(saveMessage));
+router.post('/save-message', asyncHandler(saveMessage));
 router.get('/message/:messageId', asyncHandler(getMessage));
 
 export default router;
