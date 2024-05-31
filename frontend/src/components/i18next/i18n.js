@@ -455,7 +455,7 @@ i18n
           inactive:"غير نشط",
           editSuccess:"تم التعديل ",
           postUpdatedSuccessfully:"المنشور تعدل بنجاح",
-          editError:"خكا بالتعديل ",
+          editError:"خطا بالتعديل ",
           errorUpdatingPost:"حدث خطا بتعديل البوست",
         },
       },
