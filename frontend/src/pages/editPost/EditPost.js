@@ -289,9 +289,9 @@ const EditPost = ({ open, handleClose, post, setPost }) => {
                     <RadioGroup row name="postType" value={values.postType} onChange={(e) => {
                       setFieldValue('postType', e.target.value);
                     }}>
-                      <FormControlLabel value="Sell" control={<Radio />} label={t("Sell")} />
-                      <FormControlLabel value="Exchange" control={<Radio />} label={t("Exchange")} />
-                      <FormControlLabel value="Donate" control={<Radio />} label={t("Donate")} />
+                      <FormControlLabel value="Sell" control={<Radio />} label={t("sellType")} />
+                      <FormControlLabel value="Exchange" control={<Radio />} label={t("exchangeType")} />
+                      <FormControlLabel value="Donate" control={<Radio />} label={t("donateType")} />
                     </RadioGroup>
                   </FormControl>
                   {values.postType === 'Exchange' && (

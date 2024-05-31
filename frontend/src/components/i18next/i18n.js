@@ -9,6 +9,12 @@ i18n
     resources: {
       english: {
         translation: {
+          active:"active",
+          inactive:"inactive",
+          editSuccess:"Edit Success",
+          postUpdatedSuccessfully:"post Updated Successfully",
+          editError:"Edit Error",
+          errorUpdatingPost:"Error Updating Post",
           //allPosts
           Unknown: "Unknown",
           resetYourPassword: "Forgot Your Password?",
@@ -445,6 +451,12 @@ i18n
           easyForYou: "لقد سهلنا الامر عليك",
           explorePosts: "هنا، يمكنك استكشاف جميع المنشورات الموجودة",
           encouragingMessage: "رسسالة تشجيعية",
+          active:'نشط',
+          inactive:"غير نشط",
+          editSuccess:"تم التعديل ",
+          postUpdatedSuccessfully:"المنشور تعدل بنجاح",
+          editError:"خكا بالتعديل ",
+          errorUpdatingPost:"حدث خطا بتعديل البوست",
         },
       },
     },
